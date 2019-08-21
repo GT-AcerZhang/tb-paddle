@@ -52,14 +52,6 @@ TensorBoard 的 **SCALARS** 栏目显示折线图。
 * 双击图表将缩小。
 * 鼠标停留在图表上会产生十字线，并在图表的下方显示一个数值框。
 
-### CUSTOM SCALARS
-
-TensorBoard 的 **CUSTOM SCALARS** 栏目显示用户自定义组合的折线图。
-
-通过收集函数`add_scalar`的`tag`和`runs`，可组合出新的布局`layout`，
-将`layout`作为实参传入`class SummarWriter`的成员函数`add_custom_scalars`, `add_custom_scalars_multilinechart`, `add_custom_scalars_marginchart`，
-就可以在同一张图表中同时绘制多条折线，以直观地进行数据比较和分析。
-
 ### HISTOGRAMS
 
 TensorBoard 的 **HISTOGRAMS** 栏目中显示直方图。
@@ -83,6 +75,15 @@ TensorBoard 的 **DISTRIBUTIONS** 栏目是可视化 **HISTOGRAMS** 数据的另
 其中，底线显示最小值随时间的变化趋势，中间的线显示平均值的变化趋势，顶线显示最大值的变化趋势。
 从上而下，依次为正态分布的标准差边界 `[maximum, μ+1.5σ, μ+σ, μ+0.5σ, μ, μ-0.5σ, μ-σ, μ-1.5σ, minimum]`，
 使得从内侧到外侧的着色区域分别为宽度`[σ，2σ，3σ]`。
+
+### GRAPHS
+
+TensorBoard 的 **GRAPHS** 显示计算图，该功能有助于让用户更好地理解神经网络的结构，并进一步调试和优化神经网络的设计。
+
+Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
+
+由于 Paddle 使用 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
+来描述神经网络模型，所以成员函数`add_paddle_graph`的参数为`fluid.Program`。
 
 ### IMAGES
 
@@ -122,16 +123,13 @@ TensorBoard 的 **IMAGES** 栏目显示图片和视频。
 网格和点云(Meshes and points cloud)是表示 3D 图形的重要数据类型，目前已广泛用于计算机视觉和计算机图形学中。
 通过`class SummaryWriter`的成员函数`add_text`添加实参，则可在 TensorBoard 的 **MESH** 栏目中展示网格和点云。
 
-### GRAPHS
+### CUSTOM SCALARS
 
-TensorBoard 的 **GRAPHS** 显示计算图，该功能有助于让用户更好地理解神经网络的结构，并进一步调试和优化神经网络的设计。
+TensorBoard 的 **CUSTOM SCALARS** 栏目显示用户自定义组合的折线图。
 
-TensorBoard 的 **GRAPHS** 提供了极其强大的功能，[GRAPHS 栏目详解](Component_Instructions/GRAPHS_instructions.md) 具体介绍了 **GRAPHS** 栏目的特性。
-
-Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
-
-由于 Paddle 使用 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
-来描述神经网络模型，所以成员函数`add_paddle_graph`的参数为`fluid.Program`。
+通过收集函数`add_scalar`的`tag`和`runs`，可组合出新的布局`layout`，
+将`layout`作为实参传入`class SummarWriter`的成员函数`add_custom_scalars`, `add_custom_scalars_multilinechart`, `add_custom_scalars_marginchart`，
+就可以在同一张图表中同时绘制多条折线，以直观地进行数据比较和分析。
 
 ## 创建 SummaryWriter 类的实例
 
