@@ -785,7 +785,8 @@ class SummaryWriter(object):
             faces: :math:`(B, N, 3)`. The values should lie in [0, number_of_vertices] for type `uint8`.
         """
         self._get_file_writer().add_summary(mesh(tag, vertices, colors, faces, config_dict), global_step, walltime)
-
+        self.flush()
+        
     def close(self):
         if self.all_writers is None:
             return  # ignore double close
@@ -793,7 +794,6 @@ class SummaryWriter(object):
             writer.flush()
             writer.close()
         self.file_writer = self.all_writers = None
-        self.flush()
     
     def __enter__(self):
         return self
