@@ -24,7 +24,7 @@ tb_paddle 的框架和 API 接口均沿用了 tensorboardX。
 [PR CURVES](instructions/PR-CURVES_instructions.md),
 [MESH](instructions/MESH_instructions.md),
 [CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md),
-[DISTRIBUTIONS](README.md#66) 这11个栏目的功能。
+<a href="#1">DISTRIBUTIONS</a> 这11个栏目的功能。
 
 ## 安装
 
@@ -76,7 +76,7 @@ TensorBoard 的 **HISTOGRAMS** 栏目中显示直方图。
 
 ### DISTRIBUTIONS
 
-TensorBoard 的 **DISTRIBUTIONS** 栏目是可视化 **HISTOGRAMS** 数据的另一种方式，
+TensorBoard 的 <a name="1">DISTRIBUTIONS</a> 栏目是可视化 **HISTOGRAMS** 数据的另一种方式，
 当通过`class SummaryWriter`的成员函数`add_histogram`,`add_histogram_raw`添加行向量数据，
 则在 TensorBoard 的前端界面中会出现 **HISTOGRAM** 和 **DISTRIBUTION** 两个栏目。
 
