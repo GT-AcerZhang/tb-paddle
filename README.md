@@ -13,7 +13,7 @@ tb_paddle 的框架和 API 接口均沿用了 tensorboardX。
 
 ## 功能
 
-目前 tb_paddle 支持 **SCALARS**, **CUSTOM SCALARS**, **HISTOGRAMS**, **DISTRIBUTIONS**, 
+目前 tb_paddle 支持 [SCALARS](instructions/SCALARS_instructions.md), **CUSTOM SCALARS**, **HISTOGRAMS**, **DISTRIBUTIONS**, 
 **IMAGES**, **AUDIO**, **TEXT**, **PROJECTOR**, **PR CURVES**, **MESH**, **GRAPHS** 这11个栏目的功能，
 文件夹[instructions](instructions)中有各个栏目的特性和功能介绍的说明文档。
 
