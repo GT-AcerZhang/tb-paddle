@@ -4,7 +4,10 @@
 
 tb_paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视化工具。
 
-tb_paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础上修改的，tb_paddle 的框架和API接口均沿用了 tensorboardX。与 tensorboardX 不同的是，tb_paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类型，并根据 Paddle 框架重新实现了GRAPHS栏目的计算图显示。
+tb_paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础上修改的，
+tb_paddle 的框架和 API 接口均沿用了 tensorboardX。
+
+与 tensorboardX 不同的是，tb_paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类型，并根据 Paddle 框架重新实现了GRAPHS栏目的计算图显示。
 
 此处由衷感谢[Tzu-Wei Huang](https://github.com/lanpa)的开源贡献。
 
