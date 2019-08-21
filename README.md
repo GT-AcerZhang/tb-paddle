@@ -109,9 +109,6 @@ TensorBoard 的 **IMAGES** 栏目显示图片和视频。
 
 通过降维方法将高维数据嵌入到 2D/3D 中显示，有助于直观地查看高维数据，便于查看数据点之间的关系。
 
-`class SummaryWriter`的成员函数`add_embedding`为 **PROJECTOR** 的接口函数，
-函数的参数解释和使用说明可参考[PROJECTOR 栏目详解](Component_Instructions/PROJECTOR_instructions.md)。
-
 目前 **PROJECTOR** 支持`PCA`, `t-SNE`, `UMAP`, `CUSTOM`这四种降维方法。
 
 ### PR CURVES
