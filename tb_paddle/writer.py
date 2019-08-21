@@ -295,6 +295,12 @@ class SummaryWriter(object):
             self.all_writers = {self.file_writer.get_logdir(): self.file_writer}
         return self.file_writer
     
+    def flush(self):
+        if self.all_writers is None:
+            return  # ignore double close
+        for writer in self.all_writers.values():
+            writer.flush()
+    
     def add_scalar(self, tag, scalar_value, global_step=None, walltime=None):
         """Add scalar data to summary.
 
@@ -428,7 +434,7 @@ class SummaryWriter(object):
         """
         self._get_file_writer().add_summary(
             image(tag, img_tensor, dataformats=dataformats), global_step, walltime)
-        self._get_file_writer().flush()
+        self.flush()
 
     def add_images(self, tag, img_tensor, global_step=None, walltime=None, dataformats='NCHW'):
         """Add batched (4D) image data to summary.
@@ -462,7 +468,7 @@ class SummaryWriter(object):
 
         self._get_file_writer().add_summary(
             image(tag, img_tensor, dataformats=dataformats), global_step, walltime)
-        self._get_file_writer().flush()
+        self.flush()
 
     def add_image_with_boxes(self, tag, img_tensor, box_tensor, global_step=None,
                              walltime=None, dataformats='CHW', labels=None, **kwargs):
@@ -498,7 +504,7 @@ class SummaryWriter(object):
 
         self._get_file_writer().add_summary(image_boxes(
             tag, img_tensor, box_tensor, dataformats=dataformats, labels=labels, **kwargs), global_step, walltime)
-        self._get_file_writer().flush()
+        self.flush()
 
     def add_figure(self, tag, figure, global_step=None, close=True, walltime=None):
         """Render matplotlib figure into an image and add it to summary.
@@ -542,7 +548,7 @@ class SummaryWriter(object):
                         in [0, 255] for type `uint8` or [0, 1] for type `float`.
         """
         self._get_file_writer().add_summary(video(tag, vid_tensor, fps), global_step, walltime)
-        self._get_file_writer().flush()
+        self.flush()
 
     def add_audio(self, tag, snd_tensor, global_step=None, sample_rate=44100, walltime=None):
         """Add audio data to summary.
@@ -563,7 +569,7 @@ class SummaryWriter(object):
         """
         self._get_file_writer().add_summary(
             audio(tag, snd_tensor, sample_rate=sample_rate), global_step, walltime)
-        self._get_file_writer().flush()
+        self.flush()
 
     def add_text(self, tag, text_string, global_step=None, walltime=None):
         """Add text data to summary.
@@ -588,6 +594,7 @@ class SummaryWriter(object):
         :type verbose: bool
         """
         self._get_file_writer().add_graph(paddle_graph(fluid_program, verbose, **kwargs))
+        self.flush()
 
     @staticmethod
     def _encode(rawstr):
@@ -641,6 +648,7 @@ class SummaryWriter(object):
         assert mat.ndim == 2, 'mat should be 2D, where mat.size(0) is the number of data points'
         make_mat(mat, save_path)
         append_pbtxt(metadata, label_img, self._get_file_writer().get_logdir(), subdir, global_step, tag)
+        self.flush()
 
     def add_pr_curve(self, tag, labels, predictions, global_step=None,
                      num_thresholds=127, weights=None, walltime=None):
@@ -667,7 +675,7 @@ class SummaryWriter(object):
         labels, predictions = make_np(labels), make_np(predictions)
         self._get_file_writer().add_summary(
             pr_curve(tag, labels, predictions, num_thresholds, weights), global_step, walltime)
-        self._get_file_writer().flush()
+        self.flush()
 
     def add_pr_curve_raw(self, tag, true_positive_counts,
                          false_positive_counts,
@@ -713,7 +721,7 @@ class SummaryWriter(object):
                          num_thresholds,
                          weights),
             global_step, walltime)
-        self._get_file_writer().flush()
+        self.flush()
 
     def add_custom_scalars_multilinechart(self, tags, category='default', title='untitled'):
         """Shorthand for creating multilinechart.
@@ -785,13 +793,8 @@ class SummaryWriter(object):
             writer.flush()
             writer.close()
         self.file_writer = self.all_writers = None
-
-    def flush(self):
-        if self.all_writers is None:
-            return  # ignore double close
-        for writer in self.all_writers.values():
-            writer.flush()
-
+        self.flush()
+    
     def __enter__(self):
         return self
 
