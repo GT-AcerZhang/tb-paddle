@@ -15,16 +15,16 @@ tb_paddle 的框架和 API 接口均沿用了 tensorboardX。
 
 目前 tb_paddle 支持 
 [SCALARS](instructions/SCALARS_instructions.md),
-[HISTOGRAMS](HISTOGRAMS_instructions.md),
-[IMAGES](IMAGES_instructions.md),
+[HISTOGRAMS](instructions/HISTOGRAMS_instructions.md),
+[IMAGES](instructions/IMAGES_instructions.md),
 [GRAPHS](instructions/GRAPHS_instructions.md),
-[AUDIO](AUDIO_instructions.md),
-[TEXT](TEXT_instructions.md),
-[PROJECTOR](PROJECTOR_instructions.md),
-[PR CURVES](PR-CURVES_instructions.md),
-[MESH](MESH_instructions.md),
-[CUSTOM SCALARS](CUSTOM_SCALARS_instructions.md),
-[DISTRIBUTIONS](#66) 这11个栏目的功能。
+[AUDIO](instructions/AUDIO_instructions.md),
+[TEXT](instructions/TEXT_instructions.md),
+[PROJECTOR](instructions/PROJECTOR_instructions.md),
+[PR CURVES](instructions/PR-CURVES_instructions.md),
+[MESH](instructions/MESH_instructions.md),
+[CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md),
+[DISTRIBUTIONS](README.md#66) 这11个栏目的功能。
 
 ## 安装
 
