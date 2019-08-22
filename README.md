@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/PaddlePaddle/VisualDL.svg?branch=develop)](https://travis-ci.org/PaddlePaddle/VisualDL)
 [![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://github.com/linshuliang/tb_paddle/blob/master/README.md)
 [![Release](https://img.shields.io/github/release/PaddlePaddle/VisualDL.svg)](https://github.com/linshuliang/tb_paddle/blob/master/HISTORY.rst)
-[![License](https://img.shields.io/badge/license-MIT%202-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## 简介
 
