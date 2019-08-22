@@ -53,7 +53,7 @@ setup(
     long_description=history,
     author='ShuLiang Lin',
     author_email='',
-    url='https://github.com/linshuliang/TensorBoardPaddle',
+    url='https://github.com/linshuliang/tb-paddle',
     packages=['tb_paddle'],
     include_package_data=True,
     install_requires=requirements,
