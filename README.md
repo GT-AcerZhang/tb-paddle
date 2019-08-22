@@ -1,12 +1,13 @@
-# tb_paddle
-[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://github.com/linshuliang/tb_paddle/blob/master/README.md)
+# tb-paddle
+
+[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://github.com/linshuliang/tb-paddle/blob/master/README.md)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## 简介
 
-tb_paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视化工具。
+tb-paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视化工具。
 
-目前 tb_paddle 支持 
+目前 tb-paddle 支持 
 [SCALARS](instructions/SCALARS_instructions.md),
 [HISTOGRAMS](instructions/HISTOGRAMS_instructions.md),
 [GRAPHS](instructions/GRAPHS_instructions.md),
@@ -21,9 +22,9 @@ tb_paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视�
 
 ## 特别致谢
 
-tb_paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础上修改的，
-tb_paddle 的框架和 API 接口均沿用了 tensorboardX。与 tensorboardX 不同的是，
-tb_paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类型，
+tb-paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础上修改的，
+tb-paddle 的框架和 API 接口均沿用了 tensorboardX。与 tensorboardX 不同的是，
+tb-paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类型，
 并根据 Paddle 框架重新实现了GRAPHS栏目的计算图显示。
 此处由衷感谢[Tzu-Wei Huang](https://github.com/lanpa)的开源贡献。
 
@@ -33,9 +34,9 @@ tb_paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类�
 # 安装 tb-nightly
 pip install tb-nightly==1.15.0a20190818
 
-# 安装 tb_paddle
-git clone https://github.com/linshuliang/tb_paddle.git
-cd tb_paddle && python setup.py install
+# 安装 tb-paddle
+git clone https://github.com/linshuliang/tb-paddle.git
+cd tb-paddle && python setup.py install
 ```
 
 ## TensorBoard 栏目
