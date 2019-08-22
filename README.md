@@ -1,5 +1,5 @@
 # tb-paddle
-[![Build Status](https://travis-ci.org/linshuliang/tb-paddle)](https://travis-ci.org/linshuliang/tb-paddle)
+[![Build Status](https://travis-ci.org/linshuliang/tb-paddle.svg?branch=master)](https://travis-ci.org/linshuliang/tb-paddle)
 [![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://github.com/linshuliang/tb-paddle/blob/master/README.md)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
