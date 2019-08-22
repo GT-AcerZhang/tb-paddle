@@ -32,6 +32,9 @@ install:
     - pip install crc32c
     - pip install protobuf==3.8.0
 
+script:
+    - sleep 1
+
 notifications:
   email:
     on_success: change
