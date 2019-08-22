@@ -49,7 +49,6 @@ script:
     - python API_demo/add_image-demo.py
     - python API_demo/add_histogram-demo.py
     - python API_demo/add_text-demo.py
-    - python API_demo/add_paddle_graph-demo.py
 
 notifications:
   email:
