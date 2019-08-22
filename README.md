@@ -7,8 +7,8 @@ tb_paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视�
 目前 tb_paddle 支持 
 [SCALARS](instructions/SCALARS_instructions.md),
 [HISTOGRAMS](instructions/HISTOGRAMS_instructions.md),
-[IMAGES](instructions/IMAGES_instructions.md),
 [GRAPHS](instructions/GRAPHS_instructions.md),
+[IMAGES](instructions/IMAGES_instructions.md),
 [AUDIO](instructions/AUDIO_instructions.md),
 [TEXT](instructions/TEXT_instructions.md),
 [PROJECTOR](instructions/PROJECTOR_instructions.md),
@@ -43,7 +43,7 @@ pip install dist/tb_paddle-0.1-py2.py3-none-any.whl
 
 ### SCALARS
 
-TensorBoard 的 **SCALARS** 栏目显示折线图。
+TensorBoard 的[SCALARS](instructions/SCALARS_instructions.md)栏目显示折线图。
 
 **SCALARS**栏目能进行的交互操作有：
 
@@ -54,7 +54,7 @@ TensorBoard 的 **SCALARS** 栏目显示折线图。
 
 ### HISTOGRAMS
 
-TensorBoard 的 **HISTOGRAMS** 栏目中显示直方图。
+TensorBoard 的[HISTOGRAMS](instructions/HISTOGRAMS_instructions.md)栏目显示直方图。
 
 每个图表显示数据的时间切片，其中每个切片是给定步数的直方图，步数越大的切片显示越靠前。
 
@@ -78,18 +78,20 @@ TensorBoard 的 **DISTRIBUTIONS** 栏目是可视化 **HISTOGRAMS** 数据的另
 
 ### GRAPHS
 
-TensorBoard 的 **GRAPHS** 显示计算图，该功能有助于让用户更好地理解神经网络的结构，并进一步调试和优化神经网络的设计。
+TensorBoard 的[GRAPHS](instructions/GRAPHS_instructions.md)显示计算图。
 
-Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
+此功能有助于让用户更好地理解神经网络的结构，并进一步调试和优化神经网络的设计。
 
-由于 Paddle 使用 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
+* Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
+
+* 由于 Paddle 使用 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
 来描述神经网络模型，所以成员函数`add_paddle_graph`的参数为`fluid.Program`。
 
 ### IMAGES
 
-TensorBoard 的 **IMAGES** 栏目显示图片和视频。
+TensorBoard 的[IMAGES](instructions/IMAGES_instructions.md)栏目显示图片和视频。
 
-通过`class SummaryWriter`的成员函数`add_image`, `add_images`, `add_image_with_boxes`, `add_figure` 添加图片数据，
+通过`class SummaryWriter`的成员函数`add_image`, `add_images`, `add_image_with_boxes`, `add_figure`添加图片数据，
 则可在 **IMAGES** 栏目中看到相应的图片。
 
 由于视频是多张图片连续展示的效果，所以通过`add_video`添加的视频数据，也在此栏目中展示。
@@ -98,15 +100,16 @@ TensorBoard 的 **IMAGES** 栏目显示图片和视频。
 
 ### AUDIO
 
-通过`class SummaryWriter`的成员函数`add_audio`添加音频数据，则可在 TensorBoard 的 **AUDIO** 栏目中播放音频。
+TensorBoard 的[AUDIO](instructions/AUDIO_instructions.md) 栏目播放音频。
 
 ### TEXT
 
-通过`class SummaryWriter`的成员函数`add_text`添加字符串，则可在 TensorBoard 的 **TEXT** 栏目中查看相应文本。
+TensorBoard 的[TEXT](instructions/TEXT_instructions.md)栏目显示文本。
 
 ### PROJECTOR
 
-**PROJECTOR**栏目的全称为`Embedding Projector`，这是一个交互式的可视化工具。
+[PROJECTOR](instructions/PROJECTOR_instructions.md)栏目的全称为`Embedding Projector`，
+这是一个交互式的可视化工具。
 
 通过降维方法将高维数据嵌入到 2D/3D 中显示，有助于直观地查看高维数据，便于查看数据点之间的关系。
 
@@ -116,24 +119,25 @@ TensorBoard 的 **IMAGES** 栏目显示图片和视频。
 
 通过`class SummaryWriter`的成员函数`add_pr_curve`添加实参，则可根据预测的概率值及其对应的准确答案
 来计算[precision-recall](https://en.wikipedia.org/wiki/Precision_and_recall)，
-并将结果保存，以折线图的形式在 **PR CURVES** 栏目中展示。
+并将结果保存，以折线图的形式在[PR CURVES](instructions/PR-CURVES_instructions.md)栏目中展示。
 
 ### MESH
 
+TensorBoard 的[MESH](instructions/MESH_instructions.md)栏目显示网格和点云。
+
 网格和点云(Meshes and points cloud)是表示 3D 图形的重要数据类型，目前已广泛用于计算机视觉和计算机图形学中。
-通过`class SummaryWriter`的成员函数`add_text`添加实参，则可在 TensorBoard 的 **MESH** 栏目中展示网格和点云。
 
 ### CUSTOM SCALARS
 
-TensorBoard 的 **CUSTOM SCALARS** 栏目显示用户自定义组合的折线图。
+TensorBoard 的[CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md)栏目显示用户自定义组合的折线图。
 
 通过收集函数`add_scalar`的`tag`和`runs`，可组合出新的布局`layout`，
 将`layout`作为实参传入`class SummarWriter`的成员函数`add_custom_scalars`, `add_custom_scalars_multilinechart`, `add_custom_scalars_marginchart`，
 就可以在同一张图表中同时绘制多条折线，以直观地进行数据比较和分析。
 
-## 创建 SummaryWriter 类的实例
+## 创建 SummaryWriter 类的对象
 
-使用 tb_paddle，首先得创建类`SummaryWriter`的实例，然后再通过实例调用成员函数来添加打点数据。
+使用 tb_paddle，首先得创建类`SummaryWriter`的对象，然后才能调用对象的成员函数来添加打点数据。
 
 创建 [class SummaryWriter](tb_paddle/writer.py#L177) 的初始化函数的定义：
 
