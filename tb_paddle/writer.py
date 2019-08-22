@@ -526,6 +526,7 @@ class SummaryWriter(object):
             self.add_image(tag, figure_to_image(figure, close), global_step, walltime, dataformats='NCHW')
         else:
             self.add_image(tag, figure_to_image(figure, close), global_step, walltime, dataformats='CHW')
+        self.flush()
 
     def add_video(self, tag, vid_tensor, global_step=None, fps=4, walltime=None):
         """Add video data to summary.
