@@ -66,11 +66,12 @@ TensorBoard 的[HISTOGRAMS](instructions/HISTOGRAMS_instructions.md)栏目显示
 <a name="1"></a>
 ### DISTRIBUTIONS
 
-TensorBoard 的 **DISTRIBUTIONS** 栏目是可视化 **HISTOGRAMS** 数据的另一种方式，
-当通过`class SummaryWriter`的成员函数`add_histogram`,`add_histogram_raw`添加行向量数据，
-则在 TensorBoard 的前端界面中会出现 **HISTOGRAM** 和 **DISTRIBUTION** 两个栏目。
+TensorBoard 的 **DISTRIBUTIONS** 栏目用于显示行向量数据的统计特性。
 
-**DISTRIBUTION** 栏目用于显示数据的统计特性，每一个图表中都有9条线，每条线表示数据分布的百分位数。
+当通过`class SummaryWriter`的成员函数`add_histogram`,`add_histogram_raw`添加行向量数据，
+则会在 TensorBoard 的前端界面中出现 **HISTOGRAM** 和 **DISTRIBUTION** 两个栏目。
+
+**DISTRIBUTION** 栏目中的每一个图表中都有9条线，每条线表示数据分布的百分位数。
 
 其中，底线显示最小值随时间的变化趋势，中间的线显示平均值的变化趋势，顶线显示最大值的变化趋势。
 从上而下，依次为正态分布的标准差边界 `[maximum, μ+1.5σ, μ+σ, μ+0.5σ, μ, μ-0.5σ, μ-σ, μ-1.5σ, minimum]`，
@@ -78,12 +79,11 @@ TensorBoard 的 **DISTRIBUTIONS** 栏目是可视化 **HISTOGRAMS** 数据的另
 
 ### GRAPHS
 
-TensorBoard 的[GRAPHS](instructions/GRAPHS_instructions.md)显示计算图。
+TensorBoard 的[GRAPHS](instructions/GRAPHS_instructions.md)栏目显示计算图。
 
 此功能有助于让用户更好地理解神经网络的结构，并进一步调试和优化神经网络的设计。
 
 * Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
-
 * 由于 Paddle 使用 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
 来描述神经网络模型，所以成员函数`add_paddle_graph`的参数为`fluid.Program`。
 
