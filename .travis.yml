@@ -9,43 +9,41 @@ env:
     - TENSORBOARD_VER="tb_nightly"
 
 install:
-    - export MPLBACKEND=Agg
-    - export CODECOV_TOKEN="26239910-fe4e-463d-aa3d-e662e9bf39ef"
+  
+    - sudo apt-get update
+    - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+      else
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+      fi
+    - bash miniconda.sh -b -p $HOME/miniconda
+    - export PATH="$HOME/miniconda/bin:$PATH"
+    - export BOTO_CONFIG=/dev/null
+    - export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+    - hash -r
+    - conda config --set always_yes yes --set changeps1 no
+    - conda update -q conda
+    # Useful for debugging any issues with conda
+    - conda info -a
 
-  - sudo apt-get update
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - export BOTO_CONFIG=/dev/null
-  - export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  # Useful for debugging any issues with conda
-  - conda info -a
-
-  - pip install future
-  - pip install chainer -q
-  - python -m pip install paddlepaddle -i https://pypi.tuna.tsinghua.edu.cn/simple
-  - pip install moviepy==0.2.3.2 -q
-  - pip install matplotlib -q
-  - pip install requests -q
-  - pip install codecov
-  - pip install boto3
-  - pip install moto
-  - pip install visdom
-  - pip install tb-nightly
-  - pip install crc32c
-  - pip install protobuf==3.8.0
-  - conda install ffmpeg
-  - conda list
-  - python -c "import imageio; imageio.plugins.ffmpeg.download()"
-  - pip install --upgrade pytest-cov flake8
-  - python setup.py install
+    - pip install future
+    - pip install chainer -q
+    - python -m pip install paddlepaddle -i https://pypi.tuna.tsinghua.edu.cn/simple
+    - pip install moviepy==0.2.3.2 -q
+    - pip install matplotlib -q
+    - pip install requests -q
+    - pip install codecov
+    - pip install boto3
+    - pip install moto
+    - pip install visdom
+    - pip install tb-nightly
+    - pip install crc32c
+    - pip install protobuf==3.8.0
+    - conda install ffmpeg
+    - conda list
+    - python -c "import imageio; imageio.plugins.ffmpeg.download()"
+    - pip install --upgrade pytest-cov flake8
+    - python setup.py install
 
 script:
     - python API_demo/add_scalar-demo.py
