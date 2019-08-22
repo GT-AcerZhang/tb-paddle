@@ -10,9 +10,6 @@
 def add_mesh(self, tag, vertices, colors=None, faces=None, 
     config_dict=None, global_step=None, walltime=None):
     """
-    若想使用该功能，必须先安装 tb-nightly:
-        `pip install tb-nightly`
-
     Add meshes or 3D point clouds to TensorBoard. 
     The visualization is based on Three.js, so it allows users to interact with the rendered object. 
     Besides the basic definitions such as vertices, faces, 
