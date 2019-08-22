@@ -28,10 +28,7 @@ tb_paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类�
 ## 安装
 
 ```
-# 如果已经安装了 TensorBoard，版本低于1.15，需先卸载
-pip uninstall tensorboard
-
-# 安装 TensorBoard 
+# 安装 tb-nightly
 pip install tb-nightly==1.15.0a20190818
 
 # 安装 tb_paddle
