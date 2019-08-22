@@ -1,5 +1,10 @@
 # tb_paddle
 
+[![Build Status](https://travis-ci.org/PaddlePaddle/VisualDL.svg?branch=develop)](https://travis-ci.org/PaddlePaddle/VisualDL)
+[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://github.com/linshuliang/tb_paddle/blob/master/README.md)
+[![Release](https://img.shields.io/github/release/PaddlePaddle/VisualDL.svg)](https://github.com/linshuliang/tb_paddle/blob/master/HISTORY.rst)
+[![License](https://img.shields.io/badge/license-MIT%202-blue.svg)](LICENSE)
+
 ## 简介
 
 tb_paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视化工具。
