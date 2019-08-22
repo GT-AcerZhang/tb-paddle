@@ -35,9 +35,7 @@ pip install tb-nightly==1.15.0a20190818
 
 # 安装 tb_paddle
 git clone https://github.com/linshuliang/tb_paddle.git
-cd tb_paddle
-python setup.py bdist_wheel
-pip install dist/tb_paddle-0.1-py2.py3-none-any.whl
+cd tb_paddle && python setup.py install
 ```
 
 ## TensorBoard 栏目

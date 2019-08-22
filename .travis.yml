@@ -6,15 +6,13 @@ python:
 
 env:
     - PADDLE_VER="paddlepaddle"
-    - TENSORBOARD_VER="tb_nightl 1.15.0a20190821"
+    - TENSORBOARD_VER="tb_nightly"
 
 install:
-  - export MPLBACKEND=Agg
-  - export CODECOV_TOKEN="26239910-fe4e-463d-aa3d-e662e9bf39ef"
+    - export MPLBACKEND=Agg
+    - export CODECOV_TOKEN="26239910-fe4e-463d-aa3d-e662e9bf39ef"
 
   - sudo apt-get update
-  # We do this conditionally because it saves us some downloading if the
-  # version is the same.
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
       wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
     else
@@ -22,7 +20,7 @@ install:
     fi
   - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
-  - export BOTO_CONFIG=/dev/null  # https://github.com/travis-ci/travis-ci/issues/7940
+  - export BOTO_CONFIG=/dev/null
   - export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
@@ -30,20 +28,13 @@ install:
   # Useful for debugging any issues with conda
   - conda info -a
 
-  # Replace dep1 dep2 ... with your dependencies
-  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
-  - source activate test-environment
-  - which python
   - pip install future
   - pip install chainer -q
-  - pip install torchvision==0.2.1 -q
-  - pip uninstall torch -y
-  - pip install $PYTORCH_VER
+  - python -m pip install paddlepaddle -i https://pypi.tuna.tsinghua.edu.cn/simple
   - pip install moviepy==0.2.3.2 -q
   - pip install matplotlib -q
   - pip install requests -q
   - pip install codecov
-  - pip install onnx
   - pip install boto3
   - pip install moto
   - pip install visdom
@@ -55,6 +46,13 @@ install:
   - python -c "import imageio; imageio.plugins.ffmpeg.download()"
   - pip install --upgrade pytest-cov flake8
   - python setup.py install
+
+script:
+    - python API_demo/add_scalar-demo.py
+    - python API_demo/add_image-demo.py
+    - python API_demo/add_histogram-demo.py
+    - python API_demo/add_text-demo.py
+    - python API_demo/add_paddle_graph-demo.py
 
 notifications:
   email:
