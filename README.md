@@ -19,6 +19,7 @@ tb_paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视�
 [CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md),
 <a href="#1">DISTRIBUTIONS</a> 这11个栏目的功能。
 
+## 特别致谢
 tb_paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础上修改的，
 tb_paddle 的框架和 API 接口均沿用了 tensorboardX。与 tensorboardX 不同的是，
 tb_paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类型，
