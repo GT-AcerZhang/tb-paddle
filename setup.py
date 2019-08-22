@@ -47,14 +47,14 @@ requirements = [
 ]
 
 setup(
-    name='tb_paddle',
+    name='tb-paddle',
     version=version,
-    description='tb_paddle is a toolkit to visualize Paddle logged data in TensorBoard.',
+    description='tb-paddle is a toolkit to visualize Paddle logged data in TensorBoard.',
     long_description=history,
     author='ShuLiang Lin',
     author_email='',
     url='https://github.com/linshuliang/TensorBoardPaddle',
-    packages=['tb_paddle'],
+    packages=['tb-paddle'],
     include_package_data=True,
     install_requires=requirements,
     license='MIT license',
