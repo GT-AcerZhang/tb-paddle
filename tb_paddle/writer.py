@@ -732,6 +732,7 @@ class SummaryWriter(object):
         """
         layout = {category: {title: ['Multiline', tags]}}
         self._get_file_writer().add_summary(custom_scalars(layout))
+        self.flush()
 
     def add_custom_scalars_marginchart(self, tags, category='default', title='untitled'):
         """Shorthand for creating marginchart.
@@ -743,6 +744,7 @@ class SummaryWriter(object):
         assert len(tags) == 3
         layout = {category: {title: ['Margin', tags]}}
         self._get_file_writer().add_summary(custom_scalars(layout))
+        self.flush()
 
     def add_custom_scalars(self, layout):
         """Create special chart by collecting charts tags in 'scalars'.
@@ -756,6 +758,7 @@ class SummaryWriter(object):
         :type layout: dict
         """
         self._get_file_writer().add_summary(custom_scalars(layout))
+        self.flush()
 
     def add_mesh(self, tag, vertices, colors=None, faces=None, config_dict=None, global_step=None, walltime=None):
         """Add meshes or 3D point clouds to TensorBoard. The visualization is based on Three.js,
