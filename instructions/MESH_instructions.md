@@ -12,9 +12,9 @@ def add_mesh(self, tag, vertices, colors=None, faces=None,
     """
     Add meshes or 3D point clouds to TensorBoard. 
     The visualization is based on Three.js, so it allows users to interact with the rendered object. 
-    Besides the basic definitions such as vertices, faces, 
-    users can further provide camera parameter, lighting condition, etc.
-    Please check https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene for advanced usage. 
+    Besides the basic definitions such as vertices, faces, users can further provide 
+    camera parameter, lighting condition, etc. Please check    
+    https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene for advanced usage. 
 
     :param tag: Data identifier.
     :type tag: string
