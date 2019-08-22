@@ -31,7 +31,6 @@ install:
     - pip install tb-nightly
     - pip install crc32c
     - pip install protobuf==3.8.0
-    - python setup.py install
 
 notifications:
   email:
