@@ -54,7 +54,7 @@ setup(
     author='ShuLiang Lin',
     author_email='',
     url='https://github.com/linshuliang/TensorBoardPaddle',
-    packages=['tb-paddle'],
+    packages=['tb_paddle'],
     include_package_data=True,
     install_requires=requirements,
     license='MIT license',
