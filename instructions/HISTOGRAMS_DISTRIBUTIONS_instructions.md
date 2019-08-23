@@ -1,6 +1,37 @@
-# HISTOGRAMS
+# HISTOGRAMS && DISTRIBUTIONS
 
-## Class SummaryWriter 的成员函数 add_histogram
+## HISTOGRAMS
+
+TensorBoard 的 **HISTOGRAMS** 栏目显示直方图。
+
+每个图表显示数据的时间切片，其中每个切片是给定步数的直方图，步数越大的切片显示越靠前。
+
+**HISTOGRAM** 的左侧面板可以切换`Histogram mode`，支持以下两种模式：
+
+* OFFSET  : 显示直方图。
+* OVERLAY : 旋转视角，使每个直方图切片呈现为一条线。
+
+## DISTRIBUTIONS
+
+TensorBoard 的 **DISTRIBUTIONS** 栏目用于显示行向量数据的统计特性。
+
+当通过`class SummaryWriter`的成员函数`add_histogram`,`add_histogram_raw`添加行向量数据，
+则会在 TensorBoard 的前端界面中出现 **HISTOGRAM** 和 **DISTRIBUTION** 两个栏目。
+
+**DISTRIBUTION** 栏目中的每一个图表中都有9条线，每条线表示数据分布的百分位数。
+
+其中，底线显示最小值随时间的变化趋势，中间的线显示平均值的变化趋势，顶线显示最大值的变化趋势。
+从上而下，依次为正态分布的标准差边界 `[maximum, μ+1.5σ, μ+σ, μ+0.5σ, μ, μ-0.5σ, μ-σ, μ-1.5σ, minimum]`，
+使得从内侧到外侧的着色区域分别为宽度`[σ，2σ，3σ]`。
+
+
+class SummaryWriter 中用于添加标量数据的成员函数包括：
+
+* <a href="#1"> add_histogram </a>
+* <a href="#2"> add_histogram_raw </a> 
+
+<a name="1"></a>
+### Class SummaryWriter 的成员函数 add_histogram
 
 函数定义：
 
@@ -56,7 +87,8 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 图1. add_histogram - 显示分布图  <br/>
 </p>
 
-## Class SummaryWriter 的成员函数 add_histogram_raw
+<a name="2"></a>
+### Class SummaryWriter 的成员函数 add_histogram_raw
 
 add_histogram_raw 函数定义：
 
