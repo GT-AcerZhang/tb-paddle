@@ -41,35 +41,6 @@ pip install tb-nightly==1.15.0a20190818
 git clone https://github.com/linshuliang/tb-paddle.git && cd tb-paddle && python setup.py install
 ```
 
-### PROJECTOR
-
-[PROJECTOR](instructions/PROJECTOR_instructions.md)栏目的全称为`Embedding Projector`，
-这是一个交互式的可视化工具。
-
-通过降维方法将高维数据嵌入到 2D/3D 中显示，有助于直观地查看高维数据，便于查看数据点之间的关系。
-
-目前 **PROJECTOR** 支持`PCA`, `t-SNE`, `UMAP`, `CUSTOM`这四种降维方法。
-
-### PR CURVES
-
-通过`class SummaryWriter`的成员函数`add_pr_curve`添加实参，则可根据预测的概率值及其对应的准确答案
-来计算[precision-recall](https://en.wikipedia.org/wiki/Precision_and_recall)，
-并将结果保存，以折线图的形式在[PR CURVES](instructions/PR-CURVES_instructions.md)栏目中展示。
-
-### MESH
-
-TensorBoard 的[MESH](instructions/MESH_instructions.md)栏目显示网格和点云。
-
-网格和点云(Meshes and points cloud)是表示 3D 图形的重要数据类型，目前已广泛用于计算机视觉和计算机图形学中。
-
-### CUSTOM SCALARS
-
-TensorBoard 的[CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md)栏目显示用户自定义组合的折线图。
-
-通过收集函数`add_scalar`的`tag`和`runs`，可组合出新的布局`layout`，
-将`layout`作为实参传入`class SummarWriter`的成员函数`add_custom_scalars`, `add_custom_scalars_multilinechart`, `add_custom_scalars_marginchart`，
-就可以在同一张图表中同时绘制多条折线，以直观地进行数据比较和分析。
-
 ## 创建 SummaryWriter 类的对象
 
 使用 tb-paddle，首先得创建类`SummaryWriter`的对象，然后才能调用对象的成员函数来添加打点数据。
