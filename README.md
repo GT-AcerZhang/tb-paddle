@@ -7,18 +7,18 @@
 
 tb-paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视化工具。
 
-目前 tb-paddle 支持 SCALARS, HISTOGRAMS, GRAPHS, IMAGES, TEXT, AUDIO, PROJECTOR,
-PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
+目前 tb-paddle 支持 SCALARS, HISTOGRAMS, DISTRIBUTIONS, GRAPHS, IMAGES, TEXT,
+AUDIO, PROJECTOR,PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
 
 |栏目|展示图表|作用|
 |:----:|:---:|:---|
-|[SCALARS](instructions/SCALARS_instructions.md)|折线图|动态展示损失函数值、准确率等标量数据|
-|[HISTOGRAMS](instructions/HISTOGRAMS_DISTRIBUTIONS_instructions.md), DISTRIBUTIONS|分布图|动态展示行向量数据的数值分布与变化趋势，便于查看权重矩阵、偏置项、梯度等参数的变化|
-|[GRAPHS](instructions/GRAPHS_instructions.md)|计算图|展示神经网络的模型结构|
+|[SCALARS](instructions/SCALARS_instructions.md)|折线图|显示损失函数值、准确率等标量数据|
+|[HISTOGRAMS, DISTRIBUTIONS](instructions/HISTOGRAMS_DISTRIBUTIONS_instructions.md)|分布图|显示行向量数据的数值分布与变化趋势，便于查看权重矩阵、偏置项、梯度等参数的变化|
+|[GRAPHS](instructions/GRAPHS_instructions.md)|计算图|显示神经网络的模型结构|
 |[IMAGES](instructions/IMAGES_instructions.md)|图片和视频|显示图片和视频|
 |[AUDIO](instructions/AUDIO_instructions.md)|音频|播放音频|
 |[TEXT](instructions/TEXT_instructions.md)|文本|显示文本|
-|[PROJECTOR](instructions/PROJECTOR_instructions.md)|交互式的嵌入|通过降维方法将高维数据嵌入到 2D/3D 中显示，支持`PCA`, `t-SNE`, `UMAP`, `CUSTOM`这四种降维方法|
+|[PROJECTOR](instructions/PROJECTOR_instructions.md)|交互式的嵌入可视化|通过降维方法将高维数据嵌入到 2D/3D 中显示，支持`PCA`, `t-SNE`, `UMAP`, `CUSTOM`这四种降维方法|
 |[PR CURVES](instructions/PR-CURVES_instructions.md)|[Precision-Recall](https://en.wikipedia.org/wiki/Precision_and_recall)曲线|根据预测的概率值及其对应的准确答案计算Precision-Recall 曲线|
 |[MESH](instructions/MESH_instructions.md)|网格和点云|展示3D图形的网格和点云(Meshes and points cloud)|
 |[CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md)|组合折线图|显示用户自定义组合的折线图|
@@ -40,35 +40,6 @@ pip install tb-nightly==1.15.0a20190818
 # 源码安装 tb-paddle
 git clone https://github.com/linshuliang/tb-paddle.git && cd tb-paddle && python setup.py install
 ```
-
-### GRAPHS
-
-TensorBoard 的[GRAPHS](instructions/GRAPHS_instructions.md)栏目显示计算图。
-
-此功能有助于让用户更好地理解神经网络的结构，并进一步调试和优化神经网络的设计。
-
-* Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
-* 由于 Paddle 使用 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
-来描述神经网络模型，所以成员函数`add_paddle_graph`的参数为`fluid.Program`。
-
-### IMAGES
-
-TensorBoard 的[IMAGES](instructions/IMAGES_instructions.md)栏目显示图片和视频。
-
-通过`class SummaryWriter`的成员函数`add_image`, `add_images`, `add_image_with_boxes`, `add_figure`添加图片数据，
-则可在 **IMAGES** 栏目中看到相应的图片。
-
-由于视频是多张图片连续展示的效果，所以通过`add_video`添加的视频数据，也在此栏目中展示。
-
-为了减轻前后端交互的压力，每个子框中最多显示十张图片。
-
-### AUDIO
-
-TensorBoard 的[AUDIO](instructions/AUDIO_instructions.md) 栏目播放音频。
-
-### TEXT
-
-TensorBoard 的[TEXT](instructions/TEXT_instructions.md)栏目显示文本。
 
 ### PROJECTOR
 
