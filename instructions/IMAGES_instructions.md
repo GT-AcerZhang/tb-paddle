@@ -1,5 +1,21 @@
 # IMAGES
 
+### IMAGES
+
+TensorBoard 的 **IMAGES** 栏目显示图片和视频。
+
+class SummaryWriter 中用于打点标量数据的成员函数包括：
+
+* <a href="#1"> add_image </a> ：在单个子框中显示一张图片
+* <a href="#2"> add_images </a> ：在单个子框中显示多张图片
+* <a href="#3"> add_image_with_boxes </a> ：在单个子框中显示一张图片，并加上识别网格
+* <a href="#4"> add_figure </a> ：显示 matplotlib 的画图
+
+由于视频是多张图片连续展示的效果，所以通过`add_video`添加的视频数据，也在**IMAGES**栏目中显示。
+
+为了减轻前后端交互的压力，每个子框中最多显示十张图片。
+
+<a name="1"></a>
 ## Class SummaryWriter 的成员函数 add_image
 
 函数定义：
@@ -81,6 +97,7 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 图1. add_image - 在单个子框中显示一张图片 <br/>
 </p>
 
+<a name="2"></a>
 ##  Class SummaryWriter 的成员函数 add_images
 
 函数定义：
@@ -139,6 +156,7 @@ writer.close()
 图2. add_images - 在单个子框中显示多张图片 <br/>
 </p>
 
+<a name="3"></a>
 ## Class SummaryWriter 的成员函数 add_image_with_boxes
 
 ```python
@@ -216,6 +234,7 @@ writer.close()
 图3. add_image_with_boxes - 在单个子框中显示一张图片，并加上识别网格 <br/>
 </p>
 
+<a name="4"></a>
 ## class SummaryWriter 的成员函数 add_figure
 
 ```python
