@@ -4,11 +4,11 @@ TensorBoard 的 **SCALARS** 栏目显示折线图。
 
 class SummaryWriter 实现的用于添加标量数据的成员函数包括：
 
-<p align="center">|API|作用|</p>
-<p align="center">|:---:|:---:|</p>
-<p align="center">| `add_scalar` | 在单张图中画一条折线 |</p>
-<p align="center">| `add_scalars` | 在单张图中画多条折线 |</p>
-<p align="center">| `export_scalars_to_json` | 将数据保存为 json 格式 |</p>
+|API|作用|
+|:---:|:---:|
+| `add_scalar` | 在单张图中画一条折线 |
+| `add_scalars` | 在单张图中画多条折线 |
+| `export_scalars_to_json` | 将数据保存为 json 格式 |
 
 ## Class SummaryWriter 的成员函数 add_scalar
 
