@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/linshuliang/tb-paddle.svg?branch=master)](https://travis-ci.org/linshuliang/tb-paddle)
 [![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](https://github.com/linshuliang/tb-paddle/blob/master/README.md)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![PyPI version](https://badge.fury.io/py/tensorboardX.svg)](https://pypi.org/project/tb-paddle/)
+[![PyPI version](https://pypi.org/project/tb-paddle.svg)](https://pypi.org/project/tb-paddle)
 
 ## 简介
 
