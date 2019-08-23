@@ -2,8 +2,7 @@
 
 TensorBoard 的 **SCALARS** 栏目显示折线图。
 
-class SummaryWriter 实现的用于添加标量数据的成员函数包括：
-
+class SummaryWriter 中用于添加标量数据的成员函数包括：
 
 * <a href="#1"> add_scalar </a> ：在单张图中画一条折线 
 * <a href="#2"> add_scalars </a> ：在单张图中画多条折线
