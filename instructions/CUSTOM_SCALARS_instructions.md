@@ -1,9 +1,19 @@
 # CUSTOM SCALARS
 
-通过函数`add_scalar`和`add_scalars`添加标量数据，会根据`tags`和`runs`来进行分类，进而在 Tensorboard 中显示。通过`CUSTOM SCALARS`的成员函数来自定义分类，有助于用户进行模型比较和数据分析。
+TensorBoard 的 **CUSTOM SCALARS** 栏目显示用户自定义组合的折线图。
 
-举个例子，用户需要对比`resnet`模型和`vggnet`模型的 `loss`值，两个模型的`loss`值的折线图会根据`tags`和`runs`的值被分类到不同的位置，难以进行数值比较。使用`CUSTOM SCALARS`，用户可以把模型`resnet`的`loss`值和`vggnet`的`loss`值组合在同一个图表中显示，从而可直观地查看。
+通过函数`add_scalar`和`add_scalars`添加标量数据，会根据`tags`和`runs`来进行分类，进而在 Tensorboard 中显示。举个例子，用户打点了`resnet`模型和`vggnet`模型的`loss`值，这两个模型的`loss`值的折线图会根据`tags`和`runs`的值被分类到不同的位置，用户难以直接比较两个模型的`loss`值。
 
+通过收集函数`add_scalar`的`tag`和`runs`，可组合出新的`layout`，
+将`layout`作为实参传入 class SummarWriter 的成员函数：
+
+<a href="#1"> add_custom_scalars </a>
+<a href="#2"> add_custom_scalars_multilinechart </a>
+<a href="#3"> add_custom_scalars_marginchart </a>
+
+就可以在同一个图中同时绘制多条折线，以直观地进行数据比较和分析。
+
+<a name="1"></a>
 ## Class Summary 的成员函数 add_custom_scalars
 
 ```python
@@ -69,10 +79,10 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 图1. add_custom_scalars - 显示折线图 <br/>
 </p>
 
-
+<a name="2"></a>
 ## Class Summary 的成员函数 add_custom_scalars_multilinechart
 
-组合不同的折线图，便于直观地查看，进而有助于分析和比较。
+组合多条折线，便于直观地查看，进而有助于数据比较和分析。
 
 函数定义：
 
@@ -113,10 +123,10 @@ with SummaryWriter('log') as writer:
 图2. add_custom_scalars_multilinechart - 显示 `Multiline` 折线图 <br/>
 </p>
 
-
+<a name="3"></a>
 ## Class Summary 的成员函数 add_custom_scalars_marginchart
 
-函数 add_custom_scalars_marginchart 常用于可视化置信区间。
+函数 add_custom_scalars_marginchart 用于可视化置信区间。
 
 函数定义：
 
