@@ -4,12 +4,12 @@ TensorBoard 的 **SCALARS** 栏目显示折线图。
 
 class SummaryWriter 实现的用于添加标量数据的成员函数包括：
 
-|API|作用|
-|:---:|:---:|
-| `add_scalar` | 在单张图中画一条折线 |
-| `add_scalars` | 在单张图中画多条折线 |
-| `export_scalars_to_json` | 将数据保存为 json 格式 |
 
+* <a href="#1"> add_scalar </a> ：在单张图中画一条折线 
+* <a href="#2"> add_scalars </a> ：在单张图中画多条折线
+* <a href="#3"> export_scalars_to_json </a>：将数据保存为 json 格式
+
+<a name="1"></a>
 ## Class SummaryWriter 的成员函数 add_scalar
 
 函数定义：
@@ -77,6 +77,7 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 
 * 左下方的`RUNS` : 列出了所有的SummaryWriter，可以选择显示某一个或某几个。
 
+<a name="2"></a>
 ## Class SummaryWriter 的成员函数 add_scalars
 
 函数定义：
@@ -118,6 +119,7 @@ writer.close()
 图2. add_scalars - 在单张图中显示多条折线 <br/>
 </p>
 
+<a name="3"></a>
 ## Class SummaryWriter 的成员函数 export_scalars_to_json
 
 函数 `export_scalars_to_json` 用于将函数 `add_scalars` 所添加的数据值，以 .json 文件的格式存到磁盘中。数据格式为：
