@@ -13,13 +13,13 @@ PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
 |栏目|展示图表|作用|
 |:----:|:---:|:---|
 |[SCALARS](instructions/SCALARS_instructions.md)|折线图|动态展示损失函数值、准确率等标量数据|
-|[HISTOGRAMS](instructions/HISTOGRAMS_instructions.md),  DISTRIBUTIONS|分布图|动态展示行向量数据的数值分布与变化趋势，便于查看权重矩阵、偏置项、梯度等参数的变化|
+|[HISTOGRAMS](instructions/HISTOGRAMS_DISTRIBUTIONS_instructions.md), DISTRIBUTIONS|分布图|动态展示行向量数据的数值分布与变化趋势，便于查看权重矩阵、偏置项、梯度等参数的变化|
 |[GRAPHS](instructions/GRAPHS_instructions.md)|计算图|展示神经网络的模型结构|
 |[IMAGES](instructions/IMAGES_instructions.md)|图片和视频|显示图片和视频|
 |[AUDIO](instructions/AUDIO_instructions.md)|音频|播放音频|
 |[TEXT](instructions/TEXT_instructions.md)|文本|显示文本|
-|[PROJECTOR](instructions/PROJECTOR_instructions.md)|交互式的嵌入|通过降维方法将高维数据嵌入到 2D/3D 中显示，支持`PCA`, `t-SNE`, `UMAP`, `CUSTOM`这四种降维方法。|
-|[PR CURVES](instructions/PR-CURVES_instructions.md)|[precision-recall](https://en.wikipedia.org/wiki/Precision_and_recall)曲线|根据预测的概率值及其对应的准确答案计算Precision-Recall 曲线|
+|[PROJECTOR](instructions/PROJECTOR_instructions.md)|交互式的嵌入|通过降维方法将高维数据嵌入到 2D/3D 中显示，支持`PCA`, `t-SNE`, `UMAP`, `CUSTOM`这四种降维方法|
+|[PR CURVES](instructions/PR-CURVES_instructions.md)|[Precision-Recall](https://en.wikipedia.org/wiki/Precision_and_recall)曲线|根据预测的概率值及其对应的准确答案计算Precision-Recall 曲线|
 |[MESH](instructions/MESH_instructions.md)|网格和点云|展示3D图形的网格和点云(Meshes and points cloud)|
 |[CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md)|组合折线图|显示用户自定义组合的折线图|
 
@@ -40,43 +40,6 @@ pip install tb-nightly==1.15.0a20190818
 # 源码安装 tb-paddle
 git clone https://github.com/linshuliang/tb-paddle.git && cd tb-paddle && python setup.py install
 ```
-
-## TensorBoard 栏目
-
-### SCALARS
-
-TensorBoard 的[SCALARS](instructions/SCALARS_instructions.md)栏目显示折线图。
-
-**SCALARS**栏目能进行的交互操作有：
-
-* 点击每个图表左下角的图标可以展开图表。
-* 选择图表中的矩形区域可以放大。
-* 双击图表将缩小。
-* 鼠标停留在图表上会产生十字线，并在图表的下方显示一个数值框。
-
-### HISTOGRAMS
-
-TensorBoard 的[HISTOGRAMS](instructions/HISTOGRAMS_instructions.md)栏目显示直方图。
-
-每个图表显示数据的时间切片，其中每个切片是给定步数的直方图，步数越大的切片显示越靠前。
-
-**HISTOGRAM** 的左侧面板可以切换`Histogram mode`，支持以下两种模式：
-
-* OFFSET  : 显示直方图。
-* OVERLAY : 旋转视角，使每个直方图切片呈现为一条线。
-
-### DISTRIBUTIONS
-
-TensorBoard 的 **DISTRIBUTIONS** 栏目用于显示行向量数据的统计特性。
-
-当通过`class SummaryWriter`的成员函数`add_histogram`,`add_histogram_raw`添加行向量数据，
-则会在 TensorBoard 的前端界面中出现 **HISTOGRAM** 和 **DISTRIBUTION** 两个栏目。
-
-**DISTRIBUTION** 栏目中的每一个图表中都有9条线，每条线表示数据分布的百分位数。
-
-其中，底线显示最小值随时间的变化趋势，中间的线显示平均值的变化趋势，顶线显示最大值的变化趋势。
-从上而下，依次为正态分布的标准差边界 `[maximum, μ+1.5σ, μ+σ, μ+0.5σ, μ, μ-0.5σ, μ-σ, μ-1.5σ, minimum]`，
-使得从内侧到外侧的着色区域分别为宽度`[σ，2σ，3σ]`。
 
 ### GRAPHS
 
