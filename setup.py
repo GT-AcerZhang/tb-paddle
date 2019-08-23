@@ -37,7 +37,7 @@ preparing_PyPI_package = False
 version = '0.1.0'
 
 if not preparing_PyPI_package:
-    with open('tensorboardX/__init__.py', 'a') as f:
+    with open('tb_paddle/__init__.py', 'a') as f:
         f.write('\n__version__ = "{}"\n'.format(version))
 
 requirements = [
