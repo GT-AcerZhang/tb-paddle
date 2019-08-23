@@ -1,8 +1,12 @@
 # MESH
 
+TensorBoard 的**MESH**栏目显示网格和点云。
+
+class SummaryWriter 中用于打点 3D 数据的成员函数为`add_mesh`。
+
 ## Class SummaryWriter 的成员函数 add_mesh
 
-网格和点云(Meshes and points cloud)是表示3D 图形的重要数据类型，目前已广泛用于计算机视觉和计算机图形学中。随着 3D 数据在 VR/AR 等领域的普及，研究人员面临着许多新的挑战，例如从 2D 数据来实现 3D 几何重构、3D 云语义分割，等等。因此，可视化 3D形状的计算结果，有助于改进模型和分析算法的有效性。目前， [Tensorflow graphics](https://github.com/tensorflow/graphics) 通过 Tensoboard 的 **MESH** 栏目，提供了 3D 形状可视化的功能。
+网格和点云(Meshes and points cloud)是表示3D 图形的重要数据类型，目前已广泛用于计算机视觉和计算机图形学中。随着 3D 数据在 VR/AR 等领域的普及，研究人员面临着许多新的挑战，例如从 2D 数据来实现 3D 几何重构、3D 云语义分割，等等。因此，可视化 3D 形状的计算结果，有助于改进模型和分析算法的有效性。目前， [Tensorflow graphics](https://github.com/tensorflow/graphics) 通过 Tensoboard 的 **MESH** 栏目，提供了可视化 3D 形状的功能。
 
 函数定义：
 
@@ -86,7 +90,7 @@ python add_mesh-demo.py
 tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 ```
 
-打开浏览器地址 [http://0.0.0.0:6066/](http://0.0.0.0:6066/) ，即可在tensorboard的**MESH** 栏目中查看图表：
+打开浏览器地址 [http://0.0.0.0:6066/](http://0.0.0.0:6066/) ，即可在 tensorboard 的**MESH**栏目中查看3D图形：
 
 <p align="center">
 <img src="../screenshots/add_mesh.png", width=600><br/>
