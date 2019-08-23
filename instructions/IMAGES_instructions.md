@@ -13,7 +13,7 @@ class SummaryWriter 中用于打点标量数据的成员函数包括：
 
 为了减轻前后端交互的压力，每个子框中最多显示十张图片。
 
-由于视频是多张图片连续展示的效果，所以通过<a href="#5">add_video</a>添加的视频数据，也在**IMAGES**栏目中显示。
+由于视频是多张图片连续播放的效果，所以通过<a href="#5">add_video</a>添加的视频数据，也在**IMAGES**栏目中显示。
 
 <a name="1"></a>
 ## Class SummaryWriter 的成员函数 add_image
