@@ -1,5 +1,13 @@
 # HISTOGRAMS && DISTRIBUTIONS
 
+## class SummaryWriter 中用于打点行向量数据的成员函数
+
+* <a href="#1"> add_histogram </a>
+* <a href="#2"> add_histogram_raw </a> 
+
+当通过 `add_histogram` 或者 `add_histogram_raw`打点行向量数据，
+则会在 TensorBoard 的网页界面中同时出现 **HISTOGRAM** 和 **DISTRIBUTION** 这两个栏目。
+
 ## HISTOGRAMS
 
 TensorBoard 的 **HISTOGRAMS** 栏目显示直方图。
@@ -15,20 +23,12 @@ TensorBoard 的 **HISTOGRAMS** 栏目显示直方图。
 
 TensorBoard 的 **DISTRIBUTIONS** 栏目用于显示行向量数据的统计特性。
 
-当通过`class SummaryWriter`的成员函数`add_histogram`,`add_histogram_raw`添加行向量数据，
-则会在 TensorBoard 的前端界面中出现 **HISTOGRAM** 和 **DISTRIBUTION** 两个栏目。
-
 **DISTRIBUTION** 栏目中的每一个图表中都有9条线，每条线表示数据分布的百分位数。
 
 其中，底线显示最小值随时间的变化趋势，中间的线显示平均值的变化趋势，顶线显示最大值的变化趋势。
 从上而下，依次为正态分布的标准差边界 `[maximum, μ+1.5σ, μ+σ, μ+0.5σ, μ, μ-0.5σ, μ-σ, μ-1.5σ, minimum]`，
 使得从内侧到外侧的着色区域分别为宽度`[σ，2σ，3σ]`。
 
-
-## class SummaryWriter 中用于打点行向量数据的成员函数
-
-* <a href="#1"> add_histogram </a>
-* <a href="#2"> add_histogram_raw </a> 
 
 <a name="1"></a>
 ### Class SummaryWriter 的成员函数 add_histogram
