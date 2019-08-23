@@ -20,7 +20,7 @@ AUDIO, PROJECTOR,PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
 |[TEXT](instructions/TEXT_instructions.md)|文本|显示文本|
 |[PROJECTOR](instructions/PROJECTOR_instructions.md)|交互式的嵌入可视化|通过降维方法将高维数据嵌入到 2D/3D 中显示，支持`PCA`, `t-SNE`, `UMAP`, `CUSTOM`这四种降维方法|
 |[PR CURVES](instructions/PR-CURVES_instructions.md)|[Precision-Recall](https://en.wikipedia.org/wiki/Precision_and_recall)曲线|根据预测的概率值及其对应的准确答案计算Precision-Recall 曲线|
-|[MESH](instructions/MESH_instructions.md)|网格和点云|展示3D图形的网格和点云(Meshes and points cloud)|
+|[MESH](instructions/MESH_instructions.md)|网格和点云|显示3D图形的网格和点云(Meshes and points cloud)|
 |[CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md)|组合折线图|显示用户自定义组合的折线图|
 
 ## 特别致谢
