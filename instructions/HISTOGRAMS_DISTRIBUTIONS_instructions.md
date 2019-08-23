@@ -25,7 +25,7 @@ TensorBoard 的 **DISTRIBUTIONS** 栏目用于显示行向量数据的统计特�
 使得从内侧到外侧的着色区域分别为宽度`[σ，2σ，3σ]`。
 
 
-class SummaryWriter 中用于添加标量数据的成员函数包括：
+## class SummaryWriter 中用于打点行向量数据的成员函数
 
 * <a href="#1"> add_histogram </a>
 * <a href="#2"> add_histogram_raw </a> 
