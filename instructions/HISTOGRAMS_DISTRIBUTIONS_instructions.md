@@ -5,7 +5,7 @@
 * <a href="#1"> add_histogram </a>
 * <a href="#2"> add_histogram_raw </a> 
 
-当通过 `add_histogram` 或者 `add_histogram_raw`打点行向量数据，
+当调用函数 `add_histogram` 或者 `add_histogram_raw`打点行向量数据，
 则会在 TensorBoard 的网页界面中同时出现 **HISTOGRAM** 和 **DISTRIBUTION** 这两个栏目。
 
 ## HISTOGRAMS
