@@ -1,5 +1,9 @@
 # AUDIO
 
+TensorBoard 的[AUDIO](instructions/AUDIO_instructions.md) 栏目播放音频。
+
+class SummaryWriter 中用于打点音频数据的成员函数为 `add_audio`。
+
 ### SummaryWriter 的成员函数 add_audio
 
 ```python
