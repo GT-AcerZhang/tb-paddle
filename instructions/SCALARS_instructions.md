@@ -1,6 +1,6 @@
 # SCALARS
 
-TensorBoard 的[SCALARS](instructions/SCALARS_instructions.md)栏目显示折线图。
+TensorBoard 的 **SCALARS** 栏目显示折线图。
 
 ## Class SummaryWriter 的成员函数 add_scalar
 
