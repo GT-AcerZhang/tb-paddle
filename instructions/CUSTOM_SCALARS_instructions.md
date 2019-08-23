@@ -7,9 +7,9 @@ TensorBoard 的 **CUSTOM SCALARS** 栏目显示用户自定义组合的折线图
 通过收集函数`add_scalar`的`tag`和`runs`，可组合出新的`layout`，
 将`layout`作为实参传入 class SummarWriter 的成员函数：
 
-<a href="#1"> add_custom_scalars </a>
-<a href="#2"> add_custom_scalars_multilinechart </a>
-<a href="#3"> add_custom_scalars_marginchart </a>
+* <a href="#1"> add_custom_scalars </a>
+* <a href="#2"> add_custom_scalars_multilinechart </a>
+* <a href="#3"> add_custom_scalars_marginchart </a>
 
 就可以在同一个图中同时绘制多条折线，以直观地进行数据比较和分析。
 
