@@ -1,5 +1,7 @@
 # PR CURVES
 
+TensorBoard 的 **PR CURVES** 栏目显示 [Precision-Recall curve](https://github.com/tensorflow/tensorboard/blob/master/tensorboard/plugins/pr_curve/README.md) 。
+
 **precision and recall**
 
 在模式识别、信息检索、二元分类等问题中，需要权衡 [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) 的关系，其中 precision 是精确度或质量的衡量标准，而 recall 则是衡量结果的完整性的标准。 
@@ -8,8 +10,14 @@
 
 **pr curve**
 
-[pr curve](https://github.com/tensorflow/tensorboard/blob/master/tensorboard/plugins/pr_curve/README.md) 全称为 precison-recall curve，根据预测的概率值及其对应的准确答案来计算 precision-recall，并将结果保存并以折线图形式展示。
+pr-curve 全称为 precison-recall curve，根据预测的概率值及其对应的准确答案来计算 precision-recall，并将结果保存并以折线图形式展示。
 
+class SummaryWriter 中用于打点pr-curve数据的成员函数包括：
+
+* <a href="#1"> add_pr_curve </a>
+* <a href="#2"> add_pr_curve_raw </a>
+
+<a name="1"></a>
 ## Class SummaryWriter 的成员函数 add_pr_curve
 
 函数定义：
@@ -72,11 +80,12 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 
 <p align="center">
 <img src="../screenshots/pr_curve.png" width=600><br/>
-图1. precision-recall 曲线 <br/>
+图1. Precision-Recall 曲线 <br/>
 </p>
 
 其中`Precison`为横坐标，`Recall`为纵坐标。
 
+<a name="2"></a>
 ## class SummaryWriter 的成员函数 add_pr_curve_raw
 
 ```
