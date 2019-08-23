@@ -32,7 +32,7 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 preparing_PyPI_package = False
-version = '0.1'
+version = '0.1.0'
 
 if not preparing_PyPI_package:
     with open('tb_paddle/__init__.py', 'a') as f:
@@ -60,7 +60,6 @@ setup(
     license='MIT license',
     zip_safe=False,
     classifiers=[
-        'Development Status :: 0.1',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
