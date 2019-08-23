@@ -7,10 +7,12 @@ from setuptools import setup, find_packages
 from setuptools.command.develop import develop
 from setuptools.command.install import install
 
+
 # Dynamically compile protos
 def compileProtoBuf():
     res = subprocess.call(['bash', './compile.sh'])
     assert res == 0, 'cannot compile protobuf'
+
 
 class PostDevelopCommand(develop):
     """Post-installation for development mode."""
@@ -24,7 +26,7 @@ class PostInstallCommand(install):
     def run(self):
         compileProtoBuf()
         import os
-        os.system("pip install protobuf numpy six crc32c moviepy")
+        os.system("pip install protobuf numpy six")
         install.run(self)
 
 
@@ -35,15 +37,13 @@ preparing_PyPI_package = False
 version = '0.1.0'
 
 if not preparing_PyPI_package:
-    with open('tb_paddle/__init__.py', 'a') as f:
+    with open('tensorboardX/__init__.py', 'a') as f:
         f.write('\n__version__ = "{}"\n'.format(version))
 
 requirements = [
     'numpy',
-    'protobuf >= 3.2.0',
+    'protobuf >= 3.6.1',
     'six',
-    'crc32c',
-    'moviepy',
 ]
 
 setup(
