@@ -1,6 +1,10 @@
 # TEXT
 
-* Class SummaryWriter 的成员函数 `add_text`
+TensorBoard 的[TEXT](instructions/TEXT_instructions.md)栏目显示文本。
+
+class SummaryWriter 中用于打点文本数据的成员函数为`add_text`。
+
+## Class SummaryWriter 的成员函数 add_text
 
 函数定义：
 
