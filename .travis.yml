@@ -40,7 +40,10 @@ install:
     - python setup.py install
 
 script:
-    - sleep 1
+    - python API_demo/add_scalar-demo.py
+    - python API_demo/add_histogram-demo.py
+    - python API_demo/add_image-demo.py
+    - python API_demo/add_text-demo.py
 
 notifications:
   email:
