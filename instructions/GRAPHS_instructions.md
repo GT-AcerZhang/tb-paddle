@@ -1,6 +1,15 @@
 # GRAPHS
 
-Tensorboard 的**GRAPHS**栏目用于展示计算图，功能很强大，本文详细介绍了**GRAPHS**栏目的特性与使用方法。
+Tensorboard 的 **GRAPHS** 栏目用于显示计算图，有助于让用户更好地理解神经网络的结构，并进一步调试和优化神经网络的设计。
+
+先简要介绍基本的使用：
+
+* class SummaryWriter 中用于添加计算图的成员函数为 `add_paddle_graph`；
+* 由于 Paddle 使用 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
+来描述神经网络模型，所以函数`add_paddle_graph`的第一个参数为`fluid.Program`；
+* Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
+
+接下来将详细介绍**GRAPHS**栏目的特性与使用方法。
 
 ## 名称范围和节点
 
