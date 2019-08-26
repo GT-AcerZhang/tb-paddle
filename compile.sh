@@ -3,14 +3,9 @@ set -ex
 
 DESIRED_PROTO_VERSION="3.6.1"
 
-# call protoc direclty, if version is not the desired one, download the desired vesrion.
-if [ -f "protoc/bin/protoc" ]; then
-  PROTOC_BIN="protoc/bin/protoc"
-else
-  PROTOC_BIN=`which protoc`
-fi
-
+PROTOC_BIN=`which protoc`
 CURRENT_PROTOC_VER=`${PROTOC_BIN} --version`
+
 if [ -z ${PROTOC_BIN} ] || [[ "$CURRENT_PROTOC_VER" != "libprotoc "$DESIRED_PROTO_VERSION ]]; then
   # Download and use the latest version of protoc.
   if [ "$(uname)" == "Darwin" ]; then
