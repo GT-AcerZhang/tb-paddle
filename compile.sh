@@ -23,7 +23,7 @@ if [[ -n ${PROTOC_BIN} ]]; then
   echo "Delete all existing Python protobuf (*_pb2.py) output"
   rm -rf tb_paddle/proto/*_pb2.py
   ${PROTOC_BIN} tb_paddle/proto/*.proto --python_out=.
-  echo "Done generating tb_paddle/proto/*pb2*.py"
+  echo "Done generating tb_paddle/proto/*_pb2.py"
 else
   echo "protoc can't be installed, so tb_paddle/proto/*_pb2.py are using the precompiled version."
 fi
