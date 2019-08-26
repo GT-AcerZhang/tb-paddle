@@ -4,11 +4,10 @@ set -ex
 DESIRED_PROTO_VERSION="3.6.1"
 
 PROTOC_BIN=`which protoc`
-CURRENT_PROTOC_VER=`${PROTOC_BIN} --version`
 
-if [ -z ${PROTOC_BIN} ] || [[ "$CURRENT_PROTOC_VER" != "libprotoc "$DESIRED_PROTO_VERSION ]]; then
+if [ -z ${PROTOC_BIN} ]; then
   # Download and use the latest version of protoc.
-  if [ "$(uname)" == "Darwin" ]; then
+    if [ "$(uname)" == "Darwin" ]; then
     PROTOC_ZIP="protoc-"$DESIRED_PROTO_VERSION"-osx-x86_64.zip"
   else
     PROTOC_ZIP="protoc-"$DESIRED_PROTO_VERSION"-linux-x86_64.zip"
@@ -24,7 +23,7 @@ if [ -z ${PROTOC_BIN} ] || [[ "$CURRENT_PROTOC_VER" != "libprotoc "$DESIRED_PROT
 fi
 
 # Regenerate
-if [[ ! -z ${PROTOC_BIN} ]]; then
+if [[ -n ${PROTOC_BIN} ]]; then
   echo "Delete all existing Python protobuf (*_pb2.py) output"
   rm -rf tb_paddle/proto/*_pb2.py
   ${PROTOC_BIN} tb_paddle/proto/*.proto --python_out=.
@@ -32,4 +31,3 @@ if [[ ! -z ${PROTOC_BIN} ]]; then
 else
   echo "protoc not installed so can't regenerate tensorboardX/proto/*_pb2.py, using precompiled version."
 fi
-
