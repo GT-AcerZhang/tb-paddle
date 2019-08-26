@@ -41,7 +41,6 @@ if not preparing_PyPI_package:
         f.write('\n__version__ = "{}"\n'.format(version))
 
 requirements = [
-    'paddlepaddle',
     'numpy',
     'protobuf >= 3.6.1',
     'six',
