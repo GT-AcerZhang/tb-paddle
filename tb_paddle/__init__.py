@@ -3,4 +3,4 @@
 from .record_writer import RecordWriter
 from .writer import FileWriter, SummaryWriter
 
-__version__ = "0.0.2"  # will be overwritten if run setup.py
+__version__ = "0.2.0"  # will be overwritten if run setup.py
