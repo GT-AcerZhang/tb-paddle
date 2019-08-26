@@ -28,6 +28,7 @@ install:
     - source activate test-environment
     - which python
     - pip install future
+    - pip install numpy
     - pip install chainer -q
     - pip install moviepy==0.2.3.2 -q
     - pip install matplotlib -q
