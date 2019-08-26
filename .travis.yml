@@ -46,11 +46,11 @@ install:
     - python setup.py install
 
 script:
-    python API_demo/add_scalar-demo.py
-    python API_demo/add_histogram-demo.py
-    python API_demo/add_image-demo.py
-    python API_demo/add_audio-demo.py
-    python API_demo/add_text-demo.py
+    - python API_demo/add_scalar-demo.py
+    - python API_demo/add_histogram-demo.py
+    - python API_demo/add_image-demo.py
+    - python API_demo/add_audio-demo.py
+    - python API_demo/add_text-demo.py
 
 after_success:
   - sleep 1
