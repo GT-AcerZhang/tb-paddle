@@ -25,5 +25,5 @@ if [[ -n ${PROTOC_BIN} ]]; then
   ${PROTOC_BIN} tb_paddle/proto/*.proto --python_out=.
   echo "Done generating tb_paddle/proto/*pb2*.py"
 else
-  echo "protoc not installed so can't regenerate tensorboardX/proto/*_pb2.py, using precompiled version."
+  echo "protoc can't be installed, so tb_paddle/proto/*_pb2.py are using the precompiled version."
 fi
