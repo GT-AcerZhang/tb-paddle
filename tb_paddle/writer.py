@@ -314,6 +314,7 @@ class SummaryWriter(object):
         :type walltime: float
         """
         self._get_file_writer().add_summary(scalar(tag, scalar_value), global_step, walltime)
+        self.flush()
 
     def add_scalars(self, main_tag, tag_scalar_dict, global_step=None, walltime=None):
         """Adds many scalar data to summary.
@@ -341,6 +342,7 @@ class SummaryWriter(object):
 
             fw.add_summary(scalar(main_tag, scalar_value), global_step, walltime)
             self.__append_to_scalar_dict(fw_tag, scalar_value, global_step, walltime)
+        self.flush()
 
     def export_scalars_to_json(self, path):
         """Exports to the given path an ASCII file containing all the scalars written
@@ -373,6 +375,7 @@ class SummaryWriter(object):
             bins = self.default_bins
         self._get_file_writer().add_summary(
             histogram(tag, values, bins, max_bins=max_bins), global_step, walltime)
+        self.flush()
 
     def add_histogram_raw(self, tag, min, max, num, sum, sum_squares,
                           bucket_limits, bucket_counts, global_step=None,
@@ -407,6 +410,7 @@ class SummaryWriter(object):
             histogram_raw(tag, min, max, num, sum, sum_squares, bucket_limits, bucket_counts),
             global_step,
             walltime)
+        self.flush()
 
     def add_image(self, tag, img_tensor, global_step=None, walltime=None, dataformats='CHW'):
         """Add image data to summary.
@@ -585,6 +589,7 @@ class SummaryWriter(object):
         :type walltime: float
         """
         self._get_file_writer().add_summary(text(tag, text_string), global_step, walltime)
+        self.flush()
 
     def add_paddle_graph(self, fluid_program, verbose=False, **kwargs):
         """ Add paddle graph to summary.
