@@ -53,5 +53,5 @@ script:
     - python API_demo/add_text-demo.py
 
 after_success:
-  - sleep 1
+    - sleep 1
 
