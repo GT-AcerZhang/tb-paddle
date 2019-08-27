@@ -25,38 +25,6 @@ from .summary import (
 from .paddle_graph import paddle_graph
 
 
-class DummyFileWriter(object):
-    """A fake file writer that writes nothing to the disk.
-    """
-    def __init__(self, logdir):
-        self._logdir = logdir
-
-    def get_logdir(self):
-        """Returns the directory where event file will be written."""
-        return self._logdir
-
-    def add_event(self, event, step=None, walltime=None):
-        return
-
-    def add_summary(self, summary, global_step=None, walltime=None):
-        return
-
-    def add_graph(self, graph_profile, walltime=None):
-        return
-
-    def add_onnx_graph(self, graph, walltime=None):
-        return
-
-    def flush(self):
-        return
-
-    def close(self):
-        return
-
-    def reopen(self):
-        return
-
-
 class FileWriter(object):
     """Writes protocol buffers to event files to be consumed by TensorBoard.
 
@@ -186,7 +154,7 @@ class SummaryWriter(object):
     """
 
     def __init__(self, logdir=None, flush_secs=10, max_queue=1024, purge_step=None,
-                 comment='', filename_suffix='', write_to_disk=True, **kwargs):
+                 comment='', filename_suffix='', **kwargs):
         """Creates a `SummaryWriter` that will write out events and summaries
         to the event file.
 
@@ -213,8 +181,6 @@ class SummaryWriter(object):
                                 the logdir directory. More details on filename construction in
                                 tensorboard.summary.writer.event_file_writer.EventFileWriter.
         :type filename_suffix: string
-        :param write_to_disk: If pass `False`, SummaryWriter will not write to disk.
-        :type write_to_disk: bool
 
         Examples:
             from tensorboardX import SummaryWriter
@@ -239,7 +205,6 @@ class SummaryWriter(object):
         self._max_queue = max_queue
         self._flush_secs = flush_secs
         self._filename_suffix = filename_suffix
-        self._write_to_disk = write_to_disk
         self.kwargs = kwargs
 
         # Initialize the file writers, but they can be cleared out on close and recreated later as needed.
@@ -268,12 +233,6 @@ class SummaryWriter(object):
         self.scalar_dict[tag].append([timestamp, global_step, float(make_np(scalar_value))])
 
     def _get_file_writer(self):
-        """Returns the default FileWriter instance. Recreates it if closed."""
-        if not self._write_to_disk:
-            self.file_writer = DummyFileWriter(logdir=self.logdir)
-            self.all_writers = {self.file_writer.get_logdir(): self.file_writer}
-            return self.file_writer
-
         if self.all_writers is None or self.file_writer is None:
             if 'purge_step' in self.kwargs.keys():
                 most_recent_step = self.kwargs.pop('purge_step')
