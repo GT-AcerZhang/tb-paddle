@@ -74,7 +74,7 @@ def __init__(self,
 通常会用到`--logdir`, `--host`, `--port`, `--reload_interval`这几个选项：
 
 ```
-tensorboard --logdir <path/to/dir> --host <host_name> --port <port_num> --reload_interval <time_secs>
+tensorboard --logdir <path/to/dir> --host <host_name> --port <port_num>
 ```
 
 这几个选项的详细解释:
@@ -112,12 +112,8 @@ log
 
 2. `--host`
 
-在本机运行`tensorboard`命令， `--host` 指定为 `0.0.0.0`， 在服务器上运行，`--host` 指定为服务器的地址。
+机器的IP地址，单机运行时，指定为 `--host 0.0.0.0`。
 
 3. `--port`
 
-在本机运行`tensorboard`命令，`--port` 指定为 `6***`， 在服务器上运行，`--port` 指定为 `8***`。
-
-4. `--reload_interval`
-
-后端读取 `tfevents` 文件数据的时间间隔，单位为秒，默认为5秒。
+可访问的端口。单机运行时，指定为`--port 6***`； 在服务器上运行时，指定为`--port 8***`。
