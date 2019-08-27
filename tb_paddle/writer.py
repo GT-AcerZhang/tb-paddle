@@ -153,30 +153,25 @@ class SummaryWriter(object):
     training.
     """
 
-    def __init__(self, logdir=None, flush_secs=10, max_queue=1024, purge_step=None,
+    def __init__(self, logdir=None, flush_secs=10, max_queue=1024, 
                  comment='', filename_suffix='', **kwargs):
         """Creates a `SummaryWriter` that will write out events and summaries
         to the event file.
 
-        :param logdir: Save directory location. Default is
-              runs/**CURRENT_DATETIME_HOSTNAME**, which changes after each run.
-              Use hierarchical folder structure to compare
-              between runs easily. e.g. pass in 'runs/exp1', 'runs/exp2', etc.
-              for each new experiment to compare across them.
+        :param logdir: Save directory location. Default is runs/**CURRENT_DATETIME_HOSTNAME**,
+                       which changes after each run. Use hierarchical folder structure to 
+                       compare between runs easily. e.g. pass in 'runs/exp1', 'runs/exp2', etc.
+                       for each new experiment to compare across them.
         :type logdir: string
-        :param comment: Comment logdir suffix appended to the default
-              ``logdir``. If ``logdir`` is assigned, this argument has no effect.
-        :type  comment: string
-        :param purge_step: When logging crashes at step :math:`T+X` and restarts
-                           at step :math:`T`, any events whose global_step larger
-                           or equal to :math:`T` will be purged and hidden from TensorBoard.
-                           Note that crashed and resumed experiments should have the same ``logdir``.
-        :param max_queue: Size of the queue for pending events and summaries before one of
-                           the 'add' calls forces a flush to disk.
-        :type max_queue: int
         :param flush_secs: How often, in seconds, to flush the pending events
                            and summaries to disk. Default is every 10 seconds.
         :type flush_secs: int
+        :param max_queue: Size of the queue for pending events and summaries before one of
+                          the 'add' calls forces a flush to disk.
+        :type max_queue: int
+        :param comment: Comment logdir suffix appended to the default ``logdir``.
+                        If ``logdir`` is assigned, this argument has no effect.
+        :type  comment: string
         :param filename_suffix: Suffix added to all event filenames in
                                 the logdir directory. More details on filename construction in
                                 tensorboard.summary.writer.event_file_writer.EventFileWriter.
@@ -234,24 +229,13 @@ class SummaryWriter(object):
 
     def _get_file_writer(self):
         if self.all_writers is None or self.file_writer is None:
-            if 'purge_step' in self.kwargs.keys():
-                most_recent_step = self.kwargs.pop('purge_step')
-                self.file_writer = FileWriter(logdir=self.logdir,
-                                              max_queue=self._max_queue,
-                                              flush_secs=self._flush_secs,
-                                              filename_suffix=self._filename_suffix,
-                                              **self.kwargs)
-                self.file_writer.add_event(
-                    Event(step=most_recent_step, file_version='brain.Event:2'))
-                self.file_writer.add_event(
-                    Event(step=most_recent_step, session_log=SessionLog(status=SessionLog.START)))
-            else:
-                self.file_writer = FileWriter(logdir=self.logdir,
-                                              max_queue=self._max_queue,
-                                              flush_secs=self._flush_secs,
-                                              filename_suffix=self._filename_suffix,
-                                              **self.kwargs)
+            self.file_writer = FileWriter(logdir=self.logdir,
+                                          max_queue=self._max_queue,
+                                          flush_secs=self._flush_secs,
+                                          filename_suffix=self._filename_suffix,
+                                          **self.kwargs)
             self.all_writers = {self.file_writer.get_logdir(): self.file_writer}
+        
         return self.file_writer
     
     def flush(self):
