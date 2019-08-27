@@ -6,5 +6,5 @@ History
 0.2.0 (2019-08-26)
 * Append setup requirements, pillow.
 
-0.2.1 (2019-08-26)
-* Fix the bug of flush.
+0.3.0 (2019-08-27)
+* Fix the bug of session_log
