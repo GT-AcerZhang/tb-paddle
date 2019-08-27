@@ -35,7 +35,7 @@ class FileWriter(object):
     training.
     """
 
-    def __init__(self, logdir, max_queue=1024, flush_secs=10, filename_suffix=''):
+    def __init__(self, logdir, max_queue=1024, filename_suffix=''):
         """Creates a `FileWriter` and an event file.
         On construction the writer creates a new event file in `logdir`.
         The other arguments to the constructor control the asynchronous writes to
@@ -47,16 +47,13 @@ class FileWriter(object):
                           summaries before one of the 'add' calls forces a
                           flush to disk.
         :type max_queue: Integer
-        :param flush_secs: How often, in seconds, to flush the pending events
-                        and summaries to disk. Default is 10 seconds.
-        :type flush_secs: Number
         :param filename_suffix: Suffix added to all event filenames in the logdir directory.
                                 More details on filename construction in
                                 tensorboard.summary.writer.event_file_writer.EventFileWriter.
         :type filename_suffix: string
         """
         logdir = str(logdir)
-        self.event_writer = EventFileWriter(logdir, max_queue, flush_secs, filename_suffix)
+        self.event_writer = EventFileWriter(logdir, max_queue, filename_suffix)
 
     def get_logdir(self):
         """Returns the directory where event file will be written."""
@@ -153,8 +150,7 @@ class SummaryWriter(object):
     training.
     """
 
-    def __init__(self, logdir=None, flush_secs=10, max_queue=1024, 
-                 comment='', filename_suffix='', **kwargs):
+    def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', **kwargs):
         """Creates a `SummaryWriter` that will write out events and summaries
         to the event file.
 
@@ -163,9 +159,6 @@ class SummaryWriter(object):
                        compare between runs easily. e.g. pass in 'runs/exp1', 'runs/exp2', etc.
                        for each new experiment to compare across them.
         :type logdir: string
-        :param flush_secs: How often, in seconds, to flush the pending events
-                           and summaries to disk. Default is every 10 seconds.
-        :type flush_secs: int
         :param max_queue: Size of the queue for pending events and summaries before one of
                           the 'add' calls forces a flush to disk.
         :type max_queue: int
@@ -197,7 +190,6 @@ class SummaryWriter(object):
                 'runs', current_time + '_' + socket.gethostname() + comment)
         self.logdir = logdir
         self._max_queue = max_queue
-        self._flush_secs = flush_secs
         self._filename_suffix = filename_suffix
         self.kwargs = kwargs
 
@@ -230,7 +222,6 @@ class SummaryWriter(object):
         if self.all_writers is None or self.file_writer is None:
             self.file_writer = FileWriter(logdir=self.logdir,
                                           max_queue=self._max_queue,
-                                          flush_secs=self._flush_secs,
                                           filename_suffix=self._filename_suffix,
                                           **self.kwargs)
             self.all_writers = {self.file_writer.get_logdir(): self.file_writer}

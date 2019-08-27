@@ -83,7 +83,7 @@ class EventFileWriter(object):
     is encoded using the tfrecord format, which is similar to RecordIO.
     """
 
-    def __init__(self, logdir, max_queue_size=1024, flush_secs=10, filename_suffix=''):
+    def __init__(self, logdir, max_queue_size=1024, filename_suffix=''):
         """Creates a `EventFileWriter` and an event file to write to.
 
         On construction the summary writer creates a new event file in `logdir`.
@@ -96,17 +96,14 @@ class EventFileWriter(object):
         :type logdir: string
         :param max_queue_size: Size of the queue for pending events and summaries.
         :type max_queue_size: int
-        :param flush_secs: How often, in seconds, to flush the pending events and summaries to disk.
-        :type flush_secs: float
         """
         self._logdir = str(logdir)
         directory_check(self._logdir)
         self._event_queue = six.moves.queue.Queue(max_queue_size)
         self._ev_writer = EventsWriter(os.path.join(self._logdir, "events"), filename_suffix)
-        self._flush_secs = flush_secs
         self._sentinel_event = self._get_sentinel_event()
         self._closed = False
-        self._worker = _EventLoggerThread(self._event_queue, self._ev_writer, flush_secs, self._sentinel_event)
+        self._worker = _EventLoggerThread(self._event_queue, self._ev_writer, self._sentinel_event)
         self._worker.start()
 
     def _get_sentinel_event(self):
@@ -124,7 +121,7 @@ class EventFileWriter(object):
         Does nothing if the EventFileWriter was not closed.
         """
         if self._closed:
-            self._worker = _EventLoggerThread(self._event_queue, self._ev_writer, self._flush_secs, self._sentinel_event)
+            self._worker = _EventLoggerThread(self._event_queue, self._ev_writer, self._sentinel_event)
             self._worker.start()
             self._closed = False
 
@@ -160,14 +157,12 @@ class EventFileWriter(object):
 class _EventLoggerThread(threading.Thread):
     """Thread that logs events."""
 
-    def __init__(self, queue, ev_writer, flush_secs, sentinel_event):
+    def __init__(self, queue, ev_writer, sentinel_event):
         """Creates an _EventLoggerThread.
 
         :param queue: A Queue from which to dequeue data.
         :param ev_writer: Used to log brain events for the visualizer.
         :type ev_writer: An instance of class EventWriter
-        :param flush_secs: How often, in seconds, to flush the pending file to disk.
-        :type flush_secs: int
         :param sentinel_event: Sentinel, Used to judge whether run or not.
         :type sentinel_event: An instance of class EventWriter.
         """
@@ -175,9 +170,6 @@ class _EventLoggerThread(threading.Thread):
         self.daemon = True
         self._queue = queue
         self._ev_writer = ev_writer
-        self._flush_secs = flush_secs
-        # The first event will be flushed immediately.
-        self._next_event_flush_time = 0
         self._sentinel_event = sentinel_event
         self._shutdown_signal = object()
 
@@ -193,9 +185,5 @@ class _EventLoggerThread(threading.Thread):
                 break
             try:
                 self._ev_writer.write_event(event)
-                now = time.time()
-                if now > self._next_event_flush_time:
-                    self._ev_writer.flush()
-                    self._next_event_flush_time = now + self._flush_secs
             finally:
                 self._queue.task_done()

@@ -6,5 +6,5 @@ History
 0.2.0 (2019-08-26)
 * Append setup requirements, pillow.
 
-0.3.0 (2019-08-27)
+0.3.1 (2019-08-27)
 * Fix the bug of session_log
