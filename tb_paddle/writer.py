@@ -178,7 +178,7 @@ class SummaryWriter(object):
         :type filename_suffix: string
 
         Examples:
-            from tensorboardX import SummaryWriter
+            from tb_paddle import SummaryWriter
 
             # create a summary writer with automatically generated folder name.
             writer = SummaryWriter()
