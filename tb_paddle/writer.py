@@ -196,7 +196,6 @@ class SummaryWriter(object):
             logdir = os.path.join(
                 'runs', current_time + '_' + socket.gethostname() + comment)
         self.logdir = logdir
-        self.purge_step = purge_step
         self._max_queue = max_queue
         self._flush_secs = flush_secs
         self._filename_suffix = filename_suffix
