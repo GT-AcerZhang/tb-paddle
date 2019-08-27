@@ -55,7 +55,6 @@ def __init__(self,
             purge_step=None,
             comment='',
             filename_suffix='',
-            write_to_disk=True,
             **kwargs):
 ```
 
@@ -67,7 +66,6 @@ def __init__(self,
 * `purge_step` ：截断步数，重启打点时，tfevents 文件中步数大于`purge_step`的数据将被清除；
 * `comment` ：如果`logdir`为`None`，则在默认存放路径中添加后缀。如果`logdir`不是`None`，那么该参数没有任何作用；
 * `filename_suffix` ：event 文件名后缀；
-* `write_to_disk` ：是否将打点数据写到磁盘。
 
 ## TensorBoard 启动命令
 
