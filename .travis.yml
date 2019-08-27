@@ -49,9 +49,15 @@ install:
     - python setup.py install
 
 script:
-    - python API_demo/add_scalar-demo.py
-    - python API_demo/add_histogram-demo.py
-    - python API_demo/add_text-demo.py
-
+    - cd API_demo
+    - python add_scalar-demo.py
+    - python add_histogram-demo.py
+    - python add_text-demo.py
+    - python add_image-demo.py
+    - python add_audio-demo.py
+    - python add_custom_scalars-demo.py
+    - python add_pr_curve-demo.py
+    - python add_paddle_graph-demo.py
+    
 after_success:
     - sleep 1
