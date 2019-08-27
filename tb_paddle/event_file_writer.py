@@ -156,7 +156,7 @@ class EventFileWriter(object):
 
 class _EventLoggerThread(threading.Thread):
     """Thread that logs events."""
-
+    
     def __init__(self, queue, ev_writer, sentinel_event):
         """Creates an _EventLoggerThread.
 
@@ -171,11 +171,6 @@ class _EventLoggerThread(threading.Thread):
         self._queue = queue
         self._ev_writer = ev_writer
         self._sentinel_event = sentinel_event
-        self._shutdown_signal = object()
-
-    def stop(self):
-        self._queue.put(self._shutdown_signal)
-        self.join()
 
     def run(self):
         while True:
