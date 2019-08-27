@@ -69,12 +69,12 @@ def __init__(self,
 
 ## TensorBoard 启动命令
 
-启动 TensorBoard 的命令为`tensorboard`，输入 `tensorboard --helpful` 则可查看此命令的帮助文档。
+启动 TensorBoard 服务的命令为`tensorboard`，输入 `tensorboard --helpful` 则可查看此命令的帮助文档。
 
-通常会用到`--logdir`, `--host`, `--port`, `--reload_interval`这几个选项：
+启动 TensorBoard 服务，选项`--logdir`是必须的，通常还会使用选项`--host`指定IP地址, 选项`--port`指定可用端口：
 
 ```
-tensorboard --logdir <path/to/dir> --host <host_name> --port <port_num>
+tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_num>
 ```
 
 这几个选项的详细解释:
