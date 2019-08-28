@@ -48,12 +48,7 @@ pip install tb-paddle
 创建 [class SummaryWriter](tb_paddle/writer.py#L177) 的初始化函数的定义：
 
 ```python
-def __init__(self,
-            logdir=None,
-            max_queue=1024,
-            comment='',
-            filename_suffix='',
-            **kwargs):
+def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', **kwargs):
 ```
 
 其中各个参数的含义为：
