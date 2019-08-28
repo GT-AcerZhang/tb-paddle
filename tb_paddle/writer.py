@@ -408,7 +408,8 @@ class SummaryWriter(object):
         self.flush()
 
     def add_image_with_boxes(self, tag, img_tensor, box_tensor, global_step=None,
-                             walltime=None, dataformats='CHW', labels=None, **kwargs):
+                             walltime=None, dataformats='CHW', labels=None, 
+                             box_color='red', text_color='white', box_thickness=1, **kwargs):
         """Add image and draw bounding boxes on the image.
 
         :param tag: Data identifier.
@@ -424,6 +425,10 @@ class SummaryWriter(object):
         :type walltime: float
         :param labels: The strings to be shown on each bounding box.
         :type labels: list of string
+        :param box_color: The color of box.
+        :param text_color: The color of text
+        :param box_thickness: The thickness of box edge.
+        :type box_thickness: int
 
         Shape:
           img_tensor: Default is :math:`(3, H, W)`.
@@ -440,7 +445,10 @@ class SummaryWriter(object):
                 labels = None
 
         self._get_file_writer().add_summary(image_boxes(
-            tag, img_tensor, box_tensor, dataformats=dataformats, labels=labels, **kwargs), global_step, walltime)
+            tag, img_tensor, box_tensor, dataformats=dataformats, labels=labels, 
+            box_color=box_color, text_color=text_color, box_thickness=box_thickness, **kwargs),
+            global_step, walltime)
+        
         self.flush()
 
     def add_figure(self, tag, figure, global_step=None, close=True, walltime=None):

@@ -218,7 +218,8 @@ def image(tag, tensor, rescale=1, dataformats='CHW'):
     return Summary(value=[Summary.Value(tag=tag, image=image)])
 
 
-def image_boxes(tag, tensor_image, tensor_boxes, rescale=1, dataformats='CHW', labels=None):
+def image_boxes(tag, tensor_image, tensor_boxes, rescale=1, dataformats='CHW', 
+                labels=None, box_color='red', text_color='black', box_thickness=1):
     """Outputs a `Summary` protocol buffer with images."""
     tensor_image = make_np(tensor_image)
     tensor_image = convert_to_HWC(tensor_image, dataformats)
@@ -227,25 +228,24 @@ def image_boxes(tag, tensor_image, tensor_boxes, rescale=1, dataformats='CHW', l
     if tensor_image.dtype != np.uint8:
         tensor_image = (tensor_image * 255.0).astype(np.uint8)
 
-    image = make_image(tensor_image,
-                       rescale=rescale,
-                       rois=tensor_boxes, labels=labels)
+    image = make_image(tensor_image, rescale=rescale, rois=tensor_boxes, labels=labels,
+                       box_color=box_color, text_color=text_color, box_thickness=box_thickness)
     return Summary(value=[Summary.Value(tag=tag, image=image)])
 
 
-def draw_boxes(display_image, boxes, labels=None):
+def draw_boxes(display_image, boxes, labels=None, box_color='red', text_color='black', box_thickness=1):
     num_boxes = boxes.shape[0]
     list_gt = range(num_boxes)
     for i in list_gt:
         display_image = _draw_single_box(display_image,
-                                         boxes[i, 0], boxes[i, 1],
-                                         boxes[i, 2], boxes[i, 3],
+                                         boxes[i, 0], boxes[i, 1], boxes[i, 2], boxes[i, 3],
                                          display_str=None if labels is None else labels[i],
-                                         color='Red')
+                                         color=box_color, color_text=text_color, thickness=box_thickness)
     return display_image
 
 
-def make_image(tensor, rescale=1, rois=None, labels=None):
+def make_image(tensor, rescale=1, rois=None, labels=None, 
+                box_color='red', text_color='black', box_thickness=1):
     """Convert an numpy representation image to Image protobuf"""
     from PIL import Image
     height, width, channel = tensor.shape
@@ -254,7 +254,8 @@ def make_image(tensor, rescale=1, rois=None, labels=None):
     image = Image.fromarray(tensor)
 
     if rois is not None:
-        image = draw_boxes(image, rois, labels=labels)
+        image = draw_boxes(image, rois, labels=labels, 
+                           box_color=box_color, text_color=text_color, box_thickness=box_thickness)
 
     image = image.resize((scaled_width, scaled_height), Image.ANTIALIAS)
 

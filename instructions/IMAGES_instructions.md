@@ -160,9 +160,11 @@ writer.close()
 ## Class SummaryWriter 的成员函数 add_image_with_boxes
 
 ```python
-def add_image_with_boxes(self, tag, img_tensor, box_tensor, global_step=None, 
-                         walltime=None, dataformats='CHW', labels=labels, **kwargs):
+def add_image_with_boxes(self, tag, img_tensor, box_tensor, global_step=None,
+                         walltime=None, dataformats='CHW', labels=None, 
+                         box_color='red', text_color='white', box_thickness=1, **kwargs):
     """Add image and draw bounding boxes on the image.
+
     :param tag: Data identifier.
     :type tag: string
     :param img_tensor: Image data.
@@ -176,14 +178,17 @@ def add_image_with_boxes(self, tag, img_tensor, box_tensor, global_step=None,
     :type walltime: float
     :param labels: The strings to be shown on each bounding box.
     :type labels: list of string
+    :param box_color: The color of box.
+    :param text_color: The color of text
+    :param box_thickness: The thickness of box edge.
+    :type box_thickness: int
 
-    :Shape:
-        img_tensor: Default is :math:`(3, H, W)`.
-                    It can be specified with `dataformat` agrument, e.g. CHW or HWC.
+    Shape:
+      img_tensor: Default is :math:`(3, H, W)`.
+                  It can be specified with `dataformat` agrument, e.g. CHW or HWC.
 
-        box_tensor: NX4,  where N is the number of boxes and
-                    each 4 elememts in a row represents (xmin, ymin, xmax, ymax).
-    """
+      box_tensor: NX4,  where N is the number of boxes and
+                  each 4 elememts in a row represents (xmin, ymin, xmax, ymax).
 ```
 
 Demo-3 add_images_with_boxes-demo.py
