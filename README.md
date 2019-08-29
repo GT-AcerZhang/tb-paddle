@@ -38,6 +38,8 @@ tb-paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类�
 ## 安装
 
 ```
+# 需要先安装 paddlepaddle，无须安装 TensorFlow
+
 # 必须安装 tb-nightly，否则页面无法自动刷新
 pip install tb-nightly==1.15.0a20190818
 
