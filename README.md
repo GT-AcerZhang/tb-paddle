@@ -23,6 +23,10 @@ AUDIO, PROJECTOR,PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
 |[MESH](instructions/MESH_instructions.md)|网格和点云|显示3D图形的网格和点云(Meshes and points cloud)|
 |[CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md)|组合折线图|显示用户自定义组合的折线图|
 
+上面表格中的链接为各个栏目的使用说明。
+此处提供了mnist手写体识别的[示例程序](API_demo/mnist_log-demo.py)，
+以帮助快速上手和体验。
+
 ## 特别致谢
 
 tb-paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础上修改的，
