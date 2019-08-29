@@ -27,14 +27,6 @@ AUDIO, PROJECTOR,PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
 此处提供了mnist手写体识别的[示例程序](API_demo/mnist_log-demo.py)，
 以帮助快速上手和体验。
 
-## 特别致谢
-
-tb-paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础上修改的，
-tb-paddle 的框架和 API 接口均沿用了 tensorboardX。与 tensorboardX 不同的是，
-tb-paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类型，
-并根据 Paddle 框架重新实现了GRAPHS栏目的计算图显示。
-此处由衷感谢[Tzu-Wei Huang](https://github.com/lanpa)的开源贡献。
-
 ## 安装
 
 ```
