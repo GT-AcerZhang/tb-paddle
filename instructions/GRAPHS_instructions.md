@@ -86,7 +86,7 @@ TensorFlow 图具有两种连接：数据依赖关系（`Dataflow edge`）和控
 
 **提示：** 要让图易于观看，按名称范围对节点进行分组至关重要。如果您要构建模型，名称范围可帮助您控制生成的直观展示。
 
-为了完整地展示 GRAPHS 栏目的功能，我们将[语义角色标注](https://github.com/PaddlePaddle/book/blob/develop/07.label_semantic_roles/README.cn.md)的`infer_program`作为参数传给`add_paddle_graph`，详情可查看[add_paddle_graph-demo.py](../API_demo/add_paddle_graph-demo.py)。
+为了完整地展示 GRAPHS 栏目的功能，我们将[语义角色标注](https://github.com/PaddlePaddle/book/blob/develop/07.label_semantic_roles/README.cn.md)的`infer_program`作为参数传给`add_paddle_graph`，详情可查看[add_paddle_graph-demo.py](../API_demo/add_paddle_graph-demo.py#L242)。
 
 ## GRAPHS 栏目界面介绍
 
