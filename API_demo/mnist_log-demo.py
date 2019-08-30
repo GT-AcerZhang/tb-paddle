@@ -58,11 +58,7 @@ def convolutional_neural_network(img, label):
     return loss_net(conv_pool_2, label)
 
 
-def train(nn_type,
-          use_cuda,
-          save_dirname=None,
-          model_filename=None,
-          params_filename=None):
+def train(use_cuda, save_dirname=None, model_filename=None, params_filename=None):
     if use_cuda and not fluid.core.is_compiled_with_cuda():
         return
 
@@ -86,14 +82,7 @@ def train(nn_type,
     img = fluid.layers.data(name='img', shape=[1, 28, 28], dtype='float32')
     label = fluid.layers.data(name='label', shape=[1], dtype='int64')
 
-    if nn_type == 'softmax_regression':
-        net_conf = softmax_regression
-    elif nn_type == 'multilayer_perceptron':
-        net_conf = multilayer_perceptron
-    else:
-        net_conf = convolutional_neural_network
-
-    prediction, avg_loss, acc, weights = net_conf(img, label)
+    prediction, avg_loss, acc, weights = convolutional_neural_network(img, label)
 
     test_program = main_program.clone(for_test=True)
     optimizer = fluid.optimizer.Adam(learning_rate=0.001)
@@ -180,7 +169,7 @@ def main(use_cuda, nn_type):
     params_filename = None
     save_dirname = "recognize_digits_" + nn_type + ".inference.model"
 
-    train(nn_type=nn_type, use_cuda=use_cuda, save_dirname=save_dirname,
+    train(use_cuda=use_cuda, save_dirname=save_dirname,
           model_filename=model_filename, params_filename=params_filename)
     
     infer(use_cuda=use_cuda, save_dirname=save_dirname,
