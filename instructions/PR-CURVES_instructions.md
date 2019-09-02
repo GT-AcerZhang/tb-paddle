@@ -2,6 +2,11 @@
 
 TensorBoard 的 **PR CURVES** 栏目显示 [Precision-Recall curve](https://github.com/tensorflow/tensorboard/blob/master/tensorboard/plugins/pr_curve/README.md) 。
 
+class SummaryWriter 中用于打点pr-curve数据的成员函数包括：
+
+* <a href="#1"> add_pr_curve </a>
+* <a href="#2"> add_pr_curve_raw </a>
+
 ## 机器学习性能评估指标
 
 ### 混淆矩阵
@@ -36,15 +41,6 @@ FN = 20
 * 查准率＝检索出的相关信息量 / 检索出的信息总量
 * 查全率＝检索出的相关信息量 / 系统中的相关信息总量
 
-## pr-curve 简介
-
-pr-curve 全称为 precison-recall curve，根据预测的概率值及其对应的准确答案来计算 precision-recall，并将结果保存并以折线图形式展示。
-
-class SummaryWriter 中用于打点pr-curve数据的成员函数包括：
-
-* <a href="#1"> add_pr_curve </a>
-* <a href="#2"> add_pr_curve_raw </a>
-
 <a name="1"></a>
 ## Class SummaryWriter 的成员函数 add_pr_curve
 
@@ -53,7 +49,7 @@ class SummaryWriter 中用于打点pr-curve数据的成员函数包括：
 ```python
 def add_pr_curve(self, tag, labels, predictions, global_step=None, 
                  num_thresholds=127, weights=None, walltime=None):
-    """根据预测的概率值，以及其对应的标准答案计算 precision-recall 的结果。
+    """根据预测的概率值，以及其对应的标准答案计算 precision-recall 的结果，并以折线图展示。
     
     :param tag: Data identifier.
     :type tag: string
@@ -180,7 +176,7 @@ for threshold in range(7, 207, 20):
 writer.close()
 ```
 
-运行程序`add_pr_curve_raw-demo.py`，则可在 tensorboard 的**PR CURVES**栏目中查看图表：
+运行程序`add_pr_curve_raw-demo.py`，则可在 tensorboard 的 **PR CURVES** 栏目中查看图表：
 
 <p align="center">
 <img src="../screenshots/add_pr_curve_raw.png" width=600><br/>
