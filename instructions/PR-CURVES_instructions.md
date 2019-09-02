@@ -2,13 +2,50 @@
 
 TensorBoard 的 **PR CURVES** 栏目显示 [Precision-Recall curve](https://github.com/tensorflow/tensorboard/blob/master/tensorboard/plugins/pr_curve/README.md) 。
 
-**precision and recall**
+## 机器学习性能评估指标
 
-在模式识别、信息检索、二元分类等问题中，需要权衡 [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) 的关系，其中 precision 是精确度或质量的衡量标准，而 recall 则是衡量结果的完整性的标准。 
+### 混淆矩阵
 
-举个例子：在图片识别任务中，一张图中有12条狗，若程序判定图中只有8条狗（实际判定结果 ：5条真是狗，另外3条不是狗，而是其他物体），那么该程序的 precision=5/8，recall=5/12。
+* True Positive (真正, TP)：将正类预测为正类数. 
+* True Negative (真负, TN)：将负类预测为负类数. 
+* False Positive(假正, FP)：将负类预测为正类数 → 误报
+* False Negative(假负, FN)：将正类预测为负类数 → 漏报
 
-**pr curve**
+举个例子，假设我们手上有60个正样本，40个负样本，现要找出所有的正样本。
+某系统总共找出50个，其中只有40个是真正的正样本，计算上述各指标。
+
+TP = 40
+TN = 30
+FP = 10
+FN = 20
+
+### 准确率（Accuracy）
+
+准确率的计算公式：
+
+`acc = (TP + TN)/(TP + TN + FP + FN)`
+
+### 错误率 (Error Rate)
+
+错误率的计算公式：
+
+`error_rate = 1 - acc = (FP + FN)/(TP + TN + FP + FN)`
+
+### 精度
+
+精度的计算公式：
+
+`precision = TP/(TP + FP)`
+
+表示被分为正类的样本中实际为正类的比例。
+
+### 召回率
+
+召回率的计算公式：
+
+`recall = TP/(TP + FN)`
+
+## pr-curve 简介
 
 pr-curve 全称为 precison-recall curve，根据预测的概率值及其对应的准确答案来计算 precision-recall，并将结果保存并以折线图形式展示。
 
