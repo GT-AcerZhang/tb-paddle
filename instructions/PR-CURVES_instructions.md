@@ -14,9 +14,9 @@ TensorBoard 的 **PR CURVES** 栏目显示 [Precision-Recall curve](https://gith
 举个例子，假设我们手上有60个正样本，40个负样本，现要找出所有的正样本。
 某系统总共找出50个，其中只有40个是真正的正样本，计算上述各指标。
 
-TP = 40
-TN = 30
-FP = 10
+TP = 40，
+TN = 30，
+FP = 10，
 FN = 20
 
 ### 准确率（Accuracy）
