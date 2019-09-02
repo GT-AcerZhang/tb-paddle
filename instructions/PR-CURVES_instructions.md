@@ -19,27 +19,19 @@ TN = 30，
 FP = 10，
 FN = 20
 
-### 准确率（Accuracy）
+### 准确率（Accuracy）和 错误率 (Error Rate)
 
-准确率的计算公式：
+准确率的计算公式： `acc = (TP + TN)/(TP + TN + FP + FN)`
 
-`acc = (TP + TN)/(TP + TN + FP + FN)`
+错误率的计算公式： `error_rate = 1 - acc = (FP + FN)/(TP + TN + FP + FN)`
 
-### 错误率 (Error Rate)
-
-错误率的计算公式：
-
-`error_rate = 1 - acc = (FP + FN)/(TP + TN + FP + FN)`
-
-### 精度
+### 精度(Precision) 和 召回率(Recall) 
 
 精度的计算公式： `precision = TP/(TP + FP)`，表示被分为正类的样本中实际为正类的比例。
 
-### 召回率
-
 召回率的计算公式： `recall = TP/(TP + FN)`，表示被有多少正类被识别为正类。
 
-在信息检索领域，精确率和召回率又被称为查准率和查全率：
+在信息检索领域，精度和召回率又被称为查准率和查全率：
 
 * 查准率＝检索出的相关信息量 / 检索出的信息总量
 * 查全率＝检索出的相关信息量 / 系统中的相关信息总量
