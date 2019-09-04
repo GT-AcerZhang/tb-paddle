@@ -2,7 +2,7 @@
 
 TensorBoard 的 **PROJECTOR** 栏目全称为 Embedding Projector，这是一个交互式的嵌入可视化工具。
 
-class SummaryWriter 中用于打点 embedding 高纬数据的成员函数为`add_embedding`。
+class SummaryWriter 中用于打点 embedding 高维数据的成员函数为`add_embedding`。
 
 ##  Class SummaryWriter 的成员函数 `add_embedding`
 
