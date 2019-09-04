@@ -1,9 +1,7 @@
 # coding=utf-8
 from __future__ import print_function
 
-import os
 import argparse
-from PIL import Image
 import numpy as np
 import paddle
 import paddle.fluid as fluid
@@ -11,15 +9,11 @@ import matplotlib
 matplotlib.use('TkAgg')
 
 from tb_paddle import SummaryWriter
-
 data_writer = SummaryWriter(logdir="log/data")
+
 
 def parse_args():
     parser = argparse.ArgumentParser("mnist")
-    parser.add_argument(
-        '--enable_ce',
-        action='store_true',
-        help="If set, run the task with continuous evaluation logs.")
     parser.add_argument(
         '--use_gpu',
         type=bool,
@@ -40,21 +34,24 @@ def loss_net(hidden, label):
 
 
 def convolutional_neural_network(img, label):
-    conv_pool_1 = fluid.nets.simple_img_conv_pool(
-        input=img,
-        filter_size=5,
-        num_filters=20,
-        pool_size=2,
-        pool_stride=2,
-        act="relu")
-    conv_pool_1 = fluid.layers.batch_norm(conv_pool_1)
-    conv_pool_2 = fluid.nets.simple_img_conv_pool(
-        input=conv_pool_1,
-        filter_size=5,
-        num_filters=50,
-        pool_size=2,
-        pool_stride=2,
-        act="relu")
+    with fluid.name_scope("conv_pool_1"):
+        conv_pool_1 = fluid.nets.simple_img_conv_pool(input=img,
+                                                      filter_size=5,
+                                                      num_filters=20,
+                                                      pool_size=2,
+                                                      pool_stride=2,
+                                                      act="relu")
+
+    with fluid.name_scope("batch_norm"):
+        batch_norm_1 = fluid.layers.batch_norm(conv_pool_1)
+
+    with fluid.name_scope("conv_pool_2"):
+        conv_pool_2 = fluid.nets.simple_img_conv_pool(input=batch_norm_1,
+                                                      filter_size=5,
+                                                      num_filters=50,
+                                                      pool_size=2,
+                                                      pool_stride=2,
+                                                      act="relu")
     return loss_net(conv_pool_2, label)
 
 
@@ -65,26 +62,14 @@ def train(use_cuda, save_dirname=None, model_filename=None, params_filename=None
     startup_program = fluid.default_startup_program()
     main_program = fluid.default_main_program()
 
-    if args.enable_ce:
-        train_reader = paddle.batch(
-            paddle.dataset.mnist.train(), batch_size=BATCH_SIZE)
-        test_reader = paddle.batch(
-            paddle.dataset.mnist.test(), batch_size=BATCH_SIZE)
-        startup_program.random_seed = 90
-        main_program.random_seed = 90
-    else:
-        train_reader = paddle.batch(
-            paddle.reader.shuffle(paddle.dataset.mnist.train(), buf_size=500),
-            batch_size=BATCH_SIZE)
-        test_reader = paddle.batch(
-            paddle.dataset.mnist.test(), batch_size=BATCH_SIZE)
+    train_reader = paddle.batch(paddle.reader.shuffle(paddle.dataset.mnist.train(), buf_size=500),
+                                batch_size=BATCH_SIZE)
 
     img = fluid.layers.data(name='img', shape=[1, 28, 28], dtype='float32')
     label = fluid.layers.data(name='label', shape=[1], dtype='int64')
 
     prediction, avg_loss, acc, weights = convolutional_neural_network(img, label)
 
-    test_program = main_program.clone(for_test=True)
     optimizer = fluid.optimizer.Adam(learning_rate=0.001)
     optimizer.minimize(avg_loss)
 
@@ -93,9 +78,9 @@ def train(use_cuda, save_dirname=None, model_filename=None, params_filename=None
 
     feeder = fluid.DataFeeder(feed_list=[img, label], place=place)
     exe.run(startup_program)
+
     epochs = [epoch_id for epoch_id in range(PASS_NUM)]
 
-    lists = []
     step = 0
     for epoch_id in epochs:
         data_id0 = []
@@ -117,7 +102,7 @@ def train(use_cuda, save_dirname=None, model_filename=None, params_filename=None
             step += 1
             print("Step:", step)
        
-        # 用 add_embedding 增加PROJECTOR 数据
+        # 用 add_embedding 增加 PROJECTOR 数据
         mat = np.zeros([BATCH_SIZE, 784])
         metadata = np.zeros(BATCH_SIZE)
 
@@ -138,11 +123,9 @@ def train(use_cuda, save_dirname=None, model_filename=None, params_filename=None
         data_writer.add_video('mnist_video_fps_2', vid_tensor=video_data, fps=2)
 
         if save_dirname is not None:
-            fluid.io.save_inference_model(
-                save_dirname, ["img"], [prediction],
-                exe,
-                model_filename=model_filename,
-                params_filename=params_filename)
+            fluid.io.save_inference_model(save_dirname, ["img"], [prediction], exe,
+                                          model_filename=model_filename,
+                                          params_filename=params_filename)
 
 
 def infer(use_cuda, save_dirname=None, model_filename=None, params_filename=None):
@@ -154,16 +137,15 @@ def infer(use_cuda, save_dirname=None, model_filename=None, params_filename=None
      
     inference_scope = fluid.core.Scope()
     with fluid.scope_guard(inference_scope):
-        [inference_program, feed_target_names,
-         fetch_targets] = fluid.io.load_inference_model(
-             save_dirname, exe, model_filename, params_filename)
+        [inference_program, feed_target_names, fetch_targets] = fluid.io.load_inference_model(
+            save_dirname, exe, model_filename, params_filename)
      
         # 通过 add_paddle_graph 添加fluid.program，从而画出计算图
         infer_writer = SummaryWriter(logdir="log/infer_program")
         infer_writer.add_paddle_graph(fluid_program=inference_program, verbose=True)
         infer_writer.close()
-     
-     
+
+
 def main(use_cuda, nn_type):
     model_filename = None
     params_filename = None
