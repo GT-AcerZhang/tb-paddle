@@ -45,6 +45,7 @@ requirements = [
     'protobuf >= 3.6.1',
     'six',
     'pillow',
+    'moviepy',
 ]
 
 setup(
