@@ -34,7 +34,7 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 preparing_PyPI_package = False
-version = '0.3.1'
+version = '0.3.2'
 
 if not preparing_PyPI_package:
     with open('tb_paddle/__init__.py', 'a') as f:
