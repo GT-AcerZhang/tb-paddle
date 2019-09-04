@@ -1,0 +1,9 @@
+numpy
+protobuf >= 3.6.1
+six
+pillow
+moviepy
+matplotlib
+pre-commit
+flake8
+yapf
