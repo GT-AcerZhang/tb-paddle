@@ -125,12 +125,6 @@ def parse(fluid_program, verbose):
                     input_op_name = var_node.input_op_list[0]
                     last_slash_place = input_op_name.rfind("/") + 1
                     var_node.var_name = input_op_name[0:last_slash_place] + var_node.var_name
-               
-                # print out the infomation of Output Variable
-                print("#" * 100)
-                print("The Output variable in the Graph:")
-                print(var_node.var)
-                print("#" * 100, "\n")
                 
                 # Append the var node to the graph
                 nodes.append(node_proto(name=var_node.var_name,
@@ -172,7 +166,7 @@ def parse(fluid_program, verbose):
                     scope.input_name_list[input_arg_name] = input_arg_name
 
     # Obtain the shape of tensor in the edge
-    for scope in scope_list: 
+    for scope in scope_list:
         # Get the output tensor shape of this operator
         exit_flag = False
         op_output_shape = None
@@ -180,15 +174,17 @@ def parse(fluid_program, verbose):
             for other_scope in scope_list:
                 if op_output_arg_name in other_scope.input_name_list.values():
                     op_output_tensor = fluid_program.global_block().var(op_output_arg_name)
-                    if hasattr(op_output_tensor, "shape"):
+                    try:
                         op_output_shape = op_output_tensor.shape
+                    except:
+                        pass
                     
                     exit_flag = True
                     break
         
             if exit_flag:
-                break 
-
+                break
+        
         if op_output_shape is not None:
             output_shape_proto = tensor_shape_proto(op_output_shape)
             scope.op_attrs['_output_shapes'] = AttrValue(list=AttrValue.ListValue(shape=[output_shape_proto]))
@@ -198,5 +194,5 @@ def parse(fluid_program, verbose):
                                 op=scope.op.type,
                                 input_args=list(scope.input_name_list.keys()),
                                 attributes=scope.op_attrs))
-        
+
     return nodes
