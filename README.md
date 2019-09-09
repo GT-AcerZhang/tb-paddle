@@ -32,8 +32,8 @@ AUDIO, PROJECTOR,PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
 ```
 # 需要先安装 paddlepaddle，无须安装 TensorFlow
 
-# 必须安装 tb-nightly，否则页面无法自动刷新
-pip install tb-nightly==1.15.0a20190818
+# 必须安装 tb-nightly >= 1.15.0a20190818，否则页面无法自动刷新
+pip install tb-nightly
 
 # 安装 tb-paddle
 pip install tb-paddle
