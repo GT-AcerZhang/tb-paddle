@@ -84,7 +84,7 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 ```python
 def add_scalars(self, main_tag, tag_scalar_dict, global_step=None, walltime=None):
     """Adds many scalar data to summary.
-    Note that this function also keeps logged scalars in memory. In extreme case it explodes your RAM.
+    
     :param main_tag: The parent name for the tags.
     :type main_tag: string
     :param tag_scalar_dict: Key-value pair storing the tag and corresponding values.
