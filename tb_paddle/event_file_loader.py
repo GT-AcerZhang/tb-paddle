@@ -28,23 +28,6 @@ from .proto import event_pb2
 logger = logging.getLogger('tb-paddle.event_file_loader')
 
 
-def as_bytes(bytes_or_text, encoding="utf-8"):
-    """Converts either bytes or unicode to `bytes`, using utf-8 encoding for text.
-
-    :param bytes_or_text: A `bytes`, `str`, or `unicode` object.
-    :param encoding: A string indicating the charset for encoding unicode.
-    :returns: A `bytes` object.
-
-    :Raises TypeError: If `bytes_or_text` is not a binary or unicode string.
-    """
-    if isinstance(bytes_or_text, six.text_type):
-        return bytes_or_text.encode(encoding)
-    elif isinstance(bytes_or_text, bytes):
-        return bytes_or_text
-    else:
-        raise TypeError("Expected binary or unicode string, got %r" % (bytes_or_text,))
-
-
 class RawEventFileLoader(object):
     """An iterator that yields Event protos as serialized bytestrings."""
     def __init__(self, file_path):
@@ -53,7 +36,7 @@ class RawEventFileLoader(object):
     
         logger.debug('Opening a record reader pointing at %s', file_path)
         with errors.raise_exception_on_not_ok_status() as status:
-            self._reader = RecordReader(as_bytes(file_path), 0, as_bytes(''), status)
+            self._reader = RecordReader(str(file_path), 0, str(''), status)
 
         # Store it for logging purposes.
         self._file_path = file_path

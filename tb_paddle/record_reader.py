@@ -16,10 +16,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
 import struct
 
 from . import errors
-from .record_writer import directory_check
 from .crc32c import *
 
 TFE_DEVICE_PLACEMENT_WARN = 0
@@ -33,10 +33,10 @@ class RecordReader:
         if filename is None:
             raise errors.NotFoundError(
                 None, None, 'No filename provided, cannot read Events')
-        if not directory_check(filename):
+        if not os.path.exists(filename):
             raise errors.NotFoundError(
                 None, None,
-                '{} does not point to valid Events file'.format(filename))
+                'File \'{}\' does not exist'.format(filename))
         if start_offset:
             raise errors.UnimplementedError(
                 None, None, 'start offset not supported by compat reader')
