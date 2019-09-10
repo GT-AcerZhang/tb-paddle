@@ -35,8 +35,8 @@ def add_image(self, tag, img_tensor, global_step=None, walltime=None, dataformat
     :type img_tensor: numpy.array
     :param global_step: Global step value to record.
     :type global_step: int
-    :param walltime: Optional override default walltime (time.time()) of event.
-    :type walltime: float
+    :param walltime: 打点时间，默认值为 time.time()
+    :type walltime: optional, float
     :param dataformats: 默认值为 'CHW'，各个字母的含义为 C-Channels, H-Height， W-Width。
                         可选值为 'HW','WH'，'CHW','CWH','HWC','WHC'。
     :type dataformats: string
@@ -117,8 +117,8 @@ def add_images(self, tag, img_tensor, global_step=None, walltime=None, dataforma
     :type img_tensor: numpy.array
     :param global_step: Global step value to record.
     :type global_step: int
-    :param walltime: Optional override default walltime (time.time()) of event.
-    :type walltime: float
+    :param walltime: 打点时间，默认值为 time.time()
+    :type walltime: optional, float
 
     :Shape:
       img_tensor: Default is :math:`(N, 3, H, W)`, If ``dataformats`` is specified,
@@ -255,8 +255,8 @@ def add_figure(self, tag, figure, global_step=None, close=True, walltime=None):
     :type global_step: int
     :param close: Flag to automatically close the figure.
     :type close: bool
-    :param walltime: Optional override default walltime (time.time()) of event.
-    :type walltime: float
+    :param walltime: 打点时间，默认值为 time.time()
+    :type walltime: optioal, float
     """
 ```
 
@@ -309,8 +309,8 @@ def add_video(self, tag, vid_tensor, global_step=None, fps=4, walltime=None):
     :type global_step: int
     :param fps: Frames per second.
     :type fps: float or int
-    :param walltime: Optional override default walltime (time.time()) of event.
-    :type walltime: float
+    :param walltime: 打点时间，默认值为 time.time()
+    :type walltime: optional, float
 
     :Shape:
         vid_tensor:  `(Picture_num, Frame_num, Channel, Height, Weight)`，其中：
