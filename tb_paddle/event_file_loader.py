@@ -89,7 +89,7 @@ class RawEventFileLoader(object):
                 # will succeed.
                 break
 
-        yield self._reader.record()
+            yield self._reader.record()
 
         logger.debug('No more events in %s', self._file_path)
 
