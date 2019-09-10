@@ -23,8 +23,8 @@ def add_scalar(self, tag, scalar_value, global_step=None, walltime=None):
     :type scalar_value: float
     :param global_step: Global step value to record.
     :type global_step: int
-    :param walltime: Optional override default walltime (time.time()) of event.
-    :type walltime: float
+    :param walltime: 打点时间，默认值为 time.time()
+    :type walltime: optional, float
     """ 
 ```
 
@@ -91,8 +91,8 @@ def add_scalars(self, main_tag, tag_scalar_dict, global_step=None, walltime=None
     :type tag_scalar_dict: dict
     :param global_step: Global step value to record.
     :type global_step: int
-    :param walltime: Optional override default walltime (time.time()) of event.
-    :type walltime: float
+    :param walltime: 打点时间，默认值为 time.time()
+    :type walltime: optional, float
     """
 ```
 
