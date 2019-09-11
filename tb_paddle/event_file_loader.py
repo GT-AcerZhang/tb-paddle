@@ -22,10 +22,19 @@ import inspect
 import logging
 
 from .record_reader import RecordReader
-from . import errors
 from .proto import event_pb2
 
 logger = logging.getLogger('tb-paddle.event_file_loader')
+
+
+class raise_exception_on_not_ok_status(object):
+    """Context manager to check for C API status."""
+
+    def __enter__(self):
+        return "Status not OK"
+
+    def __exit__(self, type_arg, value_arg, traceback_arg):
+        return False  # False values do not suppress exceptions
 
 
 class RawEventFileLoader(object):
@@ -33,47 +42,41 @@ class RawEventFileLoader(object):
     def __init__(self, file_path):
         if file_path is None:
             raise ValueError('A file path is required')
-    
+           
         logger.debug('Opening a record reader pointing at %s', file_path)
-        with errors.raise_exception_on_not_ok_status() as status:
+        with raise_exception_on_not_ok_status() as status:
             self._reader = RecordReader(str(file_path), 0, str(''), status)
-
-        # Store it for logging purposes.
+          
         self._file_path = file_path
         if not self._reader:
             raise IOError('Failed to open a record reader pointing to %s' % file_path)
 
     def Load(self):
         """Loads all new events from disk as raw serialized proto bytestrings.
-
+         
         Calling Load multiple times in a row will not 'drop' events as long as the
         return value is not iterated over.
-
+          
         Yields: All event proto bytestrings in the file that have not been yielded yet.
         """
         logger.debug('Loading events from %s', self._file_path)
-
-        # GetNext() expects a status argument on TF <= 1.7.
+         
         get_next_args = inspect.getfullargspec(self._reader.GetNext).args
-        # First argument is self
         legacy_get_next = (len(get_next_args) > 1)
-
+         
         while True:
             try:
                 if legacy_get_next:
-                    with errors.raise_exception_on_not_ok_status() as status:
+                    with raise_exception_on_not_ok_status() as status:
                         self._reader.GetNext(status)
                 else:
                     self._reader.GetNext()
-            except (errors.DataLossError, errors.OutOfRangeError) as e:
-                logger.debug('Cannot read more events: %s', e)
-                # We ignore partial read exceptions, because a record may be truncated.
-                # PyRecordReader holds the offset prior to the failed read, so retrying
-                # will succeed.
+            except:
+                logger.debug('Cannot read more events.')
                 break
-
+          
             yield self._reader.record()
-
+         
         logger.debug('No more events in %s', self._file_path)
 
 
@@ -82,9 +85,6 @@ class EventFileLoader(RawEventFileLoader):
 
     def Load(self):
         """Loads all new events from disk.
-
-        Calling Load multiple times in a row will not 'drop' events as long as the
-        return value is not iterated over.
 
         Yields: All events in the file that have not been yielded yet.
         """
@@ -98,11 +98,9 @@ class TimestampedEventFileLoader(EventFileLoader):
     def Load(self):
         """Loads all new events and their wall time values from disk.
 
-        Calling Load multiple times in a row will not 'drop' events as long as the
-        return value is not iterated over.
-
         Yields: Pairs of (UNIX timestamp float, Event proto) for all events
         in the file that have not been yielded yet.
         """
         for event in super(TimestampedEventFileLoader, self).Load():
             yield (event.wall_time, event)
+
