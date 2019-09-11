@@ -17,35 +17,27 @@ install:
       fi
     - bash miniconda.sh -b -p $HOME/miniconda
     - export PATH="$HOME/miniconda/bin:$PATH"
-    - export BOTO_CONFIG=/dev/null
     - export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
     - hash -r
     - conda config --set always_yes yes --set changeps1 no
     - conda update -q conda
-    - conda info -a
     
     - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
     - source activate test-environment
     - which python
     - pip install future
     - pip install numpy
-    - pip install chainer -q
-    - pip install moviepy==0.2.3.2 -q
-    - pip install matplotlib -q
-    - pip install requests -q
-    - pip install codecov
-    - pip install boto3
-    - pip install moto
-    - pip install visdom
+    - pip install protobuf==3.8.0
+    - pip install six
+    - pip install pillow
+    - pip install moviepy
+    - pip install matplotlib
+    - pip install requests
     - pip install tb-nightly
     - pip install crc32c
-    - pip install protobuf==3.8.0
-    - pip install --upgrade pytest-cov flake8
+    - pip install flake8
     - pip install paddlepaddle
-    - pip install pillow
-    - conda install ffmpeg
     - conda list
-    - python -c "import imageio; imageio.plugins.ffmpeg.download()"
     - python setup.py install
 
 script:
