@@ -51,7 +51,7 @@ def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', 
 
 其中各个参数的含义为：
 
-* `logdir` ：指定日志文件的存放路径，如果指定路径中没有 tfevents 文件，则新建一个 tfevents 文件，否则会向已有的 tfevents 文件中写数据。`logdir`的实参可以为`None`，则存放路径设为`./runs/DATETIME_HOSTNAME/`；
+* `logdir` ：指定日志文件的存放路径，如果指定路径中没有 tfevents 文件，就新建一个 tfevents 文件，否则会向已有的 tfevents 文件中写数据。`logdir`的实参可以为`None`，存放路径将设为`./runs/DATETIME_HOSTNAME/`；
 * `max_queue` ： 缓冲区队列的最大长度；
 * `comment` ：如果`logdir`为`None`，则在默认存放路径中添加后缀。如果`logdir`不是`None`，那么该参数没有任何作用；
 * `filename_suffix` ：event 文件名后缀；
