@@ -17,14 +17,13 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import six
 import inspect
 import logging
 
 from .record_reader import RecordReader
 from .proto import event_pb2
 
-logger = logging.getLogger('tb-paddle.event_file_loader')
+logger = logging.getLogger('Event_File_Loader')
 
 
 class raise_exception_on_not_ok_status(object):
