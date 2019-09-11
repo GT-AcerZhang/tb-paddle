@@ -39,7 +39,6 @@ message Event {
   }
 }
 
-// Protocol buffer used for logging messages to the events file.
 message LogMessage {
   enum Level {
     UNKNOWN = 0;
@@ -53,7 +52,6 @@ message LogMessage {
   string message = 2;
 }
 
-// Protocol buffer used for logging session state.
 message SessionLog {
   enum SessionStatus {
     STATUS_UNSPECIFIED = 0;
@@ -68,7 +66,6 @@ message SessionLog {
   string msg = 3;
 }
 
-// For logging the metadata output for a single session.run() call.
 message TaggedRunMetadata {
   // Tag name associated with this metadata.
   string tag = 1;

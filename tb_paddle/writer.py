@@ -10,7 +10,7 @@ import json
 import os
 import six
 import time
-import logging
+from .logger import logger
 
 from .embedding import make_mat, make_sprite, make_tsv, append_pbtxt
 from .event_file_writer import EventFileWriter
@@ -441,7 +441,7 @@ class SummaryWriter(object):
             if isinstance(labels, str):
                 labels = [labels]
             if len(labels) != box_tensor.shape[0]:
-                logging.warning('Number of labels do not equal to number of box, skip the labels.')
+                logger.warning('Number of labels do not equal to number of box, skip the labels.')
                 labels = None
 
         self._get_file_writer().add_summary(image_boxes(

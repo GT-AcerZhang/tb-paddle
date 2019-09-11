@@ -1,9 +1,5 @@
 # coding=utf-8
-import numpy as np
 import six
-import logging
-import time
-import paddle.fluid as fluid
 
 from collections import OrderedDict
 from .proto.attr_value_pb2 import AttrValue
