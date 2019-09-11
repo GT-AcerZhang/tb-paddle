@@ -5,7 +5,7 @@
 
 ## 简介
 
-tb-paddle 是一个用于在 TensorBoard 中查看 Paddle 打点数据的可视化工具。
+tb-paddle 是一个用于在 TensorBoard 中查看 PaddlePaddle 打点数据的可视化工具。
 
 目前 tb-paddle 支持 SCALARS, HISTOGRAMS, DISTRIBUTIONS, GRAPHS, IMAGES, TEXT,
 AUDIO, PROJECTOR,PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
