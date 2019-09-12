@@ -47,9 +47,11 @@ script:
     - python add_text-demo.py
     - python add_image-demo.py
     - python add_audio-demo.py
+    - python add_embedding.py
     - python add_custom_scalars-demo.py
     - python add_pr_curve-demo.py
     - python add_paddle_graph-demo.py
+    - python get_scalar-demo.py
     
 after_success:
     - sleep 1
