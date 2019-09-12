@@ -4,8 +4,7 @@ import os.path
 import re
 import struct
 
-from .crc32c import crc32c
-
+from .crc32c import *
 
 _VALID_OP_NAME_START = re.compile('^[A-Za-z0-9.]')
 _VALID_OP_NAME_PART = re.compile('[A-Za-z0-9_.\\-/]+')
@@ -44,15 +43,6 @@ class RecordWriter(object):
 
     def close(self):
         self._writer.close()
-
-
-def masked_crc32c(data):
-    x = u32(crc32c(data))
-    return u32(((x >> 15) | u32(x << 17)) + 0xa282ead8)
-
-
-def u32(x):
-    return x & 0xffffffff
 
 
 def make_valid_tf_name(name):
