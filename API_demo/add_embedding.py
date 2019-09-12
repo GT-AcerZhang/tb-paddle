@@ -29,7 +29,6 @@ for step_id, data in enumerate(train_reader()):
 
 for i in range(len(data_dict[0])):
     mat[i] = data_dict[0][i][0]
-    # type(data[i][1]) : int
     metadata[i] = data_dict[0][i][1]
 
 label_img = mat.reshape(BATCH_SIZE, 1, 28, 28)
