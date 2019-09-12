@@ -54,7 +54,7 @@ class RawEventFileLoader(object):
           
         Yields: All event proto bytestrings in the file that have not been yielded yet.
         """
-        get_next_args = inspect.getfullargspec(self._reader.GetNext).args
+        get_next_args = inspect.getargspec(self._reader.GetNext).args
         legacy_get_next = (len(get_next_args) > 1)
          
         while True:
