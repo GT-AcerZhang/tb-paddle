@@ -1,4 +1,4 @@
-# coding = utf-8
+# coding=utf-8
 import numpy as np
 import paddle
 from tb_paddle import SummaryWriter
@@ -34,7 +34,5 @@ for i in range(len(data_dict[0])):
 label_img = mat.reshape(BATCH_SIZE, 1, 28, 28)
 writer.add_embedding(mat=mat, metadata=metadata, label_img=label_img, global_step=step_id)
 
-# 如果只有 add_embedding, 没有其他数据添加语句，前端会找不到 embedding 的数据
 writer.add_scalar('echo', 1, 0)
-
 writer.close()
