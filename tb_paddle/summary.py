@@ -35,7 +35,7 @@ def _clean_tag(name):
         new_name = _INVALID_TAG_CHARACTERS.sub('_', name)
         new_name = new_name.lstrip('/')  # Remove leading slashes
         if new_name != name:
-            logger.info('Summary name %s is illegal; using %s instead.' % (name, new_name))
+            logger.warning('Summary name {} is illegal; using {} instead.'.format(name, new_name))
             name = new_name
     return name
 
@@ -310,7 +310,7 @@ def make_video(tensor, fps):
     try:
         os.remove(filename)
     except OSError:
-        logger.warning('The temporary file used by moviepy cannot be deleted.')
+        logger.error('The temporary file used by moviepy cannot be deleted.')
 
     return Summary.Image(height=h, width=w, colorspace=c, encoded_image_string=tensor_string)
 

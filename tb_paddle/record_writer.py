@@ -1,13 +1,7 @@
-import copy
-import io
 import os.path
-import re
 import struct
 
 from .crc32c import *
-
-_VALID_OP_NAME_START = re.compile('^[A-Za-z0-9.]')
-_VALID_OP_NAME_PART = re.compile('[A-Za-z0-9_.\\-/]+')
 
 REGISTERED_FACTORIES = {}
 
@@ -44,9 +38,3 @@ class RecordWriter(object):
     def close(self):
         self._writer.close()
 
-
-def make_valid_tf_name(name):
-    if not _VALID_OP_NAME_START.match(name):
-        # Must make it valid somehow, but don't want to remove stuff
-        name = '.' + name
-    return '_'.join(_VALID_OP_NAME_PART.findall(name))

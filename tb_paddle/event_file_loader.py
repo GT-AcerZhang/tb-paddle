@@ -40,7 +40,7 @@ class RawEventFileLoader(object):
         if file_path is None:
             raise ValueError('A file path is required')
            
-        logger.debug('Opening a record reader pointing at %s', file_path)
+        logger.info('Opening a record reader pointing at {}'.format(file_path))
         with raise_exception_on_not_ok_status() as status:
             self._reader = RecordReader(str(file_path), 0, str(''), status)
           
@@ -56,7 +56,7 @@ class RawEventFileLoader(object):
           
         Yields: All event proto bytestrings in the file that have not been yielded yet.
         """
-        logger.debug('Loading events from %s', self._file_path)
+        logger.info('Loading events from {}'.format(self._file_path))
          
         get_next_args = inspect.getfullargspec(self._reader.GetNext).args
         legacy_get_next = (len(get_next_args) > 1)
@@ -69,12 +69,12 @@ class RawEventFileLoader(object):
                 else:
                     self._reader.GetNext()
             except:
-                logger.debug('Cannot read more events.')
+                logger.info('Cannot read more events.')
                 break
           
             yield self._reader.record()
          
-        logger.debug('No more events in %s', self._file_path)
+        logger.info('No more events in {}'.format(self._file_path))
 
 
 class EventFileLoader(RawEventFileLoader):
