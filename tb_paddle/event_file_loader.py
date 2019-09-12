@@ -23,6 +23,7 @@ from .logger import logger
 from .record_reader import RecordReader
 from .proto import event_pb2
 
+
 class raise_exception_on_not_ok_status(object):
     """Context manager to check for C API status."""
 
