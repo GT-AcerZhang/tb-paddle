@@ -18,13 +18,10 @@ from __future__ import division
 from __future__ import print_function
 
 import inspect
-import logging
 
+from .logger import logger
 from .record_reader import RecordReader
 from .proto import event_pb2
-
-logger = logging.getLogger('Event_File_Loader')
-
 
 class raise_exception_on_not_ok_status(object):
     """Context manager to check for C API status."""
