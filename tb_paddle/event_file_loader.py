@@ -42,7 +42,7 @@ class RawEventFileLoader(object):
            
         logger.info('Opening a record reader pointing at {}'.format(file_path))
         with raise_exception_on_not_ok_status() as status:
-            self._reader = RecordReader(str(file_path), 0, str(''), status)
+            self._reader = RecordReader(str(file_path), 0, None, status)
           
         self._file_path = file_path
         if not self._reader:
@@ -69,12 +69,11 @@ class RawEventFileLoader(object):
                 else:
                     self._reader.GetNext()
             except:
-                logger.info('Cannot read more events.')
                 break
           
             yield self._reader.record()
          
-        logger.info('No more events in {}'.format(self._file_path))
+        logger.info('Meet a termination in {}'.format(self._file_path))
 
 
 class EventFileLoader(RawEventFileLoader):
