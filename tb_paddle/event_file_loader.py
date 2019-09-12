@@ -19,7 +19,6 @@ from __future__ import print_function
 
 import inspect
 
-from .logger import logger
 from .record_reader import RecordReader
 from .proto import event_pb2
 
@@ -40,7 +39,6 @@ class RawEventFileLoader(object):
         if file_path is None:
             raise ValueError('A file path is required')
            
-        logger.info('Opening a record reader pointing at {}'.format(file_path))
         with raise_exception_on_not_ok_status() as status:
             self._reader = RecordReader(str(file_path), 0, None, status)
           
@@ -56,8 +54,6 @@ class RawEventFileLoader(object):
           
         Yields: All event proto bytestrings in the file that have not been yielded yet.
         """
-        logger.info('Loading events from {}'.format(self._file_path))
-         
         get_next_args = inspect.getfullargspec(self._reader.GetNext).args
         legacy_get_next = (len(get_next_args) > 1)
          
@@ -73,8 +69,6 @@ class RawEventFileLoader(object):
           
             yield self._reader.record()
          
-        logger.info('Meet a termination in {}'.format(self._file_path))
-
 
 class EventFileLoader(RawEventFileLoader):
     """An iterator that yields parsed Event protos."""
