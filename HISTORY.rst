@@ -24,5 +24,11 @@ History
 
 0.3.4 (2019-09-12)
 
-* modify the logging config;  * add RecordReader and Event\_File\_loader.
+* modify the logging config.
+
+* add RecordReader and Event\_File\_loader.
+
+0.3.5 (2019-09-12)
+
+* add SummaryReader
 
