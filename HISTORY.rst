@@ -14,10 +14,15 @@ History
 
 0.3.2 (2019-09-04)
 
-* Optimize the display effect of bbox; 
+* Optimize the display effect of bbox.
 
 * Append setup requirements - moviepy, which is necessary for API add\_video.
 
 0.3.3 (2019-09-05)
 
 * Fix the bug of Paddle Graph.
+
+0.3.4 (2019-09-12)
+
+* modify the logging config;  * add RecordReader and Event\_File\_loader.
+
