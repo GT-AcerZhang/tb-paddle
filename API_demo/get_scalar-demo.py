@@ -1,6 +1,5 @@
 # coding=utf-8
 import os
-import time
 import numpy
 
 def log_scalar(dir_path, tag):
