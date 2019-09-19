@@ -32,3 +32,7 @@ History
 
 * add SummaryReader
 
+0.3.6 (2019-09-19)
+
+* modify the limitation of tag.
+
