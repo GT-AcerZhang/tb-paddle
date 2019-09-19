@@ -5,7 +5,6 @@ from __future__ import print_function
 from .logger import logger
 import numpy as np
 import os
-import re as _re
 
 from six.moves import range
 from .proto.summary_pb2 import Summary
