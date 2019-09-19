@@ -30,12 +30,12 @@ def add_embedding(self, mat, metadata=None, label_img=None, global_step=None, ta
 Demo-1  add_embedding-mnist.py
 
 ```python
-# coding = utf-8
+# coding=utf-8
 import numpy as np
 import paddle
 from tb_paddle import SummaryWriter
 
-writer = SummaryWriter('./log')
+writer = SummaryWriter('log')
 
 BATCH_SIZE = 1024
 reader_shuffle = paddle.reader.shuffle(paddle.dataset.mnist.train(), buf_size=5120)
@@ -46,25 +46,27 @@ train_reader = paddle.batch(
 
 mat = np.zeros([BATCH_SIZE, 784])
 metadata = np.zeros(BATCH_SIZE)
+
+data_dict = {}
 for step_id, data in enumerate(train_reader()):
     # type(data) : <class 'list'>
     # len(data)  : BATCH_SIZE
-    for i in range(len(data)):
-        # type(data[i][0]) : <class 'numpy.ndarray'>
-        # data[i][0].shape : (784,)
-        mat[i] = data[i][0]
-        # type(data[i][1]) : int
-        metadata[i] = data[i][1]
+    # type(data[i]) : <class 'tuple'>
+    # type(data[i][0]) : <class 'numpy.ndarray'>
+    # data[i][0].shape : (784,)
+    # type(data[i][1]) : <class 'int'>
+    data_dict[step_id] = data
+    if step_id > 0:
+        break 
 
-    label_img = mat.reshape(BATCH_SIZE, 1, 28, 28)
-    print('Step %d' % step_id)
+for i in range(len(data_dict[0])):
+    mat[i] = data_dict[0][i][0]
+    metadata[i] = data_dict[0][i][1]
 
-writer.add_embedding(mat=mat, metadata=metadata,
-    label_img=label_img, global_step=step_id)
+label_img = mat.reshape(BATCH_SIZE, 1, 28, 28)
+writer.add_embedding(mat=mat, metadata=metadata, label_img=label_img, global_step=step_id)
 
-# 如果只有 add_embedding, 没有其他数据添加语句，前端会找不到 embedding 的数据
 writer.add_scalar('echo', 1, 0)
-
 writer.close()
 ```
 
