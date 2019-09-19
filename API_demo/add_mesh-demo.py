@@ -29,7 +29,7 @@ faces_tensor = np.array([[
     [1, 4, 5],
 ]], dtype=int)
 
-writer = SummaryWriter('log')
+writer = SummaryWriter('./log')
 writer.add_mesh('my_mesh', vertices=vertices_tensor, 
     colors=colors_tensor, faces=faces_tensor)
 

@@ -2,7 +2,7 @@
 import numpy as np
 from tb_paddle import SummaryWriter
 
-writer = SummaryWriter('log')
+writer = SummaryWriter('./log')
 
 r = 5 
 for i in range(100):

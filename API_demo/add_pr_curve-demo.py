@@ -11,7 +11,7 @@ for step_ in range(10):
     predictions_ = np.random.rand(100)
     
     for num_thresholds_ in range(7, 197, 20):
-        tag_ = 'pr_curve-' + str(num_thresholds_)
+        tag_ = 'precison-recall curve/' + str(num_thresholds_)
         writer.add_pr_curve(tag=tag_, 
                             labels=labels_, 
                             predictions=predictions_, 

@@ -2,7 +2,7 @@
 import numpy as np
 from tb_paddle import SummaryWriter
 
-writer = SummaryWriter('log')
+writer = SummaryWriter('./log')
 
 sample_rate = 44100
 data = np.zeros(sample_rate * 5)

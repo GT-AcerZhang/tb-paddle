@@ -3,7 +3,7 @@ import numpy as np
 import paddle
 from tb_paddle import SummaryWriter
 
-writer = SummaryWriter('log')
+writer = SummaryWriter('./log')
 
 BATCH_SIZE = 1024
 reader_shuffle = paddle.reader.shuffle(paddle.dataset.mnist.train(), buf_size=5120)
