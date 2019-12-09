@@ -52,3 +52,9 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 <img src="../screenshots/add_text.png" width=600><br/>
 图1. add_text - 显示文本 <br/>
 </p>
+
+**注** Tensorboard 的 text 使用 markdown 的解析方式。如果需要换行，则需要在 `\n` 前添加两个空格，例如
+
+```
+line_1  \nline2  \nline3
+```
