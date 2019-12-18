@@ -51,19 +51,19 @@ def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', 
 
 其中各个参数的含义为：
 
-* `logdir` ：指定日志文件的存放路径，如果指定路径中没有 tfevents 文件，就新建一个 tfevents 文件，否则会向已有的 tfevents 文件中写数据。`logdir`的实参可以为`None`，存放路径将设为`./runs/DATETIME_HOSTNAME/`；
+* `logdir` ：指定日志文件的存放路径，如果指定路径中没有 tfevents 文件，就新建一个 tfevents 文件，否则会向已有的 tfevents 文件中写数据。`logdir`的实参可以为 `None`，存放路径将设为 `./runs/DATETIME_HOSTNAME/`；
 * `max_queue` ： 缓冲区队列的最大长度；
 * `comment` ：如果`logdir`为`None`，则在默认存放路径中添加后缀。如果`logdir`不是`None`，那么该参数没有任何作用；
 * `filename_suffix` ：event 文件名后缀；
 
 ## TensorBoard 启动命令
 
-启动 TensorBoard 服务的命令为`tensorboard`，输入 `tensorboard --helpful` 则可查看此命令的帮助文档。
+启动 TensorBoard 服务的命令为 `tensorboard`，输入 `tensorboard --helpful` 则可查看此命令的帮助文档。
 
-启动 TensorBoard 服务，选项`--logdir`是必须的，通常还会使用选项`--host`指定IP地址, 选项`--port`指定可用端口：
+`tensorboard` 命令必须搭配选项 `--logdir` 指定加载文件的目录路径，通常还需使用选项 `--host` 指定机器的 IP 地址, 选项 `--port` 指定端口号：
 
 ```
-tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_num>
+tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_number>
 ```
 
 这几个选项的详细解释:
@@ -78,8 +78,7 @@ tensorboard --logdir ExperimentA:path/to/A_dir,ExperimentB:another/path/to/B_dir
 
 只需在不同目录名间加上逗号(`,`) ，则可同时指定多个目录。
 
-事实上，TensorBoard 会自动检查指定目录下的所有子目录中的 `tfevents` 文件，并在前端网页中
-按 `Runs` 分类，比如目录结构为：
+TensorBoard 会递归地检查指定目录中的所有子目录，并加载其中的日志文件，在前端网页中按 `Runs` 分类。比如目录结构为：
 
 ```
 log
@@ -93,7 +92,7 @@ log
 |____paddle_log
 ```
 
-则在 TensorBoard 前端页面的左侧栏中显示为：
+则在 TensorBoard 页面的左侧栏中显示为：
 
 <p align="center">
 <img src="./screenshots/tensorboard_manuals/Runs.png" width=300><br/>
@@ -101,11 +100,11 @@ log
 
 2. `--host`
 
-机器的IP地址，单机运行时，指定为 `--host 0.0.0.0`。
+机器的IP地址，单机运行时，指定为 `0.0.0.0`。
 
 3. `--port`
 
-可访问的端口。单机运行时，指定为`--port 6***`； 在服务器上运行时，指定为`--port 8***`。
+可访问的端口。单机运行时，指定为`6***`； 在服务器上运行时，指定为`8***`。
 
 ## 特别致谢
 
