@@ -60,7 +60,7 @@ def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', 
 
 启动 TensorBoard 服务的命令为 `tensorboard`，输入 `tensorboard --helpful` 则可查看此命令的帮助文档。
 
-`tensorboard` 命令必须搭配选项 `--logdir` 指定加载文件的目录路径，通常还需使用选项 `--host` 指定机器的 IP 地址, 选项 `--port` 指定端口号：
+`tensorboard` 命令必须搭配选项 `--logdir` 指定日志文件的目录路径，通常还需使用选项 `--host` 指定机器的 IP 地址, 选项 `--port` 指定端口号：
 
 ```
 tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_number>
@@ -70,15 +70,13 @@ tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_number>
 
 1. `--logdir`
 
-`--logdir` 用于指定 `tfevents` 文件的存放路径，可以同时指定多个目录，比如：
+选项 `--logdir` 用于指定日志文件的目录路径，在不同的目录路径间加上逗号，则可同时指定多个目录。例如：
 
 ```
-tensorboard --logdir ExperimentA:path/to/A_dir,ExperimentB:another/path/to/B_dir
+tensorboard --logdir A:path/to/A_dir,B:another_path/to/B_dir
 ```
 
-只需在不同目录名间加上逗号(`,`) ，则可同时指定多个目录。
-
-TensorBoard 会递归地检查指定目录中的所有子目录，并加载其中的日志文件，在前端网页中按 `Runs` 分类。比如目录结构为：
+TensorBoard 会递归地检查指定目录中的所有子目录，并加载其中的日志文件，在前端网页中可点击 `Runs` 进行分类。比如目录结构为：
 
 ```
 log
