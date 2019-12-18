@@ -41,9 +41,9 @@ pip install tb-paddle
 
 ## 创建 SummaryWriter 类的对象
 
-使用 tb-paddle，首先得创建类`SummaryWriter`的对象，然后才能调用对象的成员函数来添加打点数据。
+使用 tb-paddle，首先得创建 `class SummaryWriter` 的对象，然后才能调用对象的成员函数向日志文件中添加打点数据。
 
-创建 [class SummaryWriter](tb_paddle/writer.py#L177) 的初始化函数的定义：
+[class SummaryWriter](tb_paddle/writer.py#L177) 的初始化函数的定义：
 
 ```python
 def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', **kwargs):
