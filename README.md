@@ -110,7 +110,6 @@ log
 ## 特别致谢
 
 tb-paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础上修改的，
-tb-paddle 的框架和 API 接口均沿用了 tensorboardX。与 tensorboardX 不同的是，
-tb-paddle 的API接口的参数类型为`numpy.ndarray`和Python基本数据类型，
-并根据 Paddle 框架重新实现了GRAPHS栏目的计算图显示。
+tb-paddle 的框架和 API 名称大多沿用了 tensorboardX。与 tensorboardX 不同的是，tb-paddle 的 API 的参数类型为 `numpy.ndarray`。
+`SummaryWriter` 的函数 `add_paddle_graph`，可打点记录 `paddle.fluid.Program()`， 进而可在 TensorBoard 的 GRAPHS 栏目显示计算图。
 此处由衷感谢[Tzu-Wei Huang](https://github.com/lanpa)的开源贡献。
