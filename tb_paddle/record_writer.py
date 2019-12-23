@@ -19,8 +19,6 @@ def directory_check(path):
 
 class RecordWriter(object):
     def __init__(self, path):
-        self._name_to_tf_name = {}
-        self._tf_names = set()
         self.path = path
         self._writer = open(path, 'wb')
 
