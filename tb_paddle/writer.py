@@ -23,6 +23,7 @@ from .summary import (
 )
 
 from .paddle_graph import paddle_graph
+from .hparams_summary import hparams_pb, hparams_config_pb
 
 
 class FileWriter(object):
@@ -30,9 +31,7 @@ class FileWriter(object):
 
     The `FileWriter` class provides a mechanism to create an event file in a
     given directory and add summaries and events to it. The class updates the
-    file contents asynchronously. This allows a training program to call methods
-    to add data to the file directly from the training loop, without slowing down
-    training.
+    file contents asynchronously.
     """
 
     def __init__(self, logdir, max_queue=1024, filename_suffix=''):
@@ -42,15 +41,14 @@ class FileWriter(object):
         the event file.
 
         :param logdir: Directory where event file will be written.
-        :type logdir:  string
+        :type logdir:  str
         :param max_queue: Size of the queue for pending events and
-                          summaries before one of the 'add' calls forces a
-                          flush to disk.
-        :type max_queue: Integer
+            summaries before one of the 'add' calls forces a flush to disk.
+        :type max_queue: int
         :param filename_suffix: Suffix added to all event filenames in the logdir directory.
-                                More details on filename construction in
-                                tensorboard.summary.writer.event_file_writer.EventFileWriter.
-        :type filename_suffix: string
+            More details on filename construction in 
+            tensorboard.summary.writer.event_file_writer.EventFileWriter.
+        :type filename_suffix: str
         """
         logdir = str(logdir)
         self.event_writer = EventFileWriter(logdir, max_queue, filename_suffix)
@@ -77,6 +75,7 @@ class FileWriter(object):
 
     def add_summary(self, summary, global_step=None, walltime=None):
         """Adds a `Summary` protocol buffer to the event file.
+
         This method wraps the provided summary in an `Event` protocol buffer
         and adds it to the event file.
 
@@ -91,7 +90,6 @@ class FileWriter(object):
 
     def add_graph(self, GraphDef_proto, walltime=None):
         """Adds a `GraphDef` protocol buffer to the event file.
-
 
         :param graph_profile: A GraphDef protocol buffer.
         :param walltime: Optional walltime to override default
@@ -120,18 +118,21 @@ class FileWriter(object):
 
     def flush(self):
         """Flushes the event file to disk.
+
         Call this method to make sure that all pending events have been written to disk.
         """
         self.event_writer.flush()
 
     def close(self):
         """Flushes the event file to disk and close the file.
+
            Call this method when you do not need the summary writer anymore.
         """
         self.event_writer.close()
 
     def reopen(self):
         """Reopens the EventFileWriter.
+
         Can be called after `close()` to add more events in the same directory.
         The events will go into a new events file.
         Does nothing if the EventFileWriter was not closed.
@@ -145,14 +146,11 @@ class SummaryWriter(object):
 
     The `SummaryWriter` class provides a high-level API to create an event file
     in a given directory and add summaries and events to it. The class updates the
-    file contents asynchronously. This allows a training program to call methods
-    to add data to the file directly from the training loop, without slowing down
-    training.
+    file contents asynchronously.
     """
 
     def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', **kwargs):
-        """Creates a `SummaryWriter` that will write out events and summaries
-        to the event file.
+        """Creates a `SummaryWriter` that will write out events and summaries to the event file.
 
         :param logdir: Save directory location. Default is runs/**CURRENT_DATETIME_HOSTNAME**,
                        which changes after each run. Use hierarchical folder structure to 
@@ -298,8 +296,8 @@ class SummaryWriter(object):
         :param global_step: Global step value to record.
         :type global_step: int
         :param bins: One of {'tensorflow','auto', 'fd', ...}.
-                     This determines how the bins are made. You can find other options in:
-                     https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+            This determines how the bins are made. You can find other options in:
+            https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
         :type bins: string
         :param walltime: Optional override default walltime (time.time()) of event.
         :type walltime: float
@@ -316,7 +314,7 @@ class SummaryWriter(object):
         """Adds histogram with raw data.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param min: Min value.
         :type min: float or int
         :param max: Max value.
@@ -351,18 +349,18 @@ class SummaryWriter(object):
         Note that this requires the `pillow` package.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param img_tensor: An `uint8` or `float` Tensor of shape `[channel, height, width]` where
-                           `channel` is 1, 3, or 4. The elements in img_tensor can either have values
-                           in [0, 1] (float32) or [0, 255] (uint8).
-                           Users are responsible to scale the data in the correct range/type.
+            `channel` is 1, 3, or 4. The elements in img_tensor can either have values
+             in [0, 1] (float32) or [0, 255] (uint8).
+             Users are responsible to scale the data in the correct range/type.
         :type img_tensor: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
         :param walltime: Optional override default walltime (time.time()) of event.
         :type walltime: float
         :param dataformats: This parameter specifies the meaning of each dimension of the input tensor.
-        :type dataformats: string
+        :type dataformats: str
 
         Shape:
             img_tensor: Default is :math:`(3, H, W)`,
@@ -375,6 +373,7 @@ class SummaryWriter(object):
 
     def add_images(self, tag, img_tensor, global_step=None, walltime=None, dataformats='NCHW'):
         """Add batched (4D) image data to summary.
+
         Besides passing 4D (NCHW) tensor, you can also pass a list of tensors of the same size.
         In this case, the ``dataformats`` should be `CHW` or `HWC`.
         Note that this requires the ``pillow`` package.
@@ -600,7 +599,9 @@ class SummaryWriter(object):
     def add_pr_curve(self, tag, labels, predictions, global_step=None,
                      num_thresholds=127, weights=None, walltime=None):
         """Adds precision recall curve.
-        Plotting a precision-recall curve lets you understand your model's performance under different threshold settings.
+
+        Plotting a precision-recall curve lets you understand your model's 
+        performance under different threshold settings.
         With this function, you provide the ground truth labeling (T/F)
         and prediction confidence (usually the output of your model) for each target.
         The TensorBoard UI will let you choose the threshold interactively.
@@ -672,6 +673,7 @@ class SummaryWriter(object):
 
     def add_custom_scalars_multilinechart(self, tags, category='default', title='untitled'):
         """Shorthand for creating multilinechart.
+
         Similar to ``add_custom_scalars()``, but the only necessary argument is *tags*.
 
         :param tags: list of tags that have been used in ``add_scalar()``
@@ -683,8 +685,10 @@ class SummaryWriter(object):
 
     def add_custom_scalars_marginchart(self, tags, category='default', title='untitled'):
         """Shorthand for creating marginchart.
-        Similar to ``add_custom_scalars()``, but the only necessary argument is *tags*, which should have exactly 3 elements.
-
+         
+        Similar to ``add_custom_scalars()``, but the only necessary argument is *tags*, 
+        which should have exactly 3 elements.
+          
         :param tags: list of tags that have been used in ``add_scalar()``
         :type tags: list of string.
         """
@@ -695,24 +699,29 @@ class SummaryWriter(object):
 
     def add_custom_scalars(self, layout):
         """Create special chart by collecting charts tags in 'scalars'.
+         
         Note that this function can only be called once for each SummaryWriter() object.
-        Because it only provides metadata to tensorboard, the function can be called before or after the training loop.
-
+        Because it only provides metadata to tensorboard, the function can be called 
+        before or after the training loop.
+         
         :param layout: {categoryName: *charts*}, where *charts* is also a dictionary
-              {chartName: *ListOfProperties*}. The first element in *ListOfProperties* is the chart's type
-              (one of **Multiline** or **Margin**) and the second element should be a list containing the tags
-              you have used in add_scalar function, which will be collected into the new chart.
+              {chartName: *ListOfProperties*}. The first element in *ListOfProperties* 
+              is the chart's type (one of **Multiline** or **Margin**) and the second 
+              element should be a list containing the tags you have used in add_scalar 
+              function, which will be collected into the new chart.
         :type layout: dict
         """
         self._get_file_writer().add_summary(custom_scalars(layout))
         self.flush()
-
+         
     def add_mesh(self, tag, vertices, colors=None, faces=None, config_dict=None, global_step=None, walltime=None):
-        """Add meshes or 3D point clouds to TensorBoard. The visualization is based on Three.js,
-        so it allows users to interact with the rendered object. Besides the basic definitions
-        such as vertices, faces, users can further provide camera parameter, lighting condition, etc.
+        """Add meshes or 3D point clouds to TensorBoard. 
+          
+        The visualization is based on Three.js, so it allows users to interact with 
+        the rendered object. Besides the basic definitions such as vertices, faces, 
+        users can further provide camera parameter, lighting condition, etc.
         Note that currently this depends on tb-nightly to show.
-
+         
         :param tag: Data identifier.
         :type tag: string
         :param vertices: List of the 3D coordinates of vertices.
@@ -734,9 +743,59 @@ class SummaryWriter(object):
             colors: :math:`(B, N, 3)`. The values should lie in [0, 255].
             faces: :math:`(B, N, 3)`. The values should lie in [0, number_of_vertices] for type `uint8`.
         """
-        self._get_file_writer().add_summary(mesh(tag, vertices, colors, faces, config_dict), global_step, walltime)
+        self._get_file_writer().add_summary(
+            mesh(tag, vertices, colors, faces, config_dict), global_step, walltime
+            )
         self.flush()
+
+    def add_hparams(self, hparams, trial_id=None, start_time_secs=None, global_step=None):
+        """Write hyperparameter values for a single trial.
+         
+        :param hparams: A `dict` mapping hyperparameters to the values used in 
+            this trial. Keys should be the names of `HParam` objects used in an
+            experiment, or the `HParam` objects themselves. Values should be
+            Python `bool`, `int`, `float`, or `string` values, depending on
+            the type of the hyperparameter.
+        :param trial_id: string ID for the set of hyperparameter values used in 
+            this trial. Defaults to a hash of the hyperparameters.
+        :type trial_id: str, optional
+        :param start_time_secs: The time that this trial started training, as
+            seconds since epoch. Defaults to the current time.
+
+        Returns:
+            A tensor whose value is `True` on success, or `False` if no summary
+            was written because no default summary writer was available.
+        """
+        hparams_summary = hparams_pb(
+            hparams=hparams, trial_id=trial_id, start_time_secs=start_time_secs
+            )
+        self._get_file_writer().add_summary(hparams_summary, global_step) 
+        self.flush()
+
+    def add_hparams_config(self, hparams, metrics, time_created_secs=None):
+        """Write a top-level experiment configuration.
+
+        This configuration describes the hyperparameters and metrics that will
+        be tracked in the experiment, but does not record any actual values of
+        those hyperparameters and metrics. It can be created before any models
+        are actually trained.
+
         
+        :param hparams: A list of `HParam` object.
+        :param metrics: A list of `Metric` object.
+        :param time_created_secs: The time that this experiment was created, as
+            seconds since epoch. Defaults to the current time.
+
+        Returns:
+            A tensor whose value is `True` on success, or `False` if no summary
+            was written because no default summary writer was available.
+        """
+        hparams_config_summary = hparams_config_pb(
+            hparams=hparams, metrics=metrics, time_created_secs=time_created_secs
+            )
+        self._get_file_writer().add_summary(hparams_config_summary)
+        self.flush()        
+
     def close(self):
         if self.all_writers is None:
             return  # ignore double close
@@ -750,3 +809,4 @@ class SummaryWriter(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
+
