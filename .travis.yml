@@ -2,7 +2,9 @@ dist: xenial
 language: python
 python:
     - "2.7"
+    - "3.5"
     - "3.6"
+    - "3.7"
 
 env:
     - PADDLE_VER="paddlepaddle"
@@ -17,14 +19,12 @@ install:
       fi
     - bash miniconda.sh -b -p $HOME/miniconda
     - export PATH="$HOME/miniconda/bin:$PATH"
-    - export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
     - hash -r
     - conda config --set always_yes yes --set changeps1 no
     - conda update -q conda
     
     - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
     - source activate test-environment
-    - which python
     - pip install future
     - pip install numpy
     - pip install protobuf==3.8.0
@@ -33,11 +33,9 @@ install:
     - pip install moviepy
     - pip install matplotlib
     - pip install requests
-    - pip install tb-nightly
     - pip install crc32c
     - pip install flake8
     - pip install paddlepaddle
-    - conda list
     - python setup.py install
 
 script:

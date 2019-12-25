@@ -9,135 +9,17 @@ import numpy as np
 import json
 import os
 import six
-import time
 from .logger import logger
 
+from .file_writer import FileWriter
 from .embedding import make_mat, make_sprite, make_tsv, append_pbtxt
-from .event_file_writer import EventFileWriter
-from .proto import event_pb2
-from .proto.event_pb2 import SessionLog, Event
 from .utils import figure_to_image
 from .summary import (
     scalar, histogram, histogram_raw, image, audio, text,
     pr_curve, pr_curve_raw, video, custom_scalars, image_boxes, mesh
 )
-
 from .paddle_graph import paddle_graph
 from .hparams_summary import hparams_pb, hparams_config_pb
-
-
-class FileWriter(object):
-    """Writes protocol buffers to event files to be consumed by TensorBoard.
-
-    The `FileWriter` class provides a mechanism to create an event file in a
-    given directory and add summaries and events to it. The class updates the
-    file contents asynchronously.
-    """
-
-    def __init__(self, logdir, max_queue=1024, filename_suffix=''):
-        """Creates a `FileWriter` and an event file.
-        On construction the writer creates a new event file in `logdir`.
-        The other arguments to the constructor control the asynchronous writes to
-        the event file.
-
-        :param logdir: Directory where event file will be written.
-        :type logdir:  str
-        :param max_queue: Size of the queue for pending events and
-            summaries before one of the 'add' calls forces a flush to disk.
-        :type max_queue: int
-        :param filename_suffix: Suffix added to all event filenames in the logdir directory.
-            More details on filename construction in 
-            tensorboard.summary.writer.event_file_writer.EventFileWriter.
-        :type filename_suffix: str
-        """
-        logdir = str(logdir)
-        self.event_writer = EventFileWriter(logdir, max_queue, filename_suffix)
-
-    def get_logdir(self):
-        """Returns the directory where event file will be written."""
-        return self.event_writer.get_logdir()
-
-    def add_event(self, event, step=None, walltime=None):
-        """Adds an event to the event file.
-
-        :param event: An `Event` protocol buffer.
-        :param step: Optional global step value for training process to record with the event.
-        :type step: Number
-        :param walltime: Given time to override the default walltime.
-        :type walltime: Optional, float
-        """
-        event.wall_time = time.time() if walltime is None else walltime
-        if step is not None:
-            # Make sure step is converted from numpy or other formats
-            # since protobuf might not convert depending on version
-            event.step = int(step)
-        self.event_writer.add_event(event)
-
-    def add_summary(self, summary, global_step=None, walltime=None):
-        """Adds a `Summary` protocol buffer to the event file.
-
-        This method wraps the provided summary in an `Event` protocol buffer
-        and adds it to the event file.
-
-        :param summary: A `Summary` protocol buffer.
-        :param global_step: Optional global step value for training process to record with the summary.
-        :type global_step: Number
-        :param walltime: Given time to override the default walltime.
-        :type walltime: Optional, float
-        """
-        event = event_pb2.Event(summary=summary)
-        self.add_event(event, global_step, walltime)
-
-    def add_graph(self, GraphDef_proto, walltime=None):
-        """Adds a `GraphDef` protocol buffer to the event file.
-
-        :param graph_profile: A GraphDef protocol buffer.
-        :param walltime: Optional walltime to override default
-                        (current) walltime (from time.time()) seconds after epoch.
-        :type walltime: Optional, float
-        """
-        event = event_pb2.Event(graph_def=GraphDef_proto.SerializeToString())
-        self.add_event(event, None, walltime)
-
-    def add_run_metadata(self, run_metadata, tag, global_step=None, walltime=None):
-        """Adds a metadata information for a single session.run() call.
-
-        :param run_metadata: A `RunMetadata` protobuf object.
-        :param tag: The tag name for this metadata.
-        :type tag: string
-        :param global_step: global step counter to record with the StepStats.
-        :type global_step: int
-        :param walltime: Given time to override the default walltime.
-        :type walltime: Optional, float
-        """
-        tagged_metadata = event_pb2.TaggedRunMetadata(
-            tag=tag, run_metadata=run_metadata.SerializeToString())
-
-        event = event_pb2.Event(tagged_run_metadata=tagged_metadata)
-        self.add_event(event, global_step, walltime)
-
-    def flush(self):
-        """Flushes the event file to disk.
-
-        Call this method to make sure that all pending events have been written to disk.
-        """
-        self.event_writer.flush()
-
-    def close(self):
-        """Flushes the event file to disk and close the file.
-
-           Call this method when you do not need the summary writer anymore.
-        """
-        self.event_writer.close()
-
-    def reopen(self):
-        """Reopens the EventFileWriter.
-
-        Can be called after `close()` to add more events in the same directory.
-        The events will go into a new events file.
-        Does nothing if the EventFileWriter was not closed.
-        """
-        self.event_writer.reopen()
 
 
 class SummaryWriter(object):
@@ -748,7 +630,7 @@ class SummaryWriter(object):
             )
         self.flush()
 
-    def add_hparams(self, hparams, trial_id=None, start_time_secs=None, global_step=None):
+    def add_hparams(self, hparams, trial_id=None, start_time_secs=None):
         """Write hyperparameter values for a single trial.
          
         :param hparams: A `dict` mapping hyperparameters to the values used in 
@@ -769,7 +651,7 @@ class SummaryWriter(object):
         hparams_summary = hparams_pb(
             hparams=hparams, trial_id=trial_id, start_time_secs=start_time_secs
             )
-        self._get_file_writer().add_summary(hparams_summary, global_step) 
+        self._get_file_writer().add_summary(hparams_summary) 
         self.flush()
 
     def add_hparams_config(self, hparams, metrics, time_created_secs=None):
@@ -794,11 +676,11 @@ class SummaryWriter(object):
             hparams=hparams, metrics=metrics, time_created_secs=time_created_secs
             )
         self._get_file_writer().add_summary(hparams_config_summary)
-        self.flush()        
+        self.flush() 
 
     def close(self):
         if self.all_writers is None:
-            return  # ignore double close
+            return
         for writer in self.all_writers.values():
             writer.flush()
             writer.close()

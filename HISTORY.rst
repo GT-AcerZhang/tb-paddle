@@ -36,3 +36,6 @@ History
 
 * modify the limitation of tag.
 
+0.3.7 (2019-12-25)
+
+* Append new API `hparams_api` to support TensorBoard DashBoard `HParams`.
