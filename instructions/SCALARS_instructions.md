@@ -34,7 +34,7 @@ demo-1 add\_scalar-demo.py
 # coding=utf-8
 from tb_paddle import SummaryWriter
 
-writer = SummaryWriter(logdir='./log/')
+writer = SummaryWriter(logdir='./log')
 for i in range(100):
     writer.add_scalar('y_2x', i * 2, i)
 
@@ -45,18 +45,18 @@ writer.close()
 
 ```
 python add_scalar-demo.py
-tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
+tensorboard --logdir ./log --host 0.0.0.0 --port 6066
 ```
 
-打开浏览器地址 [http://0.0.0.0:6066/](http://0.0.0.0:6066/)，则可在 tensorboard 的**SCALARS**栏目中查看图表：
+打开浏览器地址 [http://0.0.0.0:6066/](http://0.0.0.0:6066/)，则可在 tensorboard 的**SCALARS** 栏目中查看折线图：
 
 <p align="center">
 <img src="../screenshots/tensorboard_manuals/SCALARS_interfaces.png" width=1000><br/>
-图1. add_scalar - 在单张图中显示一条折线 <br/>
+图1. add\_scalar - 在单张图中显示一条折线 <br/>
 </p>
 
 <a name="2"></a>
-## Class SummaryWriter 的成员函数 add_scalars
+## Class SummaryWriter 的成员函数 add\_scalars
 
 函数定义：
 
@@ -81,7 +81,7 @@ demo-2 add\_scalars-demo.py
 # coding=utf-8
 import numpy as np
 from tb_paddle import SummaryWriter
-writer = SummaryWriter('./log/')
+writer = SummaryWriter('./log')
 r = 5 
 for i in range(100):
     writer.add_scalars('run_14h', {'xsinx':i*np.sin(i/r),
@@ -90,7 +90,7 @@ for i in range(100):
 writer.close()
 ```
 
-运行程序`add_scalars-demo.py`，则可在 tensorboard 的**SCALARS**栏目中查看图表：
+运行程序`add_scalars-demo.py`，则可在 tensorboard 的**SCALARS** 栏目中查看折线图：
 
 <p align="center">
 <img src="../screenshots/add_scalars.png" width=600><br/>
@@ -110,7 +110,7 @@ demo-3 export_scalars_to_json-demo.py
 import numpy as np
 from tb_paddle import SummaryWriter
 
-writer = SummaryWriter('./log/')
+writer = SummaryWriter('./log')
 
 r = 5 
 for i in range(100):
@@ -129,11 +129,11 @@ rm -rf ./log
 python export_scalars_to_json-demo.py
 ```
 
-则在当前目录中新生成了一个文件 all_scalars.json :
+则在当前目录中新生成了一个文件 all\_scalars.json :
 
 <p align="center">
 <img src="../screenshots/export_scalars_to_json.png" width=600><br/>
-图3. export_scalars_to_json - 将数据保存为 json 格式  <br/>
+图3. export\_scalars\_to\_json - 将数据保存为 json 格式  <br/>
 </p>
 
 ## 栏目说明

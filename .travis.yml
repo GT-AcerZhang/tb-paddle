@@ -50,6 +50,7 @@ script:
     - python add_pr_curve-demo.py
     - python add_paddle_graph-demo.py
     - python get_scalar-demo.py
+    - python add_hparams-demo.py
     
 after_success:
     - sleep 1
