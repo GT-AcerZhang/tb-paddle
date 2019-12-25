@@ -18,35 +18,8 @@ class SummaryWriter 中用于打点标量数据的成员函数包括：
 <a name="1"></a>
 ## Class SummaryWriter 的成员函数 add_image
 
-函数定义：
+[add_image 函数定义](../tb_paddle/summary_writer.py#226)
 
-```python
-def add_image(self, tag, img_tensor, global_step=None, walltime=None, dataformats='CHW')
-    """Add image data to summary.
-
-    Note that this requires the `pillow` package.
-    
-    :param tag: Data identifier.
-    :type tag: string
-    :param img_tensor: An `uint8` or `float` Tensor of shape `[channel, height, width]` where
-                       `channel` is 1, 3, or 4. The elements in img_tensor can either have values
-                       in [0, 1] (float32) or [0, 255] (uint8).
-                       Users are responsible to scale the data in the correct range/type.
-    :type img_tensor: numpy.array
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param walltime: 打点时间，默认值为 time.time()
-    :type walltime: optional, float
-    :param dataformats: 默认值为 'CHW'，各个字母的含义为 C-Channels, H-Height， W-Width。
-                        可选值为 'HW','WH'，'CHW','CWH','HWC','WHC'。
-    :type dataformats: string
-
-    :Shape:
-      If img_tensor.shape is `(3, H, W)`, corresponding dataformats should be 'CHW';
-      If img_tensor.shape is `(H, W, 3)`, dataformats should be 'HWC';
-      If image_tensor.shape is `(H, W)`, dataformats should be 'HW'.
-    """
-```
 
 Demo-1 add\_image-demo.py
 
@@ -100,31 +73,7 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 <a name="2"></a>
 ##  Class SummaryWriter 的成员函数 add_images
 
-函数定义：
-
-```python
-def add_images(self, tag, img_tensor, global_step=None, walltime=None, dataformats='NCHW'):
-    """Add batched (4D) image data to summary.
-    Besides passing 4D (NCHW) tensor, you can also pass a list of tensors of the same size.
-    In this case, the ``dataformats`` should be `CHW` or `HWC`.
-    Note that this requires the ``pillow`` package.
-
-    :param tag: Data identifier.
-    :type tag: string
-    :param img_tensor: Image data. The elements in img_tensor can either have
-                 values in [0, 1] (float32) or [0, 255] (uint8).
-                 Users are responsible to scale the data in the correct range/type.
-    :type img_tensor: numpy.array
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param walltime: 打点时间，默认值为 time.time()
-    :type walltime: optional, float
-
-    :Shape:
-      img_tensor: Default is :math:`(N, 3, H, W)`, If ``dataformats`` is specified,
-                  other shape will be accepted. e.g. NCHW or NHWC.
-    """
-```
+[add_images 函数定义](../tb_paddle/summary_writer.py#253)
 
 Demo-2 add\_images-demo.py
 
@@ -159,37 +108,7 @@ writer.close()
 <a name="3"></a>
 ## Class SummaryWriter 的成员函数 add_image_with_boxes
 
-```python
-def add_image_with_boxes(self, tag, img_tensor, box_tensor, global_step=None,
-                         walltime=None, dataformats='CHW', labels=None, 
-                         box_color='red', text_color='white', box_thickness=1, **kwargs):
-    """Add image and draw bounding boxes on the image.
-
-    :param tag: Data identifier.
-    :type tag: string
-    :param img_tensor: Image data.
-    :type img_tensor: numpy.array
-    :param box_tensor: Box data (for detected objects),
-                       box should be represented as [x1, y1, x2, y2].
-    :type box_tensor: numpy.array
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param walltime: Optional override default walltime (time.time()) of event.
-    :type walltime: float
-    :param labels: The strings to be shown on each bounding box.
-    :type labels: list of string
-    :param box_color: The color of box.
-    :param text_color: The color of text
-    :param box_thickness: The thickness of box edge.
-    :type box_thickness: int
-
-    Shape:
-      img_tensor: Default is :math:`(3, H, W)`.
-                  It can be specified with `dataformat` agrument, e.g. CHW or HWC.
-
-      box_tensor: NX4,  where N is the number of boxes and
-                  each 4 elememts in a row represents (xmin, ymin, xmax, ymax).
-```
+[add_image_with_boxes 函数定义](../tb_paddle/summary_writer.py#287)
 
 Demo-3 add\_images\_with\_boxes-demo.py
 
@@ -295,7 +214,7 @@ writer.close()
 <a name="5"></a>
 ## class SummaryWriter 的成员函数 add_video
 
-函数定义：
+[add_video 函数定义](../tb_paddle/summary_writer.py#352)
 
 ```python
 def add_video(self, tag, video, global_step=None, fps=4, walltime=None):
