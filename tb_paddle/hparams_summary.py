@@ -13,9 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-"""Experimental public APIs for the HParams plugin.
-"""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -25,7 +22,6 @@ import hashlib
 import json
 import random
 import time
-
 import six
 
 from .proto import summary_pb2
@@ -460,14 +456,13 @@ def hparams_config_pb(hparams, metrics, time_created_secs=None):
     those hyperparameters and metrics. It can be created before any models
     are actually trained.
 
-    Args:
-      hparams: A list of `HParam` values.
-      metrics: A list of `Metric` values.
-      time_created_secs: The time that this experiment was created, as
+    :param hparams: A list of `HParam` values.
+    :param metrics: A list of `Metric` values.
+    :param time_created_secs: The time that this experiment was created, as
         seconds since epoch. Defaults to the current time.
 
     Returns:
-      A TensorBoard `summary_pb2.Summary` message.
+        A TensorBoard `summary_pb2.Summary` message.
     """
     hparam_infos = []
     for hparam in hparams:
