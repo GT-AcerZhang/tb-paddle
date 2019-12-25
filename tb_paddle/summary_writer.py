@@ -662,7 +662,6 @@ class SummaryWriter(object):
         those hyperparameters and metrics. It can be created before any models
         are actually trained.
 
-        
         :param hparams: A list of `HParam` object.
         :param metrics: A list of `Metric` object.
         :param time_created_secs: The time that this experiment was created, as

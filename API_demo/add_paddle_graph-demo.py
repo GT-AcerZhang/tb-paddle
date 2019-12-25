@@ -1,4 +1,6 @@
 # coding=utf-8
+from __future__ import absolute_import
+from __future__ import division
 from __future__ import print_function
 
 import math, os
@@ -12,7 +14,6 @@ import argparse
 from tb_paddle import SummaryWriter
 
 with_gpu = os.getenv('WITH_GPU', '0') != '0'
-
 word_dict, verb_dict, label_dict = conll05.get_dict()
 word_dict_len = len(word_dict)
 label_dict_len = len(label_dict)
@@ -24,11 +25,9 @@ mark_dim = 5
 hidden_dim = 512
 depth = 8
 mix_hidden_lr = 1e-3
-
 IS_SPARSE = True
 PASS_NUM = 10
 BATCH_SIZE = 10
-
 embedding_name = 'emb'
 
 def parse_args():
@@ -72,18 +71,18 @@ def db_lstm(word, predicate, ctx_n2, ctx_n1, ctx_0, ctx_p1, ctx_p2, mark,
 
         word_input = [word, ctx_n2, ctx_n1, ctx_0, ctx_p1, ctx_p2]
         with fluid.name_scope("emb_layers"):
-            emb_layers = [fluid.layers.embedding(size=[word_dict_len, word_dim],
-                                                 input=x,
-                                                 param_attr=fluid.ParamAttr(name=embedding_name,
-                                                                            trainable=False)
-                                                ) for x in word_input]
+            emb_layers = [fluid.layers.embedding(
+                            size=[word_dict_len, word_dim],
+                            input=x,
+                            param_attr=fluid.ParamAttr(name=embedding_name, trainable=False)
+                            ) for x in word_input]
            
         emb_layers.append(predicate_embedding)
         emb_layers.append(mark_embedding)
 
         with fluid.name_scope("hidden_0"):
             hidden_0_layers = [fluid.layers.fc(
-                               input=emb, size=hidden_dim, act='tanh') for emb in emb_layers]
+                                input=emb, size=hidden_dim, act='tanh') for emb in emb_layers]
             hidden_0 = fluid.layers.sums(input=hidden_0_layers)
          
         lstm_0 = fluid.layers.dynamic_lstm(
@@ -123,22 +122,14 @@ def db_lstm(word, predicate, ctx_n2, ctx_n1, ctx_0, ctx_p1, ctx_p2, mark,
 
 def train(use_cuda, save_dirname=None, is_local=True):
     # define data layers
-    word = fluid.layers.data(
-        name='word_data', shape=[1], dtype='int64', lod_level=1)
-    predicate = fluid.layers.data(
-        name='verb_data', shape=[1], dtype='int64', lod_level=1)
-    ctx_n2 = fluid.layers.data(
-        name='ctx_n2_data', shape=[1], dtype='int64', lod_level=1)
-    ctx_n1 = fluid.layers.data(
-        name='ctx_n1_data', shape=[1], dtype='int64', lod_level=1)
-    ctx_0 = fluid.layers.data(
-        name='ctx_0_data', shape=[1], dtype='int64', lod_level=1)
-    ctx_p1 = fluid.layers.data(
-        name='ctx_p1_data', shape=[1], dtype='int64', lod_level=1)
-    ctx_p2 = fluid.layers.data(
-        name='ctx_p2_data', shape=[1], dtype='int64', lod_level=1)
-    mark = fluid.layers.data(
-        name='mark_data', shape=[1], dtype='int64', lod_level=1)
+    word = fluid.layers.data(name='word_data', shape=[1], dtype='int64', lod_level=1)
+    predicate = fluid.layers.data(name='verb_data', shape=[1], dtype='int64', lod_level=1)
+    ctx_n2 = fluid.layers.data(name='ctx_n2_data', shape=[1], dtype='int64', lod_level=1)
+    ctx_n1 = fluid.layers.data(name='ctx_n1_data', shape=[1], dtype='int64', lod_level=1)
+    ctx_0 = fluid.layers.data(name='ctx_0_data', shape=[1], dtype='int64', lod_level=1)
+    ctx_p1 = fluid.layers.data(name='ctx_p1_data', shape=[1], dtype='int64', lod_level=1)
+    ctx_p2 = fluid.layers.data(name='ctx_p2_data', shape=[1], dtype='int64', lod_level=1)
+    mark = fluid.layers.data(name='mark_data', shape=[1], dtype='int64', lod_level=1)
 
     if args.enable_ce:
         fluid.default_startup_program().random_seed = 90
@@ -146,8 +137,7 @@ def train(use_cuda, save_dirname=None, is_local=True):
 
     # define network topology
     feature_out = db_lstm(**locals())
-    target = fluid.layers.data(
-        name='target', shape=[1], dtype='int64', lod_level=1)
+    target = fluid.layers.data(name='target', shape=[1], dtype='int64', lod_level=1)
     crf_cost = fluid.layers.linear_chain_crf(
         input=feature_out,
         label=target,
@@ -204,15 +194,8 @@ def train(use_cuda, save_dirname=None, is_local=True):
                 cost = cost[0]
                 
                 if batch_id % 10 == 0:
-                    print("avg_cost:" + str(cost))
-                    if batch_id != 0:
-                        print("second per batch: " + str((time.time() - start_time) / batch_id))
-                    
                     # Set the threshold low to speed up the CI test
                     if float(cost) < 60.0:
-                        if args.enable_ce:
-                            print("kpis\ttrain_cost\t%f" % cost)
-
                         if save_dirname is not None:
                             # TODO(liuyiqun): Change the target to crf_decode
                             fluid.io.save_inference_model(save_dirname, [
@@ -243,6 +226,7 @@ def infer(use_cuda, save_dirname=None):
         infer_writer = SummaryWriter("log/infer/")
         infer_writer.add_paddle_graph(fluid_program=inference_program, verbose=True)
         infer_writer.close()
+        exit()
         
         lod = [[3, 4, 2]]
         base_shape = [1]
@@ -289,18 +273,10 @@ def infer(use_cuda, save_dirname=None):
             },
             fetch_list=fetch_targets,
             return_numpy=False)
-        print(results[0].lod())
-        np_data = np.array(results[0])
-        print("Inference Shape: ", np_data.shape)
 
 
 def main(use_cuda, is_local=True):
-    if use_cuda and not fluid.core.is_compiled_with_cuda():
-        return
-
-    # Directory for saving the trained model
-    save_dirname = "label_semantic_roles.inference.model"
-
+    save_dirname = "label_semantic_roles.inference.model" # Directory for saving the trained model
     train(use_cuda, save_dirname, is_local)
     infer(use_cuda, save_dirname)
 

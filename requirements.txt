@@ -4,6 +4,4 @@ six
 pillow
 moviepy
 matplotlib
-pre-commit
-flake8
-yapf
+crc32c
