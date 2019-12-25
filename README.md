@@ -33,7 +33,7 @@ AUDIO, PROJECTOR,PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
 # 需要先安装 paddlepaddle，无须安装 TensorFlow
 
 # 版本要求 tensorboard>=1.15，否则前端页面无法自动刷新
-pip install tensorboard==1.15
+pip install tensorboard
 
 # 安装 tb-paddle
 pip install tb-paddle
