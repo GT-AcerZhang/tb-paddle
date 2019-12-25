@@ -1,25 +1,22 @@
 # IMAGES
 
-### IMAGES
-
 TensorBoard 的 **IMAGES** 栏目显示图片和视频。
 
-class SummaryWriter 中用于打点标量数据的成员函数包括：
+class SummaryWriter 中用于打点标量数据的 API 包括：
 
 * <a href="#1"> add_image </a> ：在单个子框中显示一张图片
 * <a href="#2"> add_images </a> ：在单个子框中显示多张图片
 * <a href="#3"> add_image_with_boxes </a> ：在单个子框中显示一张图片，并加上识别网格
 * <a href="#4"> add_figure </a> ：显示 matplotlib 的画图
 
+以上 API 的定义与实现均在文件[../tb_paddle/summary_writer.py](../tb_paddle/summary_writer.py) 中。
+
 为了减轻前后端交互的压力，每个子框中最多显示十张图片。
 
-由于视频是多张图片连续播放的效果，所以通过<a href="#5">add_video</a>添加的视频数据，也在**IMAGES**栏目中显示。
+由于视频是多张图片连续播放的效果，所以通过<a href="#5">add_video</a>添加的视频数据，也在 **IMAGES** 栏目中显示。
 
 <a name="1"></a>
 ## Class SummaryWriter 的成员函数 add_image
-
-[add_image 函数定义](../tb_paddle/summary_writer.py#226)
-
 
 Demo-1 add\_image-demo.py
 
@@ -73,8 +70,6 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 <a name="2"></a>
 ##  Class SummaryWriter 的成员函数 add_images
 
-[add_images 函数定义](../tb_paddle/summary_writer.py#253)
-
 Demo-2 add\_images-demo.py
 
 ```python
@@ -107,8 +102,6 @@ writer.close()
 
 <a name="3"></a>
 ## Class SummaryWriter 的成员函数 add_image_with_boxes
-
-[add_image_with_boxes 函数定义](../tb_paddle/summary_writer.py#287)
 
 Demo-3 add\_images\_with\_boxes-demo.py
 
@@ -161,24 +154,6 @@ writer.close()
 <a name="4"></a>
 ## class SummaryWriter 的成员函数 add_figure
 
-```python
-def add_figure(self, tag, figure, global_step=None, close=True, walltime=None):
-    """Render matplotlib figure into an image and add it to summary.
-    Note that this requires the ``matplotlib`` package.
-
-    :param tag: Data identifier.
-    :type tag: string
-    :param figure: Figure or a list of figures.
-    :type figure: matplotlib.pyplot.figure or list of matplotlib.pyplot.figure
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param close: Flag to automatically close the figure.
-    :type close: bool
-    :param walltime: 打点时间，默认值为 time.time()
-    :type walltime: optioal, float
-    """
-```
-
 Demo-4 add\_figure-demo.py
 
 ```python
@@ -213,31 +188,6 @@ writer.close()
 
 <a name="5"></a>
 ## class SummaryWriter 的成员函数 add_video
-
-[add_video 函数定义](../tb_paddle/summary_writer.py#352)
-
-```python
-def add_video(self, tag, video, global_step=None, fps=4, walltime=None):
-    """Add video data to summary.
-
-    Note that this requires the ``moviepy`` package.
-
-    :param tag: Data identifier.
-    :type tag: str
-    :param video: Video data.
-    :type video: numpy.array
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param fps: Frames Per Second.
-    :type fps: float or int
-    :param walltime: Optional override current time of event.
-    :type walltime: float
-
-    Shape:
-        video: :math:`(N, T, C, H, W)`. The values should lie
-                    in [0, 255] for type `uint8` or [0, 1] for type `float`.
-    """
-```
 
 使用 Tensorboard 的 **VIDEO** 功能，必须先安装`moviepy`：
 
@@ -283,3 +233,4 @@ writer.close()
 <img src="../screenshots/add_video.png" width=600><br/>
 图5. add_video - 显示视频 <br/>
 </p>
+
