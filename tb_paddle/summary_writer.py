@@ -223,81 +223,79 @@ class SummaryWriter(object):
             walltime)
         self.flush()
 
-    def add_image(self, tag, img_tensor, global_step=None, walltime=None, dataformats='CHW'):
+    def add_image(self, tag, input_image, global_step=None, walltime=None, dataformats='CHW'):
         """Add image data to summary.
 
         Note that this requires the `pillow` package.
 
         :param tag: Data identifier.
         :type tag: str
-        :param img_tensor: An `uint8` or `float` Tensor of shape `[channel, height, width]` where
-            `channel` is 1, 3, or 4. The elements in img_tensor can either have values
+        :param input_image: An `uint8` or `float` Tensor of shape `[channel, height, width]` where
+            `channel` is 1, 3, or 4. The elements in input_image can either have values
              in [0, 1] (float32) or [0, 255] (uint8).
              Users are responsible to scale the data in the correct range/type.
-        :type img_tensor: numpy.array
+        :type input_image: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
         :param walltime: Optional override current time of event.
         :type walltime: float
-        :param dataformats: This parameter specifies the meaning of each dimension of the input tensor.
+        :param dataformats: This parameter specifies the dataformats of input_image
         :type dataformats: str
 
-        Shape:
-            img_tensor: Default is :math:`(3, H, W)`,
-            Tensor with :math:`(1, H, W)`, :math:`(H, W)`, :math:`(H, W, 3)` is also suitible as long as
-            corresponding ``dataformats`` argument is passed. e.g. CHW, HWC, HW.
+        input_image.shape: Default is :math:`(3, H, W)`,
+            :math:`(1, H, W)`, :math:`(H, W)`, :math:`(H, W, 3)` is also suitible 
+            as long as corresponding ``dataformats`` argument is passed. e.g. CHW, HWC, HW.
         """
         self._get_file_writer().add_summary(
-            image(tag, img_tensor, dataformats=dataformats), global_step, walltime)
+            image(tag, input_image, dataformats=dataformats), global_step, walltime)
         self.flush()
 
-    def add_images(self, tag, img_tensor, global_step=None, walltime=None, dataformats='NCHW'):
+    def add_images(self, tag, input_images, global_step=None, walltime=None, dataformats='NCHW'):
         """Add batched (4D) image data to summary.
 
-        Besides passing 4D (NCHW) tensor, you can also pass a list of tensors of the same size.
+        Besides passing 4D (NCHW) numpy.array, you can also pass a list of images of the same size.
         In this case, the ``dataformats`` should be `CHW` or `HWC`.
         Note that this requires the ``pillow`` package.
 
         :param tag: Data identifier.
         :type tag: str
-        :param img_tensor: Image data. The elements in img_tensor can either have
+        :param input_images: Image data. The elements in input_images can either have
                  values in [0, 1] (float32) or [0, 255] (uint8).
                  Users are responsible to scale the data in the correct range/type.
-        :type img_tensor: numpy.array
+        :type input_images: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
         :param walltime: Optional override current time of event.
         :type walltime: float
 
-        Shape:
-          img_tensor: Default is :math:`(N, 3, H, W)`, If ``dataformats`` is specified,
-                      other shape will be accepted. e.g. NCHW or NHWC.
+        input_images.shape: Default is :math:`(N, 3, H, W)`, If ``dataformats`` is specified,
+            other shape will be accepted. e.g. NCHW or NHWC.
         """
-        if isinstance(img_tensor, list):  # a list of tensors in CHW or HWC
+        if isinstance(input_images, list):  # a list of images in CHW or HWC
             if dataformats.upper() != 'CHW' and dataformats.upper() != 'HWC':
                 print('A list of image is passed, but the dataformat is neither CHW nor HWC.')
                 print('Nothing is written.')
                 return
 
-            img_tensor = np.stack(img_tensor, 0)
+            input_images = np.stack(input_images, 0)
             dataformats = 'N' + dataformats
 
         self._get_file_writer().add_summary(
-            image(tag, img_tensor, dataformats=dataformats), global_step, walltime)
+            image(tag, input_images, dataformats=dataformats), global_step, walltime)
         self.flush()
 
-    def add_image_with_boxes(self, tag, img_tensor, box_tensor, global_step=None,
+    def add_image_with_boxes(self, tag, input_image, input_box, global_step=None,
                              walltime=None, dataformats='CHW', labels=None, 
                              box_color='red', text_color='white', box_thickness=1, **kwargs):
         """Add image and draw bounding boxes on the image.
 
         :param tag: Data identifier.
         :type tag: str
-        :param img_tensor: Image data.
-        :type img_tensor: numpy.array
-        :param box_tensor: Box data (for detected objects),
+        :param input_image: Image data.
+        :type input_image: numpy.array
+        :param input_box: Box data (for detected objects),
                            box should be represented as [x1, y1, x2, y2].
-        :type box_tensor: numpy.array
+        :type input_box: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
         :param walltime: Optional override current time of event.
@@ -309,22 +307,21 @@ class SummaryWriter(object):
         :param box_thickness: The thickness of box edge.
         :type box_thickness: int
 
-        Shape:
-          img_tensor: Default is :math:`(3, H, W)`.
-                      It can be specified with `dataformat` agrument, e.g. CHW or HWC.
+        input_image.shape: Default is :math:`(3, H, W)`.
+            it can be specified with `dataformat` agrument, e.g. CHW or HWC.
 
-          box_tensor: NX4,  where N is the number of boxes and
-                      each 4 elememts in a row represents (xmin, ymin, xmax, ymax).
+        input_box.shape: N * 4,  where N is the number of boxes and
+            each 4 elememts in a row represents (xmin, ymin, xmax, ymax).
         """
         if labels is not None:
             if isinstance(labels, str):
                 labels = [labels]
-            if len(labels) != box_tensor.shape[0]:
+            if len(labels) != input_box.shape[0]:
                 logger.warning('Number of labels do not equal to number of box, skip the labels.')
                 labels = None
 
         self._get_file_writer().add_summary(image_boxes(
-            tag, img_tensor, box_tensor, dataformats=dataformats, labels=labels, 
+            tag, input_image, input_box, dataformats=dataformats, labels=labels, 
             box_color=box_color, text_color=text_color, box_thickness=box_thickness, **kwargs),
             global_step, walltime)
         
@@ -352,15 +349,15 @@ class SummaryWriter(object):
             self.add_image(tag, figure_to_image(figure, close), global_step, walltime, dataformats='CHW')
         self.flush()
 
-    def add_video(self, tag, video, global_step=None, fps=4, walltime=None):
+    def add_video(self, tag, input_video, global_step=None, fps=4, walltime=None):
         """Add video data to summary.
 
         Note that this requires the ``moviepy`` package.
 
         :param tag: Data identifier.
         :type tag: str
-        :param video: Video data.
-        :type video: numpy.array
+        :param input_video: Video data.
+        :type input_video: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
         :param fps: Frames Per Second.
@@ -369,19 +366,19 @@ class SummaryWriter(object):
         :type walltime: float
 
         Shape:
-            video: :math:`(N, T, C, H, W)`. The values should lie
+            input_video: :math:`(N, T, C, H, W)`. The values should lie
                         in [0, 255] for type `uint8` or [0, 1] for type `float`.
         """
-        self._get_file_writer().add_summary(video(tag, video, fps), global_step, walltime)
+        self._get_file_writer().add_summary(video(tag, input_video, fps), global_step, walltime)
         self.flush()
 
-    def add_audio(self, tag, sound, global_step=None, sample_rate=44100, walltime=None):
+    def add_audio(self, tag, input_audio, global_step=None, sample_rate=44100, walltime=None):
         """Add audio data to summary.
 
         :param tag: Data identifier.
         :type tag: str
-        :param sound: Sound data.
-        :type sound: numpy.array
+        :param input_audio: Sound data.
+        :type input_audio: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
         :param sample_rate: sample rate in Hz.
@@ -390,25 +387,25 @@ class SummaryWriter(object):
         :type walltime: float
 
         Shape:
-          sound: :math:`(1, L)`. The values should lie between [-1, 1].
+          input_audio: :math:`(1, L)`. The values should lie between [-1, 1].
         """
         self._get_file_writer().add_summary(
-            audio(tag, sound, sample_rate=sample_rate), global_step, walltime)
+            audio(tag, input_audio, sample_rate=sample_rate), global_step, walltime)
         self.flush()
 
-    def add_text(self, tag, text, global_step=None, walltime=None):
+    def add_text(self, tag, input_text, global_step=None, walltime=None):
         """Add text data to summary.
 
         :param tag: Data identifier.
         :type tag: str
-        :param text: String to save.
-        :type text: str
+        :param input_text: String to save.
+        :type input_text: str
         :param global_step: Global step value to record
         :type global_step: int
         :param walltime: Optional override current time of event
         :type walltime: float
         """
-        self._get_file_writer().add_summary(text(tag, text), global_step, walltime)
+        self._get_file_writer().add_summary(text(tag, input_text), global_step, walltime)
         self.flush()
 
     def add_paddle_graph(self, fluid_program, echo_vars=True, **kwargs):
