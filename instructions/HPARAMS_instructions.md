@@ -6,9 +6,9 @@ TensorBoard 的 **HPARAMS** 栏目是超参调优（Hyperparameter Optimization�
 
 Tensorboard 将超参的取值范围定义成以下三个类：
 
-* <a href="#1.1">Discrete (离散值)
-* <a href="#1.2"> (整数间隔)
-* <a href="#1.3">RealInterval (实数间隔)
+* <a href="#1.1"> Discrete </a> (离散值)
+* <a href="#1.2"> IntInterval </a> (整数间隔)
+* <a href="#1.3"> RealInterval </a> (实数间隔)
 
 <a name="1.1"></a>
 ### 1.1 Discrete
