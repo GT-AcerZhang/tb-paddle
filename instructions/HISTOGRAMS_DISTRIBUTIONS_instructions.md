@@ -35,8 +35,6 @@ TensorBoard 的 **DISTRIBUTIONS** 栏目用于显示行向量数据的统计特�
 <a name="1"></a>
 ### Class SummaryWriter 的成员函数 add_histogram
 
-函数定义：
-
 demo-1 add_histogram-demo.py
 
 ```python

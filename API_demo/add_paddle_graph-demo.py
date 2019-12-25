@@ -187,7 +187,6 @@ def train(use_cuda, save_dirname=None, is_local=True):
         
         start_time = time.time()
         batch_id = 0
-        print("PASS_NUM:", PASS_NUM)
         for pass_id in six.moves.xrange(PASS_NUM):
             for data in train_data():
                 cost = exe.run(main_program, feed=feeder.feed(data), fetch_list=[avg_cost])
@@ -223,8 +222,8 @@ def infer(use_cuda, save_dirname=None):
          fetch_targets] = fluid.io.load_inference_model(save_dirname, exe)
         
         # 显示前向传播的神经网络
-        infer_writer = SummaryWriter("log/infer/")
-        infer_writer.add_paddle_graph(fluid_program=inference_program, verbose=True)
+        infer_writer = SummaryWriter("./log")
+        infer_writer.add_paddle_graph(inference_program)
         infer_writer.close()
         exit()
         
