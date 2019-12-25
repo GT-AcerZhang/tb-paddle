@@ -38,7 +38,7 @@ class HParam(object):
 ## Metric
 
 Metric，译为度量，它对应于一个实数，是一组超参的实验结果。
-当 Metric 对象被传入 SummaryWriter 的成员函数 add_hparams_config 时，才会有作用。
+只有当 Metric 对象被传入 SummaryWriter 的成员函数 add_hparams_config 时，才会发挥作用。
 
 demo-1 Metric_util.py
 
