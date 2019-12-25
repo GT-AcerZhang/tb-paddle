@@ -9,16 +9,16 @@ class SummaryWriter 中用于打点文本数据的成员函数为`add_text`。
 函数定义：
 
 ```python
-def add_text(self, tag, text_string, global_step=None, walltime=None):
+def add_text(self, tag, text, global_step=None, walltime=None):
     """Add text data to summary.
 
     :param tag: Data identifier.
-    :type tag: string
-    :param text_string: String to save.
-    :type text_string: string
+    :type tag: str
+    :param text: String to save.
+    :type text: str
     :param global_step: Global step value to record
     :type global_step: int
-    :param walltime: Optional override default walltime (time.time()) of event
+    :param walltime: Optional override current time of event
     :type walltime: float
     """
 ```
@@ -32,11 +32,12 @@ from tb_paddle import SummaryWriter
 writer = SummaryWriter('./log')
 
 for step in range(10):
-    text = 'This is text ' + str(step)  
+    text = 'The text support the markdown format.  \nThis is line ' + str(step)  
     writer.add_text('LSTM', text, step)
     writer.add_text('rnn', text, step)
 
 writer.close()
+
 ```
 
 执行以下指令，启动服务器：

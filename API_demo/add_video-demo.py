@@ -23,7 +23,7 @@ for step_id, data in enumerate(train_reader()):
         mat[i] = data[i][0]
 
 video_data = mat.reshape((8, 96, 1, 28, 28))
-writer.add_video('mnist_video_fps4', vid_tensor=video_data)
-writer.add_video('mnist_video_fps1', vid_tensor=video_data, fps=1)
+writer.add_video('mnist_video_fps4', video_data)
+writer.add_video('mnist_video_fps1', video_data, fps=1)
 
 writer.close()

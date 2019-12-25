@@ -1,6 +1,4 @@
-"""Provides an API for writing protocol buffers to event files to be
-consumed by TensorBoard for visualization."""
-
+# coding=utf-8
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -118,12 +116,12 @@ class SummaryWriter(object):
         """Add scalar data to summary.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param scalar_value: Value to save.
         :type scalar_value: float
         :param global_step: Global step value to record.
         :type global_step: int
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
         """
         self._get_file_writer().add_summary(scalar(tag, scalar_value), global_step, walltime)
@@ -135,12 +133,12 @@ class SummaryWriter(object):
         Note that this function also keeps logged scalars in memory. In extreme case it explodes your RAM.
 
         :param main_tag: The parent name for the tags.
-        :type main_tag: string
+        :type main_tag: str
         :param tag_scalar_dict: Key-value pair storing the tag and corresponding values.
         :type tag_scalar_dict: dict
         :param global_step: Global step value to record.
         :type global_step: int
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
         """
         walltime = time.time() if walltime is None else walltime
@@ -172,7 +170,7 @@ class SummaryWriter(object):
         """Add histogram to summary.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param values: Values to build histogram.
         :type values: numpy.array
         :param global_step: Global step value to record.
@@ -180,8 +178,8 @@ class SummaryWriter(object):
         :param bins: One of {'tensorflow','auto', 'fd', ...}.
             This determines how the bins are made. You can find other options in:
             https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
-        :type bins: string
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :type bins: str
+        :param walltime: Optional override current time of event.
         :type walltime: float
         """
         if isinstance(bins, six.string_types) and bins == 'tensorflow':
@@ -214,7 +212,7 @@ class SummaryWriter(object):
         :type bucket_counts: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
         """
         if len(bucket_limits) != len(bucket_counts):
@@ -239,7 +237,7 @@ class SummaryWriter(object):
         :type img_tensor: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
         :param dataformats: This parameter specifies the meaning of each dimension of the input tensor.
         :type dataformats: str
@@ -261,14 +259,14 @@ class SummaryWriter(object):
         Note that this requires the ``pillow`` package.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param img_tensor: Image data. The elements in img_tensor can either have
                  values in [0, 1] (float32) or [0, 255] (uint8).
                  Users are responsible to scale the data in the correct range/type.
         :type img_tensor: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
 
         Shape:
@@ -294,7 +292,7 @@ class SummaryWriter(object):
         """Add image and draw bounding boxes on the image.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param img_tensor: Image data.
         :type img_tensor: numpy.array
         :param box_tensor: Box data (for detected objects),
@@ -302,7 +300,7 @@ class SummaryWriter(object):
         :type box_tensor: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
         :param labels: The strings to be shown on each bounding box.
         :type labels: list of string
@@ -338,14 +336,14 @@ class SummaryWriter(object):
         Note that this requires the ``matplotlib`` package.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param figure: Figure or a list of figures.
         :type figure: matplotlib.pyplot.figure or list of matplotlib.pyplot.figure
         :param global_step: Global step value to record.
         :type global_step: int
         :param close: Flag to automatically close the figure.
         :type close: bool
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
         """
         if isinstance(figure, list):
@@ -354,74 +352,74 @@ class SummaryWriter(object):
             self.add_image(tag, figure_to_image(figure, close), global_step, walltime, dataformats='CHW')
         self.flush()
 
-    def add_video(self, tag, vid_tensor, global_step=None, fps=4, walltime=None):
+    def add_video(self, tag, video, global_step=None, fps=4, walltime=None):
         """Add video data to summary.
 
         Note that this requires the ``moviepy`` package.
 
         :param tag: Data identifier.
-        :type tag: string
-        :param vid_tensor: Video data.
-        :type vid_tensor: numpy.array
+        :type tag: str
+        :param video: Video data.
+        :type video: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
-        :param fps: Frames per second.
+        :param fps: Frames Per Second.
         :type fps: float or int
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
 
         Shape:
-            vid_tensor: :math:`(N, T, C, H, W)`. The values should lie
+            video: :math:`(N, T, C, H, W)`. The values should lie
                         in [0, 255] for type `uint8` or [0, 1] for type `float`.
         """
-        self._get_file_writer().add_summary(video(tag, vid_tensor, fps), global_step, walltime)
+        self._get_file_writer().add_summary(video(tag, video, fps), global_step, walltime)
         self.flush()
 
-    def add_audio(self, tag, snd_tensor, global_step=None, sample_rate=44100, walltime=None):
+    def add_audio(self, tag, sound, global_step=None, sample_rate=44100, walltime=None):
         """Add audio data to summary.
 
         :param tag: Data identifier.
-        :type tag: string
-        :param snd_tensor: Sound data.
-        :type snd_tensor: numpy.array
+        :type tag: str
+        :param sound: Sound data.
+        :type sound: numpy.array
         :param global_step: Global step value to record.
         :type global_step: int
         :param sample_rate: sample rate in Hz.
         :type sample_rate: int
-        :param walltime: Optional override default walltime (time.time()) of event.
+        :param walltime: Optional override current time of event.
         :type walltime: float
 
         Shape:
-          snd_tensor: :math:`(1, L)`. The values should lie between [-1, 1].
+          sound: :math:`(1, L)`. The values should lie between [-1, 1].
         """
         self._get_file_writer().add_summary(
-            audio(tag, snd_tensor, sample_rate=sample_rate), global_step, walltime)
+            audio(tag, sound, sample_rate=sample_rate), global_step, walltime)
         self.flush()
 
-    def add_text(self, tag, text_string, global_step=None, walltime=None):
+    def add_text(self, tag, text, global_step=None, walltime=None):
         """Add text data to summary.
 
         :param tag: Data identifier.
-        :type tag: string
-        :param text_string: String to save.
-        :type text_string: string
+        :type tag: str
+        :param text: String to save.
+        :type text: str
         :param global_step: Global step value to record
         :type global_step: int
-        :param walltime: Optional override default walltime (time.time()) of event
+        :param walltime: Optional override current time of event
         :type walltime: float
         """
-        self._get_file_writer().add_summary(text(tag, text_string), global_step, walltime)
+        self._get_file_writer().add_summary(text(tag, text), global_step, walltime)
         self.flush()
 
-    def add_paddle_graph(self, fluid_program, verbose=False, **kwargs):
+    def add_paddle_graph(self, fluid_program, echo_vars=True, **kwargs):
         """ Add paddle graph to summary.
 
         :param fluid_program: the instance of class paddle.fluid.Program
         :type fluid_program: paddle.fluid.Program
-        :param verbose: whether to add input/output variables to the graph.
-        :type verbose: bool
+        :param echo_vars: whether to add input/output variables to the graph.
+        :type echo_vars: bool
         """
-        self._get_file_writer().add_graph(paddle_graph(fluid_program, verbose, **kwargs))
+        self._get_file_writer().add_graph(paddle_graph(fluid_program, echo_vars, **kwargs))
         self.flush()
 
     @staticmethod
@@ -445,7 +443,7 @@ class SummaryWriter(object):
         :param global_step: Global step value to record.
         :type global_step: int
         :param tag: Name for the embedding.
-        :type tag: string
+        :type tag: str
 
         Shape:
             mat: :math: (N, D), where N is number of data and D is feature dimension.
@@ -478,8 +476,14 @@ class SummaryWriter(object):
         append_pbtxt(metadata, label_img, self._get_file_writer().get_logdir(), subdir, global_step, tag)
         self.flush()
 
-    def add_pr_curve(self, tag, labels, predictions, global_step=None,
-                     num_thresholds=127, weights=None, walltime=None):
+    def add_pr_curve(self, 
+                     tag, 
+                     labels, 
+                     predictions,
+                     global_step=None,
+                     num_thresholds=127, 
+                     weights=None,
+                     walltime=None):
         """Adds precision recall curve.
 
         Plotting a precision-recall curve lets you understand your model's 
@@ -489,7 +493,7 @@ class SummaryWriter(object):
         The TensorBoard UI will let you choose the threshold interactively.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param labels: Ground truth data. Each element is 0 or 1.
         :type labels: numpy.array
         :param predictions: The probability that an element be classified as true, Value should in [0, 1]
@@ -498,7 +502,7 @@ class SummaryWriter(object):
         :type global_step: int
         :param num_thresholds: Number of thresholds used to draw the curve.
         :type num_thresholds: int
-        :param walltime: Optional override default walltime (time.time()) of event
+        :param walltime: Optional override current time of event
         :type walltime: float
         """
         from .x2num import make_np
@@ -507,7 +511,9 @@ class SummaryWriter(object):
             pr_curve(tag, labels, predictions, num_thresholds, weights), global_step, walltime)
         self.flush()
 
-    def add_pr_curve_raw(self, tag, true_positive_counts,
+    def add_pr_curve_raw(self, 
+                         tag, 
+                         true_positive_counts,
                          false_positive_counts,
                          true_negative_counts,
                          false_negative_counts,
@@ -520,7 +526,7 @@ class SummaryWriter(object):
         """Adds precision recall curve with raw data.
 
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param true_positive_counts: true positive counts.
         :type true_positive_counts: numpy.array
         :param false_positive_counts: false positive counts.
@@ -537,20 +543,21 @@ class SummaryWriter(object):
         :type global_step: int
         :param num_thresholds: Number of thresholds used to draw the curve.
         :type num_thresholds: int
-        :param walltime: Optional override default walltime (time.time()) of event
+        :param walltime: Optional override current time of event
         :type walltime: float
         """
         self._get_file_writer().add_summary(
-            pr_curve_raw(tag,
-                         true_positive_counts,
-                         false_positive_counts,
-                         true_negative_counts,
-                         false_negative_counts,
-                         precision,
-                         recall,
-                         num_thresholds,
-                         weights),
-            global_step, walltime)
+            pr_curve_raw(
+                tag,
+                true_positive_counts,
+                false_positive_counts,
+                true_negative_counts,
+                false_negative_counts,
+                precision,
+                recall,
+                num_thresholds,
+                weights
+                ), global_step, walltime)
         self.flush()
 
     def add_custom_scalars_multilinechart(self, tags, category='default', title='untitled'):
@@ -605,7 +612,7 @@ class SummaryWriter(object):
         Note that currently this depends on tb-nightly to show.
          
         :param tag: Data identifier.
-        :type tag: string
+        :type tag: str
         :param vertices: List of the 3D coordinates of vertices.
         :type vertices: numpy.array
         :param colors:  Colors for each vertex
@@ -616,7 +623,7 @@ class SummaryWriter(object):
         :type config_dict: dict
         :param global_step: Global step value to record.
         :type global_step: int
-        :param walltime: Optional override default walltime (time.time())
+        :param walltime: Optional override current time
         :type walltime: float
 
         Shape:

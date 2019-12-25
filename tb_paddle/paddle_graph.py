@@ -8,17 +8,17 @@ from .proto.versions_pb2 import VersionDef
 from .proto_graph import attr_value_proto, tensor_shape_proto, node_proto
 
 
-def paddle_graph(fluid_program, verbose, **kwargs):
+def paddle_graph(fluid_program, echo_vars, **kwargs):
     """This function process a paddle.fluid.Program and produces
     a `GraphDef` proto and `RunMetadata` proto that can be logged to Tensorboard.
 
     :param fluid_program: The program to be parsed.
     :type fluid_program: paddle.fluid.Program
-    :param verbose: whether to add input/output variables to the graph.
-    :type verbose: bool
+    :param echo_vars: whether to add input/output variables to the graph.
+    :type echo_vars: bool
     :return:
     """
-    list_of_nodes = parse(fluid_program, verbose)
+    list_of_nodes = parse(fluid_program, echo_vars)
     return GraphDef(node=list_of_nodes, versions=VersionDef(producer=22))
 
 
@@ -55,14 +55,14 @@ class VarNode(object):
         self.var_shape_proto = None
 
 
-def parse(fluid_program, verbose):
+def parse(fluid_program, echo_vars):
     """This function parses a fluid Program and produces a list of nodes
         and node stats for eventual conversion to TensorBoard protobuf format.
 
     :param fluid_program: The program to be parsed.
     :type fluid_program: paddle.fluid.Program
-    :param verbose: whether to add input variables and output variables to the Graph.
-    :type verbose: bool
+    :param echo_vars: whether to add input variables and output variables to the Graph.
+    :type echo_vars: bool
     """
     nodes = []
 
@@ -78,7 +78,7 @@ def parse(fluid_program, verbose):
         scope_list.append(ScopeOp(op, op_type_index[op.type]))
 
     # whether to add the input/output variables
-    if verbose:
+    if echo_vars:
         # Initialize the dictionary of VarNode
         var_node_dict = {}
         for var_name in fluid_program.global_block().vars:
@@ -155,7 +155,7 @@ def parse(fluid_program, verbose):
                 if op_attr_str != '':
                     scope.op_attrs[key] = attr_value_proto(value)
 
-        if verbose:
+        if echo_vars:
             # Add the input variables to the Graph
             for input_arg_name in scope.op.input_arg_names:
                 if var_node_dict[input_arg_name].is_input:

@@ -7,26 +7,25 @@ class SummaryWriter 中用于打点音频数据的成员函数为 `add_audio`。
 ### SummaryWriter 的成员函数 add_audio
 
 ```python
-def add_audio(self, tag, snd_tensor, global_step=None, sample_rate=44100, walltime=None):
+def add_audio(self, tag, sound, global_step=None, sample_rate=44100, walltime=None):
     """Add audio data to summary.
 
     :param tag: Data identifier.
-    :type tag: string
-    :param snd_tensor: Sound data.
-    :type snd_tensor: numpy.array
+    :type tag: str
+    :param sound: Sound data.
+    :type sound: numpy.array
     :param global_step: Global step value to record.
     :type global_step: int
     :param sample_rate: sample rate in Hz.
     :type sample_rate: int
-    :param walltime: Optional override default walltime (time.time()) of event.
+    :param walltime: Optional override current time of event.
     :type walltime: float
 
     Shape:
-      snd_tensor: :math:`(1, L)`. The values should lie between [-1, 1].
-    """
+      sound: :math:`(1, L)`. The values should lie between [-1, 1].
 ```
 
-Demo-1 add_audio-demo.py
+Demo-1 add\_audio-demo.py
 
 
 ```python
@@ -39,11 +38,11 @@ writer = SummaryWriter('log')
 sample_rate = 44100
 data = np.zeros(sample_rate * 5)
 
-for step_id in range(10):
+for step in range(10):
     for i in range(data.shape[0]):
         data[i] = np.cos(np.pi * np.random.randn())
 
-    writer.add_audio('sound_cos', data, step_id, sample_rate)
+    writer.add_audio('sound_cos', data, step, sample_rate)
 
 writer.close()
 ```

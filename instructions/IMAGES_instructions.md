@@ -48,7 +48,7 @@ def add_image(self, tag, img_tensor, global_step=None, walltime=None, dataformat
     """
 ```
 
-Demo-1 add_image-demo.py
+Demo-1 add\_image-demo.py
 
 ```python
 # coding=utf-8
@@ -126,7 +126,7 @@ def add_images(self, tag, img_tensor, global_step=None, walltime=None, dataforma
     """
 ```
 
-Demo-2 add_images-demo.py
+Demo-2 add\_images-demo.py
 
 ```python
 # coding=utf-8
@@ -191,7 +191,7 @@ def add_image_with_boxes(self, tag, img_tensor, box_tensor, global_step=None,
                   each 4 elememts in a row represents (xmin, ymin, xmax, ymax).
 ```
 
-Demo-3 add_images_with_boxes-demo.py
+Demo-3 add\_images\_with\_boxes-demo.py
 
 ```python
 # coding=utf-8
@@ -260,7 +260,7 @@ def add_figure(self, tag, figure, global_step=None, close=True, walltime=None):
     """
 ```
 
-Demo-4 add_figure-demo.py
+Demo-4 add\_figure-demo.py
 
 ```python
 # coding=utf-8
@@ -298,26 +298,26 @@ writer.close()
 函数定义：
 
 ```python
-def add_video(self, tag, vid_tensor, global_step=None, fps=4, walltime=None):
+def add_video(self, tag, video, global_step=None, fps=4, walltime=None):
     """Add video data to summary.
-    
+
+    Note that this requires the ``moviepy`` package.
+
     :param tag: Data identifier.
-    :type tag: string
-    :param vid_tensor: Video data.
-    :type vid_tensor: numpy.array
+    :type tag: str
+    :param video: Video data.
+    :type video: numpy.array
     :param global_step: Global step value to record.
     :type global_step: int
-    :param fps: Frames per second.
+    :param fps: Frames Per Second.
     :type fps: float or int
-    :param walltime: 打点时间，默认值为 time.time()
-    :type walltime: optional, float
+    :param walltime: Optional override current time of event.
+    :type walltime: float
 
-    :Shape:
-        vid_tensor:  `(Picture_num, Frame_num, Channel, Height, Weight)`，其中：
-                      Picture_num 表示每一桢包括多少张(C,H,W)的图片；
-                      Frame_num 表示该数据总计多少帧；
-                      若 vid_tensor 的元素的数据类型为`uint8`，则取值范围是 [0, 255]；
-                      若 vid_tensor 的元素的数据类型为`float`，则取值范围是 [0,1]。
+    Shape:
+        video: :math:`(N, T, C, H, W)`. The values should lie
+                    in [0, 255] for type `uint8` or [0, 1] for type `float`.
+    """
 ```
 
 使用 Tensorboard 的 **VIDEO** 功能，必须先安装`moviepy`：
@@ -326,7 +326,7 @@ def add_video(self, tag, vid_tensor, global_step=None, fps=4, walltime=None):
 pip install moviepy
 ```
 
-Demo-5 add_video-demo.py
+Demo-5 add\_video-demo.py
 
 ```python
 # coding=utf-8

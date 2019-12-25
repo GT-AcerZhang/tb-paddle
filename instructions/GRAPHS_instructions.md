@@ -4,20 +4,25 @@ Tensorboard 的 **GRAPHS** 栏目用于显示计算图，有助于让用户更�
 
 先简要介绍基本的使用：
 
-* class SummaryWriter 中用于添加计算图的成员函数为 `add_paddle_graph`；
-* 由于 Paddle 使用 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
-来描述神经网络模型，所以函数`add_paddle_graph`的第一个参数为`fluid.Program`；
+* class SummaryWriter 的成员函数 `add_paddle_graph` 用于添加 Paddle 的计算图；
+* 由于 Paddle 使用
+[Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
+来描述神经网络模型，所以函数`add_paddle_graph`的第一个形参名为`fluid_program`，
+传入的实参类型为 `<class 'paddle.fluid.framework.Program'>`；
+* 函数`add_paddle_graph` 的第一个形参名为 `echo_vars`，
+此变量用于控制计算图的输入/输出变量的显示，当echo\_vars=True时显示输入/输出变量，否则只显示 OP。
 * Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
 
-接下来将详细介绍**GRAPHS**栏目的特性与使用方法。
+
+接下来将详细介绍 **GRAPHS** 栏目的特性与使用方法。
 
 ## 名称范围和节点
 
 一个复杂的计算图可能有数千个节点。当节点数量过多，很难直观地查看，甚至难以使用标准图工具来进行布置。
-为了进行简化，可以对变量名称设定范围`name_scope`。
-tensorboard 的 web 前端界面会根据 `name_scope` 来为计算图中的节点定义层次结构，默认情况下仅显示该层次结构的顶层。
+为了进行简化，可以对变量名称设定范围 `name_scope`。
+tensorboard 的前端界面会根据 `name_scope` 来为计算图中的节点定义层次结构，默认情况下仅显示该层次结构的顶层。
 
-Demo-1 fluid_name_scope-demo.py
+Demo-1 fluid\_name\_scope-demo.py
 
 ```python
 # coding=utf-8
@@ -30,10 +35,9 @@ with fluid.name_scope("hidden"):
     b = fluid.layers.data(name="b",shape=[1,2],dtype='float32')
     c = fluid.layers.elementwise_add(a,b)
 
-writer = SummaryWriter("log")
+writer = SummaryWriter("./log")
 main_program = fluid.default_main_program()
-# verbose 变量用于控制计算图的输入/输出变量的显示与否，当verbose=True时显示输入/输出变量，否则只显示Operator节点。
-writer.add_paddle_graph(fluid_program=main_program, verbose=True)
+writer.add_paddle_graph(fluid_program=main_program, echo_vars=True)
 writer.close()
 ```
 
@@ -41,10 +45,10 @@ writer.close()
 
 ```
 python fluid_name_scope-demo.py
-tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
+tensorboard --logdir ./log --host 0.0.0.0 --port 6066
 ```
 
-打开浏览器地址[http://0.0.0.0:6066/ ](http://0.0.0.0:6066/)，即可在 **GRAPHS** 栏目中查看计算图。
+打开浏览器地址[http://0.0.0.0:6066/](http://0.0.0.0:6066/)，即可在 **GRAPHS** 栏目中查看计算图。
 
 默认情况下仅显示该层次结构的顶层：
 
@@ -60,16 +64,17 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 图2. fluid.OP 示意图 <br/>
 </p>
 
-在 tensorboard 中， `OpNode` 显示为一个椭圆，右上角显示该节点的名称(**hidden/elementwise_add_0_**)，
-OP名称(**Operation: elementwise_add**)，属性列表(**Attributes**)，输入(**Inputs**)和输出(**Outputs**)。
+在 tensorboard 中， `OpNode` 显示为一个椭圆，右上角显示该节点的名称(hidden/elementwise\_add\_0\_)，
+OP名称(Operation: elementwise\_add)，属性列表(Attributes)，输入(Inputs)和输出(Outputs)。
 
-TensorFlow 图具有两种连接：数据依赖关系（`Dataflow edge`）和控制依赖关系（`Control dependency edge`）。
+TensorFlow 图具有两种连接：数据依赖关系（Dataflow edge）和控制依赖关系（Control dependency edge）。
 数据依赖关系显示两个`OpNode`之间的张量流动，该依赖关系显示为实线箭头，而控制依赖关系显示为虚线。
 
 `Dataflow edge`上的数字为张量的形状（shape），
-当`shape`中包含数字`-1`时，相应位置会显示为`?`号，表示 paddle 框架在计算时会自动补充为 batch_size。
+当`shape`中包含数字`-1`时，相应位置会显示为`?`号，表示 paddle 框架在计算时会自动补充为 batch\_size。
 
-点击选择计算图中的小圆点**a**，paddle 将小圆点(`Constant`)用于表示该计算图的输入变量，右上角的**Attributes**显示了该输入变量的数据类型`dtype`和形状`shape`。
+点击选择计算图中的小圆点**a**，paddle 将小圆点(`Constant`)用于表示该计算图的输入变量，
+右上角的**Attributes**显示了该输入变量的数据类型`dtype`和形状`shape`。
 
 <p align="center">
 <img src="../screenshots/Graph/Input_Variables.png" width=600><br/>
@@ -86,7 +91,9 @@ TensorFlow 图具有两种连接：数据依赖关系（`Dataflow edge`）和控
 
 **提示：** 要让图易于观看，按名称范围对节点进行分组至关重要。如果您要构建模型，名称范围可帮助您控制生成的直观展示。
 
-为了完整地展示 GRAPHS 栏目的功能，我们将[语义角色标注](https://github.com/PaddlePaddle/book/blob/develop/07.label_semantic_roles/README.cn.md)的`infer_program`作为参数传给`add_paddle_graph`，详情可查看[add_paddle_graph-demo.py](../API_demo/add_paddle_graph-demo.py#L242)。
+为了完整地展示 GRAPHS 栏目的功能，
+我们将[语义角色标注](https://github.com/PaddlePaddle/book/blob/develop/07.label_semantic_roles/README.cn.md)的
+`infer_program`作为参数传给`add_paddle_graph`，详情可查看[add_paddle_graph-demo.py](../API_demo/add_paddle_graph-demo.py#L242)。
 
 ## GRAPHS 栏目界面介绍
 
@@ -118,11 +125,13 @@ GRAPHS 栏目的左侧为工具栏，各个按钮与选项的作用如下：
 
 ## 显示优化
 
-为了让图易于查看，Tensorboard 设置了无连接序列(Unconnected series)来聚集命名规则相同的节点，并为高级节点划分了辅助区域。
+为了让图易于查看，Tensorboard 设置了无连接序列(Unconnected series)来
+聚集命名规则相同的节点，并为高级节点划分了辅助区域。
 
 ### Unconnected series
 
-如果几个节点的名称除了末尾数字不同，比如 feed_0, feed_1, ..., feed_7，那么 Tensorboard 在显示时会默认将这些节点转化为无连接序列(Unconnected series)。例如：
+如果几个节点的名称除了末尾数字不同，比如 feed\_0, feed\_1, ..., feed\_7，
+那么 Tensorboard 在显示时会默认将这些节点转化为无连接序列(Unconnected series)。例如：
 
 
 <p align="center">
@@ -141,10 +150,12 @@ GRAPHS 栏目的左侧为工具栏，各个按钮与选项的作用如下：
 
 ### 辅助区域
 
-在计算图中，有些节点的连接数特别多，我们将这些节点成为高级节点（high-degree OpNode）。举个例子，很多节点都与初始化步骤中的`init`节点有控制依赖关系，
+在计算图中，有些节点的连接数特别多，我们将这些节点成为高级节点(high-degree OpNode)。
+举个例子，很多节点都与初始化步骤中的`init`节点有控制依赖关系，
 如果将`init`节点与其他节点都画在一张图中，可能会导致计算图很复杂以致难以查看。
 
-为此，Tensorboard 会自动将高级节点分离到右上角的一个辅助区域（auxiliary area），用简洁的示意图画出高级节点与其他节点的连接关系。
+为此，Tensorboard 会自动将高级节点分离到右上角的一个辅助区域(auxiliary area)，
+用简洁的示意图画出高级节点与其他节点的连接关系。
 
 例如：
 
@@ -153,12 +164,13 @@ GRAPHS 栏目的左侧为工具栏，各个按钮与选项的作用如下：
 图7. 辅助区域中的高级节点示意图 <br/>
 </p>
 
-为了进一步减轻显示的杂乱，辅助区域中的高级节点仅显示5个连接，而将其余显示为 `... residual_num more`，其中`residual_num`为未显示的节点的数目。
+为了进一步减轻显示的杂乱，辅助区域中的高级节点仅显示5个连接，
+而将其余显示为 `... residual_num more`，其中`residual_num`为未显示的节点的数目。
 
 ### 张量形状（Tensor Shape）
 
-当序列化的`GraphDef`中包含`TensorShapeProto`时，计算图会向数据流向边(`Dataflow edge`)添加张量的形状(`shape`)。
-数据流向边的宽度反映张量的大小，当张量的`shape`比较大时，相应的`edge`会比较粗，反之比较细。
+当序列化的`GraphDef`中包含 `TensorShapeProto` 时，计算图会向数据流向边 (`Dataflow edge`) 添加张量的形状 (`shape`)。
+数据流向边的宽度反映张量的大小，当张量的 `shape` 比较大时，相应的 `edge` 会比较粗，反之比较细。
 
 ### 颜色 （Color）
 
@@ -170,7 +182,7 @@ Tensorboard 的 **GRAPHS** 的左侧栏目中有一个 `Color` 选项，用来�
 
 <p align="center">
 <img src="../screenshots/Graph/structure_color.png" width=600><br/>
-图9. Color_Structure 节点配色示意图 <br/>
+图9. Color\_Structure 节点配色示意图 <br/>
 </p>
 
 ## 交互
