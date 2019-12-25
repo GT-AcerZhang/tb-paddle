@@ -8,25 +8,10 @@ class SummaryWriter 中用于打点标量数据的成员函数包括：
 * <a href="#2"> add_scalars </a> ：在单张图中画多条折线
 * <a href="#3"> export_scalars_to_json </a>：将数据保存为 json 格式
 
+以上 API 的定义与实现均在文件[../tb_paddle/summary_writer.py](../tb_paddle/summary_writer.py) 中。
+
 <a name="1"></a>
 ## Class SummaryWriter 的成员函数 add\_scalar
-
-函数定义：
-
-```pyhton
-def add_scalar(self, tag, scalar_value, global_step=None, walltime=None):
-    """Add scalar data to summary.
-
-    :param tag: Data identifier.
-    :type tag: string
-    :param scalar_value: Value to save.
-    :type scalar_value: float
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param walltime: 打点时间，默认值为 time.time()
-    :type walltime: optional, float
-    """ 
-```
 
 demo-1 add\_scalar-demo.py
 
@@ -57,23 +42,6 @@ tensorboard --logdir ./log --host 0.0.0.0 --port 6066
 
 <a name="2"></a>
 ## Class SummaryWriter 的成员函数 add\_scalars
-
-函数定义：
-
-```python
-def add_scalars(self, main_tag, tag_scalar_dict, global_step=None, walltime=None):
-    """Adds many scalar data to summary.
-    
-    :param main_tag: The parent name for the tags.
-    :type main_tag: string
-    :param tag_scalar_dict: Key-value pair storing the tag and corresponding values.
-    :type tag_scalar_dict: dict
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param walltime: 打点时间，默认值为 time.time()
-    :type walltime: optional, float
-    """
-```
 
 demo-2 add\_scalars-demo.py
 

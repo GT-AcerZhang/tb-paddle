@@ -4,30 +4,11 @@ TensorBoard 的 **PROJECTOR** 栏目全称为 Embedding Projector，这是一个
 
 class SummaryWriter 中用于打点 embedding 高维数据的成员函数为`add_embedding`。
 
+`add_embedding` 函数的定义与实现均在文件[../tb_paddle/summary_writer.py](../tb_paddle/summary_writer.py) 中。
+
 ##  Class SummaryWriter 的成员函数 `add_embedding`
 
-```python
-def add_embedding(self, mat, metadata=None, label_img=None, global_step=None, tag='default', metadata_header=None):
-    """Add embedding projector data to summary.
-
-    :param mat: A matrix which each row is the feature vector of the data point.
-    :type mat: numpy.array
-    :param metadata: A list of labels, each element will be convert to string.
-    :type metadata: list.
-    :param label_img: Images correspond to each data point.
-    :type label_img: numpy.array
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param tag: Name for the embedding.
-    :type tag: string
-
-    :Shape:
-        mat: :math: (N, D), where N is number of data and D is feature dimension.
-        label_img: (N, C, H, W)
-    """
-```
-
-Demo-1  add_embedding-mnist.py
+Demo-1  add\_embedding-mnist.py
 
 ```python
 # coding=utf-8
@@ -120,3 +101,4 @@ Embedding 在机器学习/深度学习领域的应用很广泛，推荐系统，
 3. 一些算法在高维度数据上容易表现不佳，降维可提高算法可用性。
 4. 降维可以用删除冗余特征解决多重共线性问题。比如我们有两个变量：“一段时间内在跑步机上的耗时”和“卡路里消耗量”。这两个变量高度相关，在跑步机上花的时间越长，燃烧的卡路里自然就越多。因此，同时存储这两个数据意义不大，只需一个就够了。
 5. 降维有助于数据可视化。如前所述，如果数据维度很高，可视化会变得相当困难，而绘制 `2D/3D` 数据的图表就非常简单。
+

@@ -4,15 +4,15 @@ Tensorboard 的 **GRAPHS** 栏目用于显示计算图，有助于让用户更�
 
 先简要介绍基本的使用：
 
-* class SummaryWriter 的成员函数 `add_paddle_graph` 用于添加 Paddle 的计算图；
+* class SummaryWriter 的成员函数 [add_paddle_graph](../tb_paddle/summary_writer.py) 用于添加 Paddle 的计算图；
 * 由于 Paddle 使用
 [Program](https://paddlepaddle.org.cn/documentation/docs/zh/1.5/beginners_guide/programming_guide/programming_guide.html#permalink-5--program-) 
 来描述神经网络模型，所以函数`add_paddle_graph`的第一个形参名为`fluid_program`，
 传入的实参类型为 `<class 'paddle.fluid.framework.Program'>`；
-* 函数`add_paddle_graph` 的第一个形参名为 `echo_vars`，
-此变量用于控制计算图的输入/输出变量的显示，当echo\_vars=True时显示输入/输出变量，否则只显示 OP。
+* 函数`add_paddle_graph` 的第二个形参名为 `echo_vars`，
+此变量用于控制计算图的输入/输出变量的显示，
+当 echo\_vars=True 时显示输入/输出变量，否则只显示 OP。
 * Paddle 提供了`paddle.fluid.name_scope()`来设置名称空间，以实现计算图的缩放。
-
 
 接下来将详细介绍 **GRAPHS** 栏目的特性与使用方法。
 

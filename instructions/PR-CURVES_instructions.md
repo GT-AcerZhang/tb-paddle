@@ -1,11 +1,14 @@
 # PR CURVES
 
-TensorBoard 的 **PR CURVES** 栏目显示 [Precision-Recall curve](https://github.com/tensorflow/tensorboard/blob/master/tensorboard/plugins/pr_curve/README.md) 。
+TensorBoard 的 **PR CURVES** 栏目显示
+[Precision-Recall curve](https://github.com/tensorflow/tensorboard/blob/master/tensorboard/plugins/pr_curve/README.md) 。
 
 class SummaryWriter 中用于打点pr-curve数据的成员函数包括：
 
 * <a href="#1"> add_pr_curve </a>
 * <a href="#2"> add_pr_curve_raw </a>
+
+以上 API 的定义与实现均在文件[../tb_paddle/summary_writer.py](../tb_paddle/summary_writer.py) 中。
 
 ## 机器学习性能评估指标
 
@@ -44,30 +47,7 @@ FN = 20
 <a name="1"></a>
 ## Class SummaryWriter 的成员函数 add_pr_curve
 
-函数定义：
-
-```python
-def add_pr_curve(self, tag, labels, predictions, global_step=None, 
-                 num_thresholds=127, weights=None, walltime=None):
-    """根据预测的概率值，以及其对应的标准答案计算 precision-recall 的结果，并以折线图展示。
-    
-    :param tag: Data identifier.
-    :type tag: string
-    :param labels: 标准答案，每一个元素都为 0/1（或者 True/False)。
-    :type labels: numpy.array
-    :param predictions: 预测结果，The probability that an element be classified as true，
-                        Value should be set in [0, 1].
-    :type predictions: numpy.array
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param num_thresholds: Number of thresholds used to draw the curve.
-    :type num_thresholds: int
-    :param walltime: 实际时间。
-    :type walltime: float
-    """
-```
-
-Demo-1 add_pr_curve-demo.py
+Demo-1 add\_pr\_curve-demo.py
 
 ```python
 # coding=utf-8
@@ -84,11 +64,13 @@ for step_ in range(10):
     
     for num_thresholds_ in range(7, 197, 20):
         tag_ = 'pr_curve-' + str(num_thresholds_)
-        writer.add_pr_curve(tag=tag_, 
-                            labels=labels_, 
-                            predictions=predictions_, 
-                            global_step=step_, 
-                            num_thresholds=num_thresholds_)
+        writer.add_pr_curve(
+            tag=tag_, 
+            labels=labels_, 
+            predictions=predictions_, 
+            global_step=step_, 
+            num_thresholds=num_thresholds_
+            )
 
 writer.close()
 ```
@@ -112,43 +94,7 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 <a name="2"></a>
 ## class SummaryWriter 的成员函数 add_pr_curve_raw
 
-```
-def add_pr_curve_raw(self, tag, true_positive_counts,
-                         false_positive_counts,
-                         true_negative_counts,
-                         false_negative_counts,
-                         precision,
-                         recall,
-                         global_step=None,
-                         num_thresholds=127,
-                         weights=None,
-                         walltime=None):
-    """Adds precision recall curve with raw data.
-
-    :param tag: Data identifier.
-    :type tag: string
-    :param true_positive_counts: true positive counts.
-    :type true_positive_counts: numpy.array
-    :param false_positive_counts: false positive counts.
-    :type false_positive_counts: numpy.array
-    :param true_negative_counts: true negative counts.
-    :type true_negative_counts: numpy.array
-    :param false_negative_counts: false negative counts.
-    :type false_negative_counts: numpy.array
-    :param precision: precision
-    :type precision: numpy.array
-    :param recall: recall
-    :type recall: numpy.array
-    :param global_step: Global step value to record
-    :type global_step: int
-    :param num_thresholds: Number of thresholds used to draw the curve.
-    :type num_thresholds: int
-    :param walltime: Optional override default walltime (time.time()) of event
-    :type walltime: float
-    """
-```
-
-Demo-2 add_pr_curve_raw-demo.py
+Demo-2 add\_pr\_curve\_raw-demo.py
 
 ```python
 # coding=utf-8
@@ -166,11 +112,17 @@ recall = [1.0, 0.8533334, 0.28, 0.0666667, 0.0]
 
 step = 0 
 for threshold in range(7, 207, 20):
-    writer.add_pr_curve_raw('prcurve with raw data',
-               true_positive_counts, false_positive_counts, 
-               true_negative_counts, false_negative_counts, 
-               precision, recall, global_step=step,
-               num_thresholds=threshold)
+    writer.add_pr_curve_raw(
+        'prcurve with raw data',
+        true_positive_counts,
+        false_positive_counts, 
+        true_negative_counts,
+        false_negative_counts, 
+        precision,
+        recall,
+        global_step=step,
+        num_thresholds=threshold
+        )
     step += 1
 
 writer.close()

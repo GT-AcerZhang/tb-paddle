@@ -4,26 +4,12 @@ TensorBoard 的[TEXT](instructions/TEXT_instructions.md)栏目显示文本。
 
 class SummaryWriter 中用于打点文本数据的成员函数为`add_text`。
 
+函数 `add_text` 的定义与实现均在
+文件[../tb_paddle/summary_writer.py](../tb_paddle/summary_writer.py) 中。
+
 ## Class SummaryWriter 的成员函数 add_text
 
-函数定义：
-
-```python
-def add_text(self, tag, text, global_step=None, walltime=None):
-    """Add text data to summary.
-
-    :param tag: Data identifier.
-    :type tag: str
-    :param text: String to save.
-    :type text: str
-    :param global_step: Global step value to record
-    :type global_step: int
-    :param walltime: Optional override current time of event
-    :type walltime: float
-    """
-```
-
-Demo-1 add_text-demo.py
+Demo-1 add\_text-demo.py
 
 ```python
 # coding=utf-8

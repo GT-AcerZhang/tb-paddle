@@ -13,28 +13,12 @@ TensorBoard 的 **CUSTOM SCALARS** 栏目显示用户自定义组合的折线图
 
 就可以在同一个图中同时绘制多条折线，以直观地进行数据比较和分析。
 
+以上 API 的定义与实现均在文件[../tb_paddle/summary_writer.py](../tb_paddle/summary_writer.py) 中。
+
 <a name="1"></a>
 ## Class Summary 的成员函数 add_custom_scalars
 
-```python
-def add_custom_scalars(self, layout):
-    """Create special chart by collecting charts tags in 'scalars'.
-    Note that this function can only be called once for each SummaryWriter() object.
-    Because it only provides metadata to tensorboard, the function can be called before or after the training loop.
-
-    :param layout: {category_name : charts}
-                category_name 类型为 `string`，表示分类的名称；
-                charts 类型为 `dict`，为 {title_name : list_of_properties}；
-                    title_name 是这一个子类的名称;
-                    list_of_properties 的第一个参数为该子类的类型，可选值为 `Multiline` 或者 `Margin`：
-                        Multiline : 在一张图中，显示 tag 列表对应的所有折线；
-                        Margin : 只显示第一个 tag 对应的折线，如果使用 Margin，则 tag 列表的数量必须为3, margin 常用于可视化置信区间。
-                    list_of_properties 的第二个参数为 tag 列表。
-    :type layout: dict
-    """
-```
-
-Demo-1 add_custom_scalars-demo.py
+Demo-1 add\_custom\_scalars-demo.py
 
 ```python
 # coding=utf-8
@@ -64,10 +48,9 @@ with SummaryWriter('log') as writer:
     writer.add_custom_scalars(layout)
 ```
 
-执行以下指令，启动服务器：
+运行程序，启动服务器：
 
 ```
-rm -rf ./log
 python add_custom_scalars-demo.py
 tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 ```
@@ -82,23 +65,8 @@ tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
 <a name="2"></a>
 ## Class Summary 的成员函数 add_custom_scalars_multilinechart
 
-组合多条折线，便于直观地查看，进而有助于数据比较和分析。
-
-函数定义：
-
-```python
-def add_custom_scalars_multilinechart(self, tags, category='default', title='untitled'):
-    """此函数的三个输入参数，共同构成 add_custom_scalars 函数的输入参数 layout
-    
-    :param tags: list of tags that have been used in ``add_scalar()``.
-    :type tags: list of string 
-    :param category: category_name.
-    :type category: string
-    :param title: title_name.
-    :type title: string
-    """
-    layout = {category: {title: ['Multiline', tags]}}
-```
+函数 `add_custom_scalars_multilinechart` 用于组合多条折线，
+便于直观地查看，进而有助于数据比较和分析。
 
 Demo-2 add_custom_scalars_multilinechart.py
 
@@ -126,23 +94,7 @@ with SummaryWriter('log') as writer:
 <a name="3"></a>
 ## Class Summary 的成员函数 add_custom_scalars_marginchart
 
-函数 add_custom_scalars_marginchart 用于可视化置信区间。
-
-函数定义：
-
-```python
-def add_custom_scalars_marginchart(self, tags, category='default', title='untitled'):
-    """此函数的三个输入参数，共同构成 add_custom_scalars 函数的输入参数 layout
-    
-    :param tags: list of tags that have been used in ``add_scalar()``, tags 的长度必须为3。
-    :type tags: list of string 
-    :param category: category_name.
-    :type category: string
-    :param title: title_name.
-    :type title: string
-    """
-    layout = {category: {title: ['Margin', tags]}}
-```
+函数 `add_custom_scalars_marginchart` 用于可视化置信区间。
 
 Demo-3 add_custom_scalars_marginchart.py
 

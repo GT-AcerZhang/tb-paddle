@@ -4,36 +4,18 @@ TensorBoard 的[AUDIO](instructions/AUDIO_instructions.md) 栏目播放音频。
 
 class SummaryWriter 中用于打点音频数据的成员函数为 `add_audio`。
 
+`add_audio` 的定义与实现均在文件[../tb_paddle/summary_writer.py](../tb_paddle/summary_writer.py) 中。
+
 ### SummaryWriter 的成员函数 add_audio
 
-```python
-def add_audio(self, tag, sound, global_step=None, sample_rate=44100, walltime=None):
-    """Add audio data to summary.
-
-    :param tag: Data identifier.
-    :type tag: str
-    :param sound: Sound data.
-    :type sound: numpy.array
-    :param global_step: Global step value to record.
-    :type global_step: int
-    :param sample_rate: sample rate in Hz.
-    :type sample_rate: int
-    :param walltime: Optional override current time of event.
-    :type walltime: float
-
-    Shape:
-      sound: :math:`(1, L)`. The values should lie between [-1, 1].
-```
-
 Demo-1 add\_audio-demo.py
-
 
 ```python
 # coding=utf-8
 import numpy as np
 from tb_paddle import SummaryWriter
 
-writer = SummaryWriter('log')
+writer = SummaryWriter('./log')
 
 sample_rate = 44100
 data = np.zeros(sample_rate * 5)
@@ -51,7 +33,7 @@ writer.close()
 
 ```
 python add_audio-demo.py
-tensorboard --logdir ./log/ --host 0.0.0.0 --port 6066
+tensorboard --logdir ./log --host 0.0.0.0 --port 6066
 ```
 
 打开浏览器地址 [http://0.0.0.0:6066/](http://0.0.0.0:6066/) ，即可播放音频：
