@@ -2,7 +2,7 @@
 
 ## 创建 RealInterval 对象
 
-`class RealInterval` 的初始化函数为：
+[class RealInterval](../../tb_paddle/hparams_summary.py) 的初始化函数为：
 
 ```python
 class RealInterval(Domain):

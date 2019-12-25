@@ -2,7 +2,7 @@
 
 ## 创建 IntInterval 对象
 
-`class IntInterval` 的初始化函数为：
+[class IntInterval](../../tb_paddle/hparams_summary.py) 的初始化函数为：
 
 ```python
 class IntInterval(Domain):
