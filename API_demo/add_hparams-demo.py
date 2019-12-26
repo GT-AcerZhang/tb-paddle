@@ -28,7 +28,7 @@ def run(run_dir, hparams, session_num):
 
 
 session_num = 0
-save_dir_name = 'logs'
+save_dir_name = 'log'
 for num_units in HP_NUM_UNITS.domain.values:
     for optimizer in HP_OPTIMIZER.domain.values:
         for layers in (HP_LAYERS.domain.min_value, HP_LAYERS.domain.max_value):

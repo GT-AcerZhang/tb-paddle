@@ -29,7 +29,7 @@ HP_DROPOUT = hp.HParam(
 hparams=[HP_NUM_UNITS, HP_OPTIMIZER, HP_LAYERS, HP_DROPOUT]
 # 只有 tag 为 'accuracy' 的 scalar 才是该组超参实验的结果 
 metrics=[hp.Metric('accuracy', display_name='ACCURACY')]
-tb_writer = SummaryWriter('logs')
+tb_writer = SummaryWriter('log')
 tb_writer.add_hparams_config(hparams, metrics)
 
 def run(run_dir, hparams, session_num):
@@ -51,7 +51,7 @@ def run(run_dir, hparams, session_num):
 
 
 session_num = 0
-save_dir_name = 'logs'
+save_dir_name = 'log'
 for num_units in HP_NUM_UNITS.domain.values:
     for optimizer in HP_OPTIMIZER.domain.values:
         for layers in (HP_LAYERS.domain.min_value, HP_LAYERS.domain.max_value):

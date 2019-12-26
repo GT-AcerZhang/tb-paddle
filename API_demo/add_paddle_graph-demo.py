@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument(
         '--enable_ce',
         action='store_true',
-        help="If set, run the task with continuous evaluation logs.")
+        help="If set, run the task with continuous evaluation log.")
     parser.add_argument(
         '--use_gpu', type=int, default=0, help="Whether to use GPU or not.")
     parser.add_argument(
