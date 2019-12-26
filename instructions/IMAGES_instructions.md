@@ -2,7 +2,7 @@
 
 TensorBoard 的 **IMAGES** 栏目显示图片和视频。
 
-class SummaryWriter 中用于打点标量数据的 API 包括：
+class SummaryWriter 中用于打点图片数据的 API 包括：
 
 * <a href="#1"> add_image </a> ：在单个子框中显示一张图片
 * <a href="#2"> add_images </a> ：在单个子框中显示多张图片
