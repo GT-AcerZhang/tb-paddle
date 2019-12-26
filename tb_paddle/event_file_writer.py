@@ -93,7 +93,7 @@ class EventFileWriter(object):
         the event file:
 
         :param logdir: Directory where event file will be written.
-        :type logdir: string
+        :type logdir: str
         :param max_queue_size: Size of the queue for pending events and summaries.
         :type max_queue_size: int
         """

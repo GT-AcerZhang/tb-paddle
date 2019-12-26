@@ -1,27 +1,30 @@
-import os.path
+import os
 import struct
 
+from .logger import logger
 from .crc32c import *
 
-REGISTERED_FACTORIES = {}
 
-
-def directory_check(path):
-    """Initialize the directory for log files."""
-    try:
-        prefix = path.split(':')[0]
-        factory = REGISTERED_FACTORIES[prefix]
-        return factory.directory_check(path)
-    except KeyError:
-        if not os.path.exists(path):
-            os.makedirs(path)
-
-
+def directory_check(log_dir):
+    """Initialize the directory for log files.
+    
+    :param log_dir: The directory to store log files.
+    :type log_dir: str
+    """
+    if os.path.exists(log_dir) and os.path.isfile(log_dir):
+        logger.error("{} is already exists, however, \
+            it is not a directory.".format(log_dir))
+        exit()
+ 
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+     
+     
 class RecordWriter(object):
     def __init__(self, path):
         self.path = path
         self._writer = open(path, 'wb')
-
+     
     def write(self, data):
         w = self._writer.write
         header = struct.pack('Q', len(data))
