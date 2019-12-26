@@ -51,16 +51,19 @@ def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', 
 
 其中各个参数的含义为：
 
-* `logdir` ：指定日志文件的存放路径，如果指定路径中没有 tfevents 文件，就新建一个 tfevents 文件，否则会向已有的 tfevents 文件中写数据。`logdir`的实参可以为 `None`，存放路径将设为 `./runs/DATETIME_HOSTNAME/`；
-* `max_queue` ： 缓冲区队列的最大长度；
-* `comment` ：如果`logdir`为`None`，则在默认存放路径中添加后缀。如果`logdir`不是`None`，那么该参数没有任何作用；
-* `filename_suffix` ：event 文件名后缀；
+* `logdir`: 指定日志文件的存放路径，如果指定路径中没有 tfevents 文件，
+就新建一个 tfevents 文件，否则会向已有的 tfevents 文件中写数据。
+`logdir`的实参可以为 `None`，存放路径将设为 `./runs/DATETIME_HOSTNAME/`;
+* `max_queue`: 缓冲区队列的最大长度；
+* `comment`: 如果`logdir`为`None`，则在默认存放路径中添加后缀。如果`logdir`不是`None`，那么该参数没有任何作用；
+* `filename_suffix`: event 文件名后缀；
 
 ## TensorBoard 启动命令
 
 启动 TensorBoard 服务的命令为 `tensorboard`，输入 `tensorboard --helpful` 则可查看此命令的帮助文档。
 
-`tensorboard` 命令必须搭配选项 `--logdir` 指定日志文件的目录路径，通常还需使用选项 `--host` 指定机器的 IP 地址, 选项 `--port` 指定端口号：
+`tensorboard` 命令必须搭配选项 `--logdir` 指定日志文件的目录路径，
+通常还需使用选项 `--host` 指定机器的 IP 地址, 选项 `--port` 指定端口号：
 
 ```
 tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_number>
@@ -70,13 +73,14 @@ tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_number>
 
 1. `--logdir`
 
-选项 `--logdir` 用于指定日志文件的目录路径，在不同的目录路径间加上逗号，则可同时指定多个目录。例如：
+选项 `--logdir` 用于指定日志文件的目录路径，例如
 
 ```
-tensorboard --logdir A:path/to/A_dir,B:another_path/to/B_dir
+tensorboard --logdir /PATH/TO/log
 ```
 
-TensorBoard 会递归地检查指定目录中的所有子目录，并加载其中的日志文件，在前端网页中可点击 `Runs` 进行分类。比如目录结构为：
+TensorBoard 会递归地检查指定目录中的所有子目录，加载其中的日志文件，
+前端网页中的 `Runs` 则是不同子目录的名称。比如目录结构为：
 
 ```
 log
@@ -94,7 +98,7 @@ log
 
 <p align="center">
 <img src="./screenshots/tensorboard_manuals/Runs.png" width=300><br/>
-图1. TensorBoard Runs 选项 - 按目录分类 <br/>
+图1. TensorBoard Runs 按钮 - 按目录分类 <br/>
 
 2. `--host`
 
