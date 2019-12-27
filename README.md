@@ -13,13 +13,17 @@ AUDIO, PROJECTOR,PR CURVES, MESH, CUSTOM SCALARS 这11个栏目的功能。
 |栏目|展示图表|作用|
 |:----:|:---:|:---|
 |[SCALARS](instructions/SCALARS_instructions.md)|折线图|显示损失函数值、准确率等标量数据|
-|[HISTOGRAMS, DISTRIBUTIONS](instructions/HISTOGRAMS_DISTRIBUTIONS_instructions.md)|分布图|显示行向量数据的数值分布与变化趋势，便于查看权重矩阵、偏置项、梯度等参数的变化|
 |[GRAPHS](instructions/GRAPHS_instructions.md)|计算图|显示神经网络的模型结构|
+|[HPARAMS](instructions/HPARAMS_instructions.md)|超参数|超参调优|
 |[IMAGES](instructions/IMAGES_instructions.md)|图片和视频|显示图片和视频|
 |[AUDIO](instructions/AUDIO_instructions.md)|音频|播放音频|
 |[TEXT](instructions/TEXT_instructions.md)|文本|显示文本|
-|[PROJECTOR](instructions/PROJECTOR_instructions.md)|交互式的嵌入可视化|通过降维方法将高维数据嵌入到 2D/3D 中显示，支持 PCA, t-SNE, UMAP, CUSTOM 这四种降维方法|
-|[PR CURVES](instructions/PR-CURVES_instructions.md)|Precision-Recall曲线|根据预测的概率值及其对应的准确答案计算[Precision-Recall](https://en.wikipedia.org/wiki/Precision_and_recall) 曲线|
+|[HISTOGRAMS, DISTRIBUTIONS](instructions/HISTOGRAMS_DISTRIBUTIONS_instructions.md)|分布图|显
+示行向量数据的数值分布与变化趋势，便于查看权重矩阵、偏置项、梯度等参数的变化|
+|[PROJECTOR](instructions/PROJECTOR_instructions.md)|交互式的嵌入可视化|通
+过降维方法将高维数据嵌入到 2D/3D 中显示，支持 PCA, t-SNE, UMAP, CUSTOM 这四种降维方法|
+|[PR CURVES](instructions/PR-CURVES_instructions.md)|Precision-Recall曲线|根
+据预测的概率值及其对应的准确答案计算[Precision-Recall](https://en.wikipedia.org/wiki/Precision_and_recall) 曲线|
 |[MESH](instructions/MESH_instructions.md)|网格和点云|显示3D图形的网格和点云(Meshes and points cloud)|
 |[CUSTOM SCALARS](instructions/CUSTOM_SCALARS_instructions.md)|组合折线图|显示用户自定义组合的折线图|
 
