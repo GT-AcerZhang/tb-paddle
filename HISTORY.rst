@@ -39,3 +39,7 @@ History
 0.3.7 (2019-12-25)
 
 * Append new API `hparams_api` to support TensorBoard DashBoard `HParams`.
+
+0.3.8 (2019-12-30)
+
+* Fix the bug of forgotten module `time`.
