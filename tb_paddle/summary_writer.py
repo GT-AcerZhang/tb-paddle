@@ -3,12 +3,13 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
 import json
+import numpy as np
 import os
 import six
-from .logger import logger
+import time
 
+from .logger import logger
 from .file_writer import FileWriter
 from .embedding import make_mat, make_sprite, make_tsv, append_pbtxt
 from .utils import figure_to_image

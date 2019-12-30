@@ -21,8 +21,8 @@ import abc
 import hashlib
 import json
 import random
-import time
 import six
+import time
 
 from .proto import summary_pb2
 from .proto import api_pb2
@@ -409,7 +409,6 @@ def hparams_pb(hparams, trial_id=None, start_time_secs=None):
     """
     if start_time_secs is None:
         start_time_secs = time.time()
-    # hparams = _normalize_hparams(hparams)
     result = {}
     for (k, v) in six.iteritems(hparams):
         if isinstance(k, HParam):

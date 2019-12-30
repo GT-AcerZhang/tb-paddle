@@ -20,10 +20,9 @@ from __future__ import print_function
 
 import os
 import socket
+import six
 import threading
 import time
-
-import six
 
 from .proto import event_pb2
 from .record_writer import RecordWriter, directory_check
