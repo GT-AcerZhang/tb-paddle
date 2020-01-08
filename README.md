@@ -64,7 +64,7 @@ def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', 
 启动 TensorBoard 服务的命令为 `tensorboard`，输入 `tensorboard --helpful` 则可查看此命令的帮助文档。
 
 `tensorboard` 命令必须搭配选项 `--logdir` 指定日志文件的目录路径，
-通常还需使用选项 `--host` 指定机器的 IP 地址, 选项 `--port` 指定端口号：
+通常还需使用选项 `--host` 指定机器的 IP 地址，选项 `--port` 指定端口号：
 
 ```
 tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_number>
