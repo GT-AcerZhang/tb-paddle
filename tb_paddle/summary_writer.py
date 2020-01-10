@@ -34,19 +34,19 @@ class SummaryWriter(object):
         """Creates a `SummaryWriter` that will write out events and summaries to the event file.
 
         :param logdir: Save directory location. Default is runs/**CURRENT_DATETIME_HOSTNAME**,
-                       which changes after each run. Use hierarchical folder structure to 
-                       compare between runs easily. e.g. pass in 'runs/exp1', 'runs/exp2', etc.
-                       for each new experiment to compare across them.
+            which changes after each run. Use hierarchical folder structure to 
+            compare between runs easily. e.g. pass in 'runs/exp1', 'runs/exp2', etc.
+            for each new experiment to compare across them.
         :type logdir: string
         :param max_queue: Size of the queue for pending events and summaries before one of
-                          the 'add' calls forces a flush to disk.
+            the 'add' calls forces a flush to disk.
         :type max_queue: int
-        :param comment: Comment logdir suffix appended to the default ``logdir``.
-                        If ``logdir`` is assigned, this argument has no effect.
+        :param comment: Comment logdir suffix appended to the default ``logdir``,
+            If ``logdir`` is assigned, this argument has no effect.
         :type  comment: string
         :param filename_suffix: Suffix added to all event filenames in
-                                the logdir directory. More details on filename construction in
-                                tensorboard.summary.writer.event_file_writer.EventFileWriter.
+            the logdir directory. More details on filename construction in
+            tensorboard.summary.writer.event_file_writer.EventFileWriter.
         :type filename_suffix: string
 
         Examples:
@@ -72,11 +72,12 @@ class SummaryWriter(object):
         self._filename_suffix = filename_suffix
         self.kwargs = kwargs
 
-        # Initialize the file writers, but they can be cleared out on close and recreated later as needed.
+        # Initialize the file writers,
+        # but they can be cleared out on close and recreated later as needed.
         self.file_writer = self.all_writers = None
         self._get_file_writer()
 
-        # Create default bins for histograms, see generate_testdata.py in tensorflow/tensorboard
+        # Create default bins for histograms
         v = 1E-12
         buckets = []
         neg_buckets = []
@@ -90,7 +91,7 @@ class SummaryWriter(object):
 
     def __append_to_scalar_dict(self, tag, scalar_value, global_step, timestamp):
         """This adds an entry to the self.scalar_dict datastructure with format
-        {writer_id : [[timestamp, step, value], ...], ...}.
+            {writer_id : [[timestamp, step, value], ...], ...}.
         """
         from .x2num import make_np
         if tag not in self.scalar_dict.keys():
@@ -99,10 +100,11 @@ class SummaryWriter(object):
 
     def _get_file_writer(self):
         if self.all_writers is None or self.file_writer is None:
-            self.file_writer = FileWriter(logdir=self.logdir,
-                                          max_queue=self._max_queue,
-                                          filename_suffix=self._filename_suffix,
-                                          **self.kwargs)
+            self.file_writer = FileWriter(
+                logdir=self.logdir,
+                max_queue=self._max_queue,
+                filename_suffix=self._filename_suffix,
+                **self.kwargs)
             self.all_writers = {self.file_writer.get_logdir(): self.file_writer}
         
         return self.file_writer
@@ -131,7 +133,8 @@ class SummaryWriter(object):
     def add_scalars(self, main_tag, tag_scalar_dict, global_step=None, walltime=None):
         """Adds many scalar data to summary.
 
-        Note that this function also keeps logged scalars in memory. In extreme case it explodes your RAM.
+        Note that this function also keeps logged scalars in memory. 
+        In extreme case it explodes your RAM.
 
         :param main_tag: The parent name for the tags.
         :type main_tag: str
@@ -167,7 +170,14 @@ class SummaryWriter(object):
             json.dump(self.scalar_dict, f)
         self.scalar_dict = {}
 
-    def add_histogram(self, tag, values, global_step=None, bins='tensorflow', walltime=None, max_bins=None):
+    def add_histogram(
+            self, 
+            tag,
+            values,
+            global_step=None,
+            bins='tensorflow',
+            walltime=None,
+            max_bins=None):
         """Add histogram to summary.
 
         :param tag: Data identifier.
@@ -189,9 +199,18 @@ class SummaryWriter(object):
             histogram(tag, values, bins, max_bins=max_bins), global_step, walltime)
         self.flush()
 
-    def add_histogram_raw(self, tag, min, max, num, sum, sum_squares,
-                          bucket_limits, bucket_counts, global_step=None,
-                          walltime=None):
+    def add_histogram_raw(
+            self,
+            tag,
+            min,
+            max,
+            num,
+            sum,
+            sum_squares,
+            bucket_limits, 
+            bucket_counts,
+            global_step=None,
+            walltime=None):
         """Adds histogram with raw data.
 
         :param tag: Data identifier.
@@ -285,9 +304,19 @@ class SummaryWriter(object):
             image(tag, input_images, dataformats=dataformats), global_step, walltime)
         self.flush()
 
-    def add_image_with_boxes(self, tag, input_image, input_box, global_step=None,
-                             walltime=None, dataformats='CHW', labels=None, 
-                             box_color='red', text_color='white', box_thickness=1, **kwargs):
+    def add_image_with_boxes(
+            self, 
+            tag, 
+            input_image,
+            input_box,
+            global_step=None,
+            walltime=None,
+            dataformats='CHW',
+            labels=None,
+            box_color='red',
+            text_color='white',
+            box_thickness=1,
+            **kwargs):
         """Add image and draw bounding boxes on the image.
 
         :param tag: Data identifier.
@@ -321,11 +350,20 @@ class SummaryWriter(object):
                 logger.warning('Number of labels do not equal to number of box, skip the labels.')
                 labels = None
 
-        self._get_file_writer().add_summary(image_boxes(
-            tag, input_image, input_box, dataformats=dataformats, labels=labels, 
-            box_color=box_color, text_color=text_color, box_thickness=box_thickness, **kwargs),
-            global_step, walltime)
-        
+        self._get_file_writer().add_summary(
+            image_boxes(
+                tag,
+                input_image,
+                input_box,
+                dataformats=dataformats,
+                labels=labels, 
+                box_color=box_color,
+                text_color=text_color,
+                box_thickness=box_thickness,
+                **kwargs),
+            global_step,
+            walltime)
+
         self.flush()
 
     def add_figure(self, tag, figure, global_step=None, close=True, walltime=None):
@@ -345,9 +383,20 @@ class SummaryWriter(object):
         :type walltime: float
         """
         if isinstance(figure, list):
-            self.add_image(tag, figure_to_image(figure, close), global_step, walltime, dataformats='NCHW')
+            self.add_image(
+                tag,
+                figure_to_image(figure, close), 
+                global_step,
+                walltime,
+                dataformats='NCHW')
         else:
-            self.add_image(tag, figure_to_image(figure, close), global_step, walltime, dataformats='CHW')
+            self.add_image(
+                tag,
+                figure_to_image(figure, close),
+                global_step,
+                walltime,
+                dataformats='CHW')
+
         self.flush()
 
     def add_video(self, tag, input_video, global_step=None, fps=4, walltime=None):
@@ -370,7 +419,11 @@ class SummaryWriter(object):
             input_video: :math:`(N, T, C, H, W)`. The values should lie
                         in [0, 255] for type `uint8` or [0, 1] for type `float`.
         """
-        self._get_file_writer().add_summary(video(tag, input_video, fps), global_step, walltime)
+        self._get_file_writer().add_summary(
+            video(tag, input_video, fps),
+            global_step,
+            walltime)
+
         self.flush()
 
     def add_audio(self, tag, input_audio, global_step=None, sample_rate=44100, walltime=None):
@@ -429,7 +482,14 @@ class SummaryWriter(object):
         retval = retval.replace("\\", "%%%02x" % (ord("\\")))
         return retval
 
-    def add_embedding(self, mat, metadata=None, label_img=None, global_step=None, tag='default', metadata_header=None):
+    def add_embedding(
+            self,
+            mat,
+            metadata=None,
+            label_img=None,
+            global_step=None,
+            tag='default',
+            metadata_header=None):
         """Add embedding projector data to summary.
 
         :param mat: A matrix which each row is the feature vector of the data point.
@@ -471,17 +531,24 @@ class SummaryWriter(object):
 
         assert mat.ndim == 2, 'mat should be 2D, where mat.size(0) is the number of data points'
         make_mat(mat, save_path)
-        append_pbtxt(metadata, label_img, self._get_file_writer().get_logdir(), subdir, global_step, tag)
+        append_pbtxt(
+            metadata,
+            label_img,
+            self._get_file_writer().get_logdir(),
+            subdir,
+            global_step,
+            tag)
         self.flush()
 
-    def add_pr_curve(self, 
-                     tag, 
-                     labels, 
-                     predictions,
-                     global_step=None,
-                     num_thresholds=127, 
-                     weights=None,
-                     walltime=None):
+    def add_pr_curve(
+            self, 
+            tag, 
+            labels, 
+            predictions,
+            global_step=None,
+            num_thresholds=127, 
+            weights=None,
+            walltime=None):
         """Adds precision recall curve.
 
         Plotting a precision-recall curve lets you understand your model's 
@@ -494,8 +561,8 @@ class SummaryWriter(object):
         :type tag: str
         :param labels: Ground truth data. Each element is 0 or 1.
         :type labels: numpy.array
-        :param predictions: The probability that an element be classified as true, Value should in [0, 1]
-        :type predictions: numpy.array
+        :param predictions: The probability that an element be classified as true.
+        :type predictions: numpy.array, each element is in [0, 1]
         :param global_step: Global step value to record.
         :type global_step: int
         :param num_thresholds: Number of thresholds used to draw the curve.
@@ -509,18 +576,19 @@ class SummaryWriter(object):
             pr_curve(tag, labels, predictions, num_thresholds, weights), global_step, walltime)
         self.flush()
 
-    def add_pr_curve_raw(self, 
-                         tag, 
-                         true_positive_counts,
-                         false_positive_counts,
-                         true_negative_counts,
-                         false_negative_counts,
-                         precision,
-                         recall,
-                         global_step=None,
-                         num_thresholds=127,
-                         weights=None,
-                         walltime=None):
+    def add_pr_curve_raw(
+            self, 
+            tag, 
+            true_positive_counts,
+            false_positive_counts,
+            true_negative_counts,
+            false_negative_counts,
+            precision,
+            recall,
+            global_step=None,
+            num_thresholds=127,
+            weights=None,
+            walltime=None):
         """Adds precision recall curve with raw data.
 
         :param tag: Data identifier.
@@ -601,7 +669,15 @@ class SummaryWriter(object):
         self._get_file_writer().add_summary(custom_scalars(layout))
         self.flush()
          
-    def add_mesh(self, tag, vertices, colors=None, faces=None, config_dict=None, global_step=None, walltime=None):
+    def add_mesh(
+            self,
+            tag,
+            vertices,
+            colors=None,
+            faces=None,
+            config_dict=None,
+            global_step=None,
+            walltime=None):
         """Add meshes or 3D point clouds to TensorBoard. 
           
         The visualization is based on Three.js, so it allows users to interact with 
@@ -631,8 +707,9 @@ class SummaryWriter(object):
             faces: :math:`(B, N, 3)`. The values should lie in [0, number_of_vertices] for type `uint8`.
         """
         self._get_file_writer().add_summary(
-            mesh(tag, vertices, colors, faces, config_dict), global_step, walltime
-            )
+            mesh(tag, vertices, colors, faces, config_dict), 
+            global_step, 
+            walltime)
         self.flush()
 
     def add_hparams(self, hparams, trial_id=None, start_time_secs=None):
@@ -654,8 +731,9 @@ class SummaryWriter(object):
             was written because no default summary writer was available.
         """
         hparams_summary = hparams_pb(
-            hparams=hparams, trial_id=trial_id, start_time_secs=start_time_secs
-            )
+            hparams=hparams, 
+            trial_id=trial_id,
+            start_time_secs=start_time_secs)
         self._get_file_writer().add_summary(hparams_summary) 
         self.flush()
 
@@ -677,8 +755,9 @@ class SummaryWriter(object):
             was written because no default summary writer was available.
         """
         hparams_config_summary = hparams_config_pb(
-            hparams=hparams, metrics=metrics, time_created_secs=time_created_secs
-            )
+            hparams=hparams, 
+            metrics=metrics, 
+            time_created_secs=time_created_secs)
         self._get_file_writer().add_summary(hparams_config_summary)
         self.flush() 
 
