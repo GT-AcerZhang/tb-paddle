@@ -65,8 +65,7 @@ class SummaryWriter(object):
             import socket
             from datetime import datetime
             current_time = datetime.now().strftime('%b%d_%H-%M-%S')
-            logdir = os.path.join(
-                'runs', current_time + '_' + socket.gethostname() + comment)
+            logdir = os.path.join('runs', current_time + '_' + socket.gethostname() + comment)
         self.logdir = logdir
         self._max_queue = max_queue
         self._filename_suffix = filename_suffix
@@ -89,15 +88,6 @@ class SummaryWriter(object):
 
         self.scalar_dict = {}
 
-    def __append_to_scalar_dict(self, tag, scalar_value, global_step, timestamp):
-        """This adds an entry to the self.scalar_dict datastructure with format
-            {writer_id : [[timestamp, step, value], ...], ...}.
-        """
-        from .x2num import make_np
-        if tag not in self.scalar_dict.keys():
-            self.scalar_dict[tag] = []
-        self.scalar_dict[tag].append([timestamp, global_step, float(make_np(scalar_value))])
-
     def _get_file_writer(self):
         if self.all_writers is None or self.file_writer is None:
             self.file_writer = FileWriter(
@@ -105,7 +95,7 @@ class SummaryWriter(object):
                 max_queue=self._max_queue,
                 filename_suffix=self._filename_suffix,
                 **self.kwargs)
-            self.all_writers = {self.file_writer.get_logdir(): self.file_writer}
+            self.all_writers = {self.logdir: self.file_writer}
         
         return self.file_writer
     
@@ -146,9 +136,8 @@ class SummaryWriter(object):
         :type walltime: float
         """
         walltime = time.time() if walltime is None else walltime
-        fw_logdir = self._get_file_writer().get_logdir()
         for tag, scalar_value in tag_scalar_dict.items():
-            fw_tag = fw_logdir + "/" + main_tag + "/" + tag
+            fw_tag = self.logdir + "/" + main_tag + "/" + tag
             if fw_tag in self.all_writers.keys():
                 fw = self.all_writers[fw_tag]
             else:
@@ -156,7 +145,11 @@ class SummaryWriter(object):
                 self.all_writers[fw_tag] = fw
 
             fw.add_summary(scalar(main_tag, scalar_value), global_step, walltime)
-            self.__append_to_scalar_dict(fw_tag, scalar_value, global_step, walltime)
+            from .x2num import make_np
+            if fw_tag not in self.scalar_dict.keys():
+                self.scalar_dict[fw_tag] = []
+            self.scalar_dict[fw_tag].append([walltime, global_step, float(make_np(scalar_value))])
+
         self.flush()
 
     def export_scalars_to_json(self, path):
@@ -514,7 +507,7 @@ class SummaryWriter(object):
             global_step = 0
 
         subdir = "%s/%s" % (str(global_step).zfill(5), self._encode(tag))
-        save_path = os.path.join(self._get_file_writer().get_logdir(), subdir)
+        save_path = os.path.join(self.logdir, subdir)
 
         try:
             os.makedirs(save_path)
@@ -534,7 +527,7 @@ class SummaryWriter(object):
         append_pbtxt(
             metadata,
             label_img,
-            self._get_file_writer().get_logdir(),
+            self.logdir,
             subdir,
             global_step,
             tag)
