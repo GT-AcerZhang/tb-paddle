@@ -16,7 +16,7 @@ History
 
 * Optimize the display effect of bbox.
 
-* Append setup requirements - moviepy, which is necessary for API add\_video.
+* Append setup requirements - moviepy, which is necessary for API `add_video`.
 
 0.3.3 (2019-09-05)
 
@@ -43,3 +43,12 @@ History
 0.3.8 (2019-12-30)
 
 * Fix the bug of forgotten module `time`.
+
+0.3.9 (2020-1-5)
+
+* add support for internal hdfs, not released to outsides.
+
+0.4.0
+
+* delete setup requirement - `moviepy`, users who need to use `add_video` must `pip install moviepy` by themselves.
+

@@ -2,10 +2,12 @@ dist: xenial
 language: python
 python:
     - "2.7"
+    - "3.4"
     - "3.5"
     - "3.6"
     - "3.7"
-
+    - "3.8"
+    
 env:
     - PADDLE_VER="paddlepaddle"
 
@@ -27,14 +29,9 @@ install:
     - source activate test-environment
     - pip install future
     - pip install numpy
-    - pip install protobuf==3.8.0
+    - pip install protobuf>=3.6.1
     - pip install six
     - pip install pillow
-    - pip install moviepy
-    - pip install matplotlib
-    - pip install requests
-    - pip install crc32c
-    - pip install flake8
     - pip install paddlepaddle
     - python setup.py install
 

@@ -34,7 +34,7 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 preparing_PyPI_package = False
-version = '0.3.8'
+version = '0.4.0'
 
 if not preparing_PyPI_package:
     with open('tb_paddle/__init__.py', 'a') as f:
@@ -45,7 +45,6 @@ requirements = [
     'protobuf >= 3.6.1',
     'six',
     'pillow',
-    'moviepy',
 ]
 
 setup(
@@ -76,3 +75,4 @@ setup(
         'install': PostInstallCommand,
     },
 )
+
