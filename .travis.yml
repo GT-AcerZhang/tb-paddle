@@ -41,6 +41,7 @@ install:
 script:
     - cd API_demo
     - python add_scalar-demo.py
+    - python add_scalars-demo.py
     - python add_histogram-demo.py
     - python add_text-demo.py
     - python add_image-demo.py

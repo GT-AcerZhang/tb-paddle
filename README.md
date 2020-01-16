@@ -44,7 +44,7 @@ pip install tb-paddle
 
 使用 tb-paddle，首先得创建 `class SummaryWriter` 的对象，然后才能调用对象的成员函数向日志文件中添加打点数据。
 
-[class SummaryWriter](tb_paddle/writer.py#L177) 的初始化函数的定义：
+[class SummaryWriter](tb_paddle/summary_writer.py) 的初始化函数的定义：
 
 ```python
 def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', **kwargs):
@@ -80,26 +80,8 @@ tensorboard --logdir <path/to/dir> --host <host_IP> --port <port_number>
 tensorboard --logdir /PATH/TO/log
 ```
 
-TensorBoard 会递归地检查指定目录中的所有子目录，加载其中的日志文件，
-前端网页中的 `Runs` 则是不同子目录的名称。比如目录结构为：
-
-```
-log
-|
-|____log_mnist
-|    |
-|    |___logtest
-|    |
-|    |___logtrain
-|   
-|____paddle_log
-```
-
-则在 TensorBoard 页面的左侧栏中显示为：
-
-<p align="center">
-<img src="./screenshots/tensorboard_manuals/Runs.png" width=300><br/>
-图1. TensorBoard Runs 按钮 - 按目录分类 <br/>
+TensorBoard 会递归地检查指定目录下的所有子目录并加载日志文件，
+前端界面中的 `Runs` 选项显示的是不同子目录的名称。
 
 2. `--host`
 
@@ -119,3 +101,4 @@ tb-paddle 是在 [tensorboardX](https://github.com/lanpa/tensorboardX) 的基础
 * `SummaryWriter` 的函数 `add_paddle_graph`，可打点记录 `paddle.fluid.Program()`，进而可在 TensorBoard 的 GRAPHS 栏目显示计算图。
 
 此处由衷感谢[Tzu-Wei Huang](https://github.com/lanpa)的开源贡献。
+
