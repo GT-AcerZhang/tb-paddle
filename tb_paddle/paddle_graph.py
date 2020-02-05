@@ -34,7 +34,7 @@ class ScopeOp(object):
         self.op_type_index = op_type_index
 
         prefix_op_name = "Default" + operator_name_scope + \
-                         operator.type + "_" + str(op_type_index) + "_"
+            operator.type + "_" + str(op_type_index) + "_"
 
         self.op_name = prefix_op_name[8:]
         self.input_name_list = OrderedDict()
@@ -88,12 +88,14 @@ def parse(fluid_program, echo_vars):
 
         for scope in scope_list:
             for input_arg_name in scope.op.input_arg_names:
-                var_node_dict[input_arg_name].is_output = False
+                if input_arg_name in var_node_dict.keys():
+                    var_node_dict[input_arg_name].is_output = False
 
             for output_arg_name in scope.op.output_arg_names:
-                var_node_dict[output_arg_name].is_input = False
-                var_node_dict[output_arg_name].input_op_list.append(scope.op_name)
-                var_node_dict[output_arg_name].input_scope.append(scope)
+                if output_arg_name in var_node_dict.keys():
+                    var_node_dict[output_arg_name].is_input = False
+                    var_node_dict[output_arg_name].input_op_list.append(scope.op_name)
+                    var_node_dict[output_arg_name].input_scope.append(scope)
 
         # Add the var.shape to the VarNode.attributes, and create the corresponding nodes
         for var_name, var_node in var_node_dict.items():
@@ -110,9 +112,10 @@ def parse(fluid_program, echo_vars):
                     var_node.var_attrs['_output_shapes'] = AttrValue(
                         list=AttrValue.ListValue(shape=[var_node.var_shape_proto]))
 
-                nodes.append(node_proto(name=var_node.var_name,
-                                        op="Const",
-                                        attributes=var_node.var_attrs))
+                nodes.append(node_proto(
+                    name=var_node.var_name,
+                    op="Const",
+                    attributes=var_node.var_attrs))
 
             # Output Variables
             if var_node.is_output and ("tmp" not in var_node.var_name):
@@ -123,10 +126,11 @@ def parse(fluid_program, echo_vars):
                     var_node.var_name = input_op_name[0:last_slash_place] + var_node.var_name
                 
                 # Append the var node to the graph
-                nodes.append(node_proto(name=var_node.var_name,
-                                        op="Output Variables",
-                                        input_args=var_node.input_op_list,
-                                        attributes=var_node.var_attrs))
+                nodes.append(node_proto(
+                    name=var_node.var_name,
+                    op="Output Variables",
+                    input_args=var_node.input_op_list,
+                    attributes=var_node.var_attrs))
                
                 # Add the shape to the Graph edge
                 if var_node.var_shape_proto is not None:
@@ -158,8 +162,9 @@ def parse(fluid_program, echo_vars):
         if echo_vars:
             # Add the input variables to the Graph
             for input_arg_name in scope.op.input_arg_names:
-                if var_node_dict[input_arg_name].is_input:
-                    scope.input_name_list[input_arg_name] = input_arg_name
+                if input_arg_name in var_node_dict.keys():
+                    if var_node_dict[input_arg_name].is_input:
+                        scope.input_name_list[input_arg_name] = input_arg_name
 
     # Obtain the shape of tensor in the edge
     for scope in scope_list:
@@ -186,9 +191,10 @@ def parse(fluid_program, echo_vars):
             scope.op_attrs['_output_shapes'] = AttrValue(list=AttrValue.ListValue(shape=[output_shape_proto]))
         
         # create nodes
-        nodes.append(node_proto(name=scope.op_name,
-                                op=scope.op.type,
-                                input_args=list(scope.input_name_list.keys()),
-                                attributes=scope.op_attrs))
+        nodes.append(node_proto(
+            name=scope.op_name,
+            op=scope.op.type,
+            input_args=list(scope.input_name_list.keys()),
+            attributes=scope.op_attrs))
 
     return nodes
