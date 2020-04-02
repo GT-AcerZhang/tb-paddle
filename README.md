@@ -52,7 +52,7 @@ def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', 
 
 其中各个参数的含义为：
 
-* logdir (str, optional): 日志文件的存放路径。如果logdir为 `None`，存放路径将设为 `./runs/DATETIME_HOSTNAME/`；
+* logdir (str, optional): 日志文件的存放路径。如果logdir为 `None`，存放路径将设为 `./runs/DateTime_HostName/`；
 * max_queue (int, optional): 缓冲区队列的最大长度；
 * comment (str, optional): 如果 logdir 为`None`，则可在默认存放路径中添加后缀。否则，该参数没有任何作用；
 * filename_suffix (str, optional): event 文件名的后缀。
@@ -65,7 +65,7 @@ def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', 
 通常还需使用选项 `--host` 指定机器的 IP 地址，选项 `--port` 指定端口号，例如：
 
 ```
-tensorboard --logdir <PATH> --host <IP_ADDR> --port <PORT>
+tensorboard --logdir PATH [--host ADDR] [--port PORT]
 ```
 
 这几个选项的详细解释:
