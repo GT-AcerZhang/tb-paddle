@@ -52,12 +52,10 @@ def __init__(self, logdir=None, max_queue=1024, comment='', filename_suffix='', 
 
 其中各个参数的含义为：
 
-* `logdir`: 指定日志文件的存放路径，如果指定路径中没有 tfevents 文件，
-就新建一个 tfevents 文件，否则会向已有的 tfevents 文件中写数据。
-`logdir`的实参可以为 `None`，存放路径将设为 `./runs/DATETIME_HOSTNAME/`;
-* `max_queue`: 缓冲区队列的最大长度；
-* `comment`: 如果`logdir`为`None`，则在默认存放路径中添加后缀。如果`logdir`不是`None`，那么该参数没有任何作用；
-* `filename_suffix`: event 文件名后缀；
+* logdir (str, optional): 日志文件的存放路径。如果logdir为 `None`，存放路径将设为 `./runs/DATETIME_HOSTNAME/`；
+* max_queue (int, optional): 缓冲区队列的最大长度；
+* comment (str, optional): 如果 logdir 为`None`，则可在默认存放路径中添加后缀。否则，该参数没有任何作用；
+* filename_suffix (str, optional): event 文件名的后缀。
 
 ## TensorBoard 启动命令
 
@@ -95,7 +93,7 @@ tb-paddle 的框架和 API 名称大多沿用了 tensorboardX。
 与 tensorboardX 不同的是：
 
 * tb-paddle 的 API 的参数类型为 `numpy.ndarray`；
-* `SummaryWriter` 的函数 `add_paddle_graph`，可打点记录 `paddle.fluid.Program()`，进而可在 TensorBoard 的 GRAPHS 栏目显示计算图。
+* `SummaryWriter` 的函数 `add_paddle_graph`，传入实参的类型为 `paddle.fluid.Program()`，可在 TensorBoard 的 GRAPHS 栏目显示计算图。
 
 此处由衷感谢[Tzu-Wei Huang](https://github.com/lanpa)的开源贡献。
 
